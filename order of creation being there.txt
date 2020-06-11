@@ -1,0 +1,54 @@
+Country
+Zone
+Condition
+Director
+Administration Executive
+Salesperson
+Maintenance person
+Drone
+staff
+Scientific Data
+BT Databox
+Part
+Supplier
+Video Stream
+
+PostCode
+Address
+Account
+Customer
+Payment
+Drone Owner
+Contractee
+Subscriber
+Discount
+Subscription
+Gold
+Platinum
+Super Platinum
+Price Change
+BT databox stream
+bt databox data
+bt databox part
+BT Databox Zone
+store
+salesperson store
+Sale
+Video stream viewer
+Video stream Controller
+Maintenance
+Maintenance part
+part supplier
+order
+order item
+zone country
+zone condition
+subscription zone
+subscriptoin databox
+contract
+contracted bt databox
+contracted zone
+contract scientific data
+staff role
+owns data rights
+owns video rights
