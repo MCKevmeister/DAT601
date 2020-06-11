@@ -97,7 +97,7 @@ GO
         [PostCode] VARCHAR(16) NOT NULL,
         [City] VARCHAR(64) NOT NULL,
         [Country] VARCHAR(64) NOT NULL,
-        CONSTRAINT FOREIGN KEY (Country) REFERENCES tblCountry (Country)	
+        CONSTRAINT FK_country FOREIGN KEY (Country) REFERENCES BeingThere.tblCountry (Country)
      }
 GO
     CREATE TABLE BeingThere.tblAddress {
@@ -106,21 +106,22 @@ GO
         [StreetNumber] VARCHAR(16) NOT NULL,
         [StreetName] VARCHAR(64) NOT NULL,
         [PostCodeID] INT NOT NULL,
-        CONSTRAINT FOREIGN KEY (Country) REFERENCES tblCountry (Country)
+        CONSTRAINT FK_postcode FOREIGN KEY (PostCodeID) REFERENCES BeingThere.tblPostCode (PostCodeID)
     
      }
 GO
     CREATE TABLE BeingThere.tblAccount { 
         [AccountID] INT IDENTITY,
         [Name] VARCHAR(255) NOT NULL,
-        [Email] VARCHAR(255) NOT NULL,
         [Password] VARCHAR(64) NOT NULL,
         [AddressID] INT NOT NULL,
-        [PhoneNumber] VARCHAR(64)
+        [PhoneNumber] VARCHAR(64),
+        CONSTRAINT FK_address FOREIGN KEY (AddressID) REFERENCES BeingThere.tblAddress (AddressID)
     }
 GO
     CREATE TABLE BeingThere.tblCustomer { 
-        [AccountID] INT IDENTITY
+        [AccountID] INT IDENTITY,
+        CONSTRAINT FK_account FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount (AccountID)
     }
 GO
     CREATE TABLE BeingThere.tblPayment { 
@@ -128,21 +129,24 @@ GO
         [Type] VARCHAR(16) NOT NULL,
         [PaymentDate] DATE NOT NULL,
         [Amount] MONEY NOT NULL,
-        [Customer] INT NOT NULL
+        [CustomerID] INT NOT NULL,
+        CONSTRAINT FK_customer FOREIGN KEY (CustomerID) REFERENCES BeingThere.tblCustomer(CustomerID)
 GO
     CREATE TABLE BeingThere.tblDroneOwner { 
         [AccountID] INT,
-        [DroneID] INT
+        [DroneID] INT,
+        CONSTRAINT FK_customer FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount(AccountID),
+        CONSTRAINT FK_drone FOREIGN KEY (DroneID) REFERENCES BeingThere.tblDrone(DroneID)
     }
 GO
     CREATE TABLE BeingThere.tblContractee {
-        [DroneID] INT IDENTITY,
-        [Description] VARCHAR(255),
-        [OperationTime] INT
+        [AccountID] INT IDENTITY,
+        CONSTRAINT FK_account FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount (AccountID)
      }
 GO
     CREATE TABLE BeingThere.tblSubscriber { 
-        [AccountID] INT
+        [AccountID] INT,
+        CONSTRAINT FK_account FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount (AccountID)
     }
 GO
     CREATE TABLE BeingThere.tblDiscount {
@@ -152,30 +156,37 @@ GO
     CREATE TABLE BeingThere.tblSubscription {
         [SubscriptionID] INT IDENTITY,
         [AccountID] INT NOT NULL,
-        [TotalPrice] MONEY
+        [TotalPrice] MONEY,
+        CONSTRAINT FK_account FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount (AccountID)
      }
 GO
     CREATE TABLE BeingThere.tblGold { 
         [SubscriptionID] INT NOT NULL,
-        [GoldPrice] MONEY NOT NULL
+        [GoldPrice] MONEY NOT NULL,
+        CONSTRAINT FK_subscriptionID FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblSubscription (SubscriptionID)
     }
 GO
     CREATE TABLE BeingThere.tblPlatinum {
         [SubscriptionID] INT NOT NULL,
-        [PlatinumPrice] MONEY NOT NULL
+        [PlatinumPrice] MONEY NOT NULL,
+        CONSTRAINT FK_subscriptionID FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblGold (SubscriptionID)
      }
 GO
     CREATE TABLE BeingThere.tblSuperPlatinum {
         [SubscriptionID] INT,
-        [SuperPlatinumPrice] MONEY NOT NULL
+        [SuperPlatinumPrice] MONEY NOT NULL,
+        CONSTRAINT FK_subscriptionID FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblPlatinum (SubscriptionID)
      }
 GO
     CREATE TABLE BeingThere.tblPriceChange {
-        [DirectorID] INT IDENTITY,
+        [PriceChangeID] INT IDENTITY,
+        [DirectorID] INT NOT NULL,
         [SubscriptionID] INT NOT NULL,
         [Date] DATE NOT NULL,
         [PreviousPrice] MONEY NOT NULL,
-        [NewPrice] MONEY NOT NULL
+        [NewPrice] MONEY NOT NULL,
+        CONSTRAINT FK_directorID FOREIGN KEY (DirectorID) REFERENCES BeingThere.tblDirector (DirectorID),
+        CONSTRAINT FK_ FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblPlatinum (SubscriptionID)
      }
 GO
     CREATE TABLE BeingThere.tblBTDataboxStream { 
