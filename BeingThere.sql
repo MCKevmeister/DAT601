@@ -415,16 +415,16 @@ BEGIN
         )
     
 end;
-Call createDBBeingThere();
+-- Call createDBBeingThere();
 
-discount REAL CHECK ( Discount >+ 0.0 and Discount <+ 100.00)
+-- discount REAL CHECK ( Discount >+ 0.0 and Discount <+ 100.00)
 
-procedure sales from tblsalespersonName
-@psalesname varchar(50)
-as begin select
-from sbufirstname, subsecondname, subscripber addresss, discount
-tblsalesperson as sp join
-tblsubscription as sub on sp.salesid = salesid = sbu.salesidwhere 
-where sp.name = @psalesname
+-- procedure sales from tblsalespersonName
+-- @psalesname varchar(50)
+-- as begin select
+-- from sbufirstname, subsecondname, subscripber addresss, discount
+-- tblsalesperson as sp join
+-- tblsubscription as sub on sp.salesid = salesid = sbu.salesidwhere 
+-- where sp.name = @psalesname
 
-exec showsales Jane
+-- exec showsales Jane
