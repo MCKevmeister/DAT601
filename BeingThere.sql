@@ -195,7 +195,7 @@ BEGIN
             FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount (AccountID)
         )
         CREATE TABLE BeingThere.tblDiscount (
-            [DiscountAmount] FLOAT IDENTITY PRIMARY KEY
+            [DiscountAmount] REAL IDENTITY PRIMARY KEY
         )
         CREATE TABLE BeingThere.tblSubscription (
             [SubscriptionID] INT IDENTITY PRIMARY KEY,
@@ -274,7 +274,7 @@ BEGIN
         CREATE TABLE BeingThere.tblSale (
             [SalesPersonID] INT NOT NULL,
             [SubscriptionID] INT NOT NULL,
-            [DiscountAmount] FLOAT,
+            [DiscountAmount] REAL,
             PRIMARY KEY(SalesPersonID, SubscriptionID),
             FOREIGN KEY (SalesPersonID) REFERENCES BeingThere.tblSalesperson (SalesPersonID),
             FOREIGN KEY (ZoneID) REFERENCES BeingThere.tblZone (ZoneID)
@@ -414,7 +414,113 @@ BEGIN
             FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblSuperPlatinum(SubscriptionID)
         )
     
-end;
+END;
+
+-- 1. A sales person subscribes to a new standard subscription to a BT Databox . 
+-- The transaction receives the sales person Id, a discount %, all subscriber details, and a BT Databox ID. 
+DROP PROCEDURE IF EXISTS newStandardSubscription;
+CREATE PROCEDURE newStandardSubscription (pSalesPersonID INT, pDiscount REAL, pName VARCHAR(255), pPassword VARCHAR(64), pPhoneNumber VARCHAR(64), pAddressPrefix VARCHAR(16), pStreetNumber VARCHAR(64), pStreetName VARCHAR(64), pPostCode VARCHAR(16), pCity VARCHAR(64), pCountry VARCHAR(64))
+AS
+BEGIN
+    -- IF NOT EXISTS(SELECT * FROM tblAccount WHERE [Name] = pName AND (SELECT * FROM tblAddress WHERE [Prefix] = pAddressPrefix AND [StreetNumber] = pStreetNumber) AND [STREETNAME] = pStreetName AND (''))
+    IF NOT EXISTS(SELECT * FROM tblCountry WHERE [Country] = pCountry)
+    THEN
+        BEGIN
+            INSERT INTO tblCountry ([Country])
+            VALUES (pCountry);
+        END;
+    END IF; 
+    IF NOT EXISTS(SELECT * FROM tblPostCode WHERE [PostCode] = pPostCode)
+    THEN    
+        BEGIN
+            INSERT INTO tblPostCode ([PostCode], [City], [Country])
+            VALUES (pPostCode, pCity, (SELECT LAST INSERT INDEX?????TODO));
+        END;
+    END IF;
+    INSERT INTO tblAddress([Prefix], [StreetNumber], [StreetName], [PostCodeID])
+    VALUES (pAddressPrefix, pStreetNumber, pStreetName, (SELECT LAST INSERT INDEX?????TODO))
+
+    INSERT INTO tblAccount([Name], [Password], [AddressID], [PhoneNumber])
+    VALUES (pName, pPassword, (Select last insert index???TODO), pPhoneNumber);
+
+    INSERT INTO tblCustomer
+    VALUES (SELECT LAST insert index);
+
+    INSERT INTO tblSubscriber
+    Values (SELECT LAST insert index);
+
+    INSERT INTO tblSubscription ([AccountID], )
+END;
+
+-- 2. For each sales person list the subscribers they have sold a subscription to. The transaction receives the sales person's name as input, 
+-- and presents each subscriber's name, address, and the % they were discounted.
+DROP PROCEDURE IF EXISTS salesPersonCustomers;
+CREATE PROCEDURE salesPersonCustomers()
+AS
+BEGIN
+    SELECT 
+    FROM tblAccount AS StaffAccount, tblAccount AS CustomerAccount, tblCustomer, 
+END;
+
+
+-- 3. List the location in latitude, longitude coordinates, of each BT Databox that is currently in a contract. 
+-- The transaction presents the Contracting organisation's name, a BT DataboxID, a Latitude, and a Longitude.
+DROP PROCEDURE IF EXISTS allBTDataboxInContract;
+CREATE PROCEDURE allBTDataboxInContract()
+AS
+BEGIN
+
+END;
+
+-- 4. For a contract list all the data collected. The transaction receives the contracting organisation's name 
+-- and presents for each collected data record, the contracting organisation's name, a BT Databox ID, Temperature, Humidity and Ambient light strength.
+DROP PROCEDURE IF EXISTS allContractData;
+CREATE PROCEDURE allContractData()
+AS
+BEGIN
+
+END;
+
+-- 5. For each BT Databox present the list of subscribers who are viewing a live 3D video stream. The transaction lists BT Databox ID, Subscriber Name, Stream ID.
+DROP PROCEDURE IF EXISTS allVideoStreamViewers;
+CREATE PROCEDURE allVideoStreamViewers()
+AS
+BEGIN
+
+END;
+
+-- 6. For a given BT Databox list all the suppliers of parts. The transaction receives the  BT Databox ID, and presents the Supplier Name and, Part Name.
+DROP PROCEDURE IF EXISTS getBTDataboxPartSuppliers;
+CREATE PROCEDURE allVideoStreamViewers()
+AS
+BEGIN
+
+END;
+
+-- 	7. Update the location and Zone of a  BT Databox. The transaction receives the  BT Databox ID, a location and a Zone expressed as a list of coordinates 
+-- in latitude, longitude pairs. It updates the location of the  BT Databox and its corresponding Zone. (This transaction may require more than one update query.)
+DROP PROCEDURE IF EXISTS updateBTDataboxLocation;
+CREATE PROCEDURE updateBTDataboxLocation()
+AS
+BEGIN
+
+END;
+
+-- 8.  Delete the data collected for a given Contract. The transaction receives a Contract ID, the data collected for a Contract is deleted.
+DROP PROCEDURE IF EXISTS deleteContractData;
+CREATE PROCEDURE deleteContractData()
+AS
+BEGIN
+
+END;
+
+-- 9. Write a query to be used to Insert data from a  BT Databox to its stored data on the Being There database. The transaction receives the  BT Databox ID.
+DROP PROCEDURE IF EXISTS insertBTDataboxData;
+CREATE PROCEDURE allVideoStreamViewers()
+AS
+BEGIN
+
+END;
 -- Call createDBBeingThere();
 
 -- discount REAL CHECK ( Discount >+ 0.0 and Discount <+ 100.00)
