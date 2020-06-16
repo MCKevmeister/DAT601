@@ -403,7 +403,7 @@ CREATE TABLE BeingThere.tblStaffRole (
     [RoleID] INT NOT NULL,
     PRIMARY KEY(AccountID, RoleID),
     FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount (AccountID),
-    FOREIGN KEY (RoleID) REFERENCES BeingThere.tblBTDatabox(RoleID)
+    FOREIGN KEY (RoleID) REFERENCES BeingThere.tblStaffRole(AccountID, RoleID)
 )
 
 CREATE TABLE BeingThere.tblOwnsDataRights (
@@ -423,7 +423,7 @@ CREATE TABLE BeingThere.tblOwnsVideoRights (
 )
 GO;
 
-Insert INTO tblCountry
+INSERT INTO tblCountry
 VALUES 
 ("Andorra"),
 ("United Arab Emirates"),
@@ -671,10 +671,20 @@ VALUES
 ("Zambia"),
 ("Zimbabwe");
 
-Insert INTO tblZone
-VALUES ();
+INSERT INTO tblZone
+VALUES
+(1, -180, -120, -90, -60),
+(2, -119, -60, -60, -30),
+(3, -59, 0, -30, 0),
+(4, 1, 60, 0, 30),
+(5, 61, 120, 30, 60),
+(6, 121, 180, 60, 90),
+(7, 181, 240, 90, 120),
+(8, 241, 300, 120, 150),
+(9, 301, 360, 150, 180);
 
-Insert INTO tblCondition
+
+INSERT INTO tblCondition
 VALUES
 ("Jungle", "A jungle is land covered with dense forest and tangled vegetation, usually in hot climates"),
 ("Forest", "A forest is a large area dominated by trees"),
@@ -683,7 +693,7 @@ VALUES
 ("Deserts", "A desert is a barren area of landscape where little precipitation occurs and, consequently, living conditions are hostile for plant and animal life"),
 ("Urban", "An urban area, or built-up area, is a human settlement with a high population density and infrastructure of built environment");
 
-Insert INTO tblDirector
+INSERT INTO tblDirector
 VALUES
 (1),
 (2),
@@ -696,7 +706,7 @@ VALUES
 (9),
 (10);
 
-Insert INTO tblAdministrationExecutive
+INSERT INTO tblAdministrationExecutive
 VALUES
 (1),
 (2),
@@ -708,20 +718,7 @@ VALUES
 (8),
 (9),
 (10);
-Insert INTO tblSalesperson 
-VALUES
-(1),
-(2),
-(3),
-(4),
-(5),
-(6),
-(7),
-(8),
-(9),
-(10);
-
-Insert INTO tblMaintenanceperson 
+INSERT INTO tblSalesperson 
 VALUES
 (1),
 (2),
@@ -734,7 +731,20 @@ VALUES
 (9),
 (10);
 
-Insert INTO tblDrone 
+INSERT INTO tblMaintenanceperson 
+VALUES
+(1),
+(2),
+(3),
+(4),
+(5),
+(6),
+(7),
+(8),
+(9),
+(10);
+
+INSERT INTO tblDrone 
 VALUES 
 (1, 'Pellentesque at nulla.'),
 (2, 'Aenean sit amet justo.'),
@@ -758,7 +768,7 @@ VALUES
 (20, 'Quisque id justo sit amet sapien dignissim vestibulum.');
 
 
-Insert INTO tblStaff 
+INSERT INTO tblStaff 
 VALUES (1, '$2059.06', 'Libbey Karpe', '12/24/2019', null),
 (2, '$1123.93', 'Brent Siemantel', '9/9/2019', null),
 (3, '$3822.34', 'Abigale Kassel', '12/30/2019', null),
@@ -1158,7 +1168,7 @@ VALUES
 (100, 9789, 'Canguçu', 69);
 
 
-Insert INTO tblAddress 
+INSERT INTO tblAddress 
 VALUES (
 (1, null, 13, 'Arizona Drive', 1),
 (2, null, 23, 'Granby Terrace', 2),
@@ -1259,7 +1269,19 @@ VALUES (
 (97, null, 18, 'Little Fleur Crossing', 97),
 (98, null, 68, 'La Follette Circle', 98),
 (99, 1, 54, 'Rutledge Terrace', 99),
-(100, null, 33, 'American Place', 100);
+(100, null, 33, 'American Place', 100),
+(101, 7, 7, 'Memorial', 'Trail', 1),
+(102, null, 22, 'Eliot', 'Junction', 2),
+(103, null, 24, 'Dexter', 'Park', 3),
+(104, null, 26, 'Mcguire', 'Alley', 4),
+(105, 9, 4, 'Forest', 'Parkway', 5),
+(106, null, 15, 'Transport', 'Plaza', 6),
+(107, null, 14, 'Butternut', 'Parkway', 7),
+(108, 5, 12, 'Sunnyside', 'Trail', 8),
+(109, null, 28, 'Caliangt', 'Alley', 9),
+(110, null, 8, 'Jackson', 'Terrace', 10);
+
+
 
 INSERT INTO tblSupplier 
 VALUES (1, 'Stokes and Sons', 'Caterina Merrett', 1, '838-508-2769'),
@@ -1273,7 +1295,7 @@ VALUES (1, 'Stokes and Sons', 'Caterina Merrett', 1, '838-508-2769'),
 (9, 'Wisozk, Farrell and Ferry', 'Kerrill Kobiera', 9, '895-818-3778'),
 (10, 'Batz, Lynch and Ratke', 'Agnola Witcombe', 10, '950-825-0309');
 
-Insert INTO tblAccount 
+INSERT INTO tblAccount 
 VALUES
 (1, 'Idalina Innett', 'N4nZGS', 11, '609-409-9290'),
 (2, 'Cherish Roches', 'rEhmEG7Q', 12, '152-334-3646'),
@@ -1366,7 +1388,7 @@ VALUES
 (89, 'Agosto Stormonth', '0vPCi4zLO8ed', 99, '740-365-5663'),
 (90, 'Natassia Musicka', '9uJIyBv8hqw', 100, '495-888-4068');
 
-Insert INTO tblCustomer 
+INSERT INTO tblCustomer 
 VALUES (
 ("1"),
 ("2"),
@@ -1429,7 +1451,7 @@ VALUES (
 ("59"),
 ("60");
 
-Insert INTO tblPayment 
+INSERT INTO tblPayment 
 VALUES
 (1, 'jcb', '2020-01-14 08:35:42', '$981.16', 1),
 (2, 'jcb', '2019-11-16 22:42:45', '$406.15', 2),
@@ -1533,7 +1555,7 @@ VALUES
 (100, 'jcb', '2019-07-16 06:25:45', '$248.62', 100);
 
 
-Insert INTO tblDroneOwner 
+INSERT INTO tblDroneOwner 
 VALUES ("101", "1"),
 ("102", "2"),
 ("103", "3"),
@@ -1555,7 +1577,7 @@ VALUES ("101", "1"),
 ("119", "19"),
 ("120", "20");
 
-Insert INTO tblContractee 
+INSERT INTO tblContractee 
 VALUES (
 ("41"),
 ("42"),
@@ -1578,7 +1600,7 @@ VALUES (
 ("59"),
 ("60");
 
-Insert INTO tblSubscriber 
+INSERT INTO tblSubscriber 
 VALUES
 ("1"),
 ("2"),
@@ -1621,7 +1643,7 @@ VALUES
 ("39"),
 ("40");
 
-Insert INTO tblDiscount 
+INSERT INTO tblDiscount 
 VALUES (0.0),
 (0.1),
 (0.2),
@@ -1644,7 +1666,7 @@ VALUES (0.0),
 (1.9),
 (2.0);
 
-Insert INTO tblSubscription 
+INSERT INTO tblSubscription 
 VALUES ("1"),
 ("2"),
 ("3"),
@@ -1686,7 +1708,7 @@ VALUES ("1"),
 ("39"),
 ("40");
 
-Insert INTO tblGold 
+INSERT INTO tblGold 
 VALUES
 ("11"),
 ("12"),
@@ -1719,7 +1741,7 @@ VALUES
 ("39"),
 ("40");
 
-Insert INTO tblPlatinum 
+INSERT INTO tblPlatinum 
 VALUES
 ("20"),
 ("21"),
@@ -1743,7 +1765,7 @@ VALUES
 ("39"),
 ("40");
 
-Insert INTO tblSuperPlatinum 
+INSERT INTO tblSuperPlatinum 
 VALUES ("30"),
 ("31"),
 ("32"),
@@ -1756,7 +1778,7 @@ VALUES ("30"),
 ("39"),
 ("40");
 
-Insert INTO tblPriceChange 
+INSERT INTO tblPriceChange 
 VALUES (
 (1, 5, 55, '2019-06-19 18:29:30', '$42.06', '$92.34'),
 (2, 4, 25, '2020-01-23 22:41:30', '$44.22', '$83.18'),
@@ -1859,7 +1881,7 @@ VALUES (
 (99, 6, 7, '2019-08-11 07:25:14', '$41.07', '$77.40'),
 (100, 8, 77, '2019-07-29 08:54:47', '$47.39', '$81.31');
 
-Insert INTO tblBTDataboxStream 
+INSERT INTO tblBTDataboxStream 
 VALUES
 (1, 1),
 (2, 2),
@@ -1962,7 +1984,7 @@ VALUES
 (9, 99),
 (10, 100);
 
-Insert INTO tblBTDataboxData 
+INSERT INTO tblBTDataboxData 
 VALUES
 (1, 1),
 (2, 2),
@@ -2065,7 +2087,7 @@ VALUES
 (9, 99),
 (10, 100);
 
-Insert INTO tblBTDataboxPart 
+INSERT INTO tblBTDataboxPart 
 VALUES
 (1, 1),
 (2, 2),
@@ -2148,72 +2170,477 @@ VALUES
 (19, 19),
 (20, 20);
 
-Insert INTO tblBTDataboxZone 
+INSERT INTO tblBTDataboxZone 
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10),
+(11, 1),
+(12, 2),
+(13, 3),
+(14, 4),
+(15, 5),
+(16, 6),
+(17, 7),
+(18, 8),
+(19, 9),
+(20, 10),
+(21, 1),
+(22, 2),
+(23, 3),
+(24, 4),
+(25, 5),
+(26, 6),
+(27, 7),
+(28, 8),
+(29, 9),
+(30, 10);
+
+INSERT INTO tblStore 
+VALUES
+(1, 'Frami-Lockman', 1, '592-953-0411'),
+(2, 'Champlin LLC', 2, '839-219-6909'),
+(3, 'Terry Inc', 3, '659-906-4589'),
+(4, 'Keebler, Thompson and Mills', 4, '836-635-3595'),
+(5, 'Stroman, Wyman and Willms', 5, '283-501-2426'),
+(6, 'Macejkovic and Sons', 6, '529-376-3945'),
+(7, 'Graham Group', 7, '100-989-9930'),
+(8, 'Schinner and Sons', 8, '511-686-4050'),
+(9, 'Braun, Hilll and Lindgren', 9, '682-615-3886'),
+(10, 'Leuschke LLC', 10, '796-807-9343');
+
+INSERT INTO tblSalespersonStore 
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10);
+
+INSERT INTO tblSale 
+VALUES 
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10),
+(1, 11),
+(2, 12),
+(3, 13),
+(4, 14),
+(5, 15),
+(6, 16),
+(7, 17),
+(8, 18),
+(9, 19),
+(10, 20),
+(1, 21),
+(2, 22),
+(3, 23),
+(4, 24),
+(5, 25),
+(6, 26),
+(7, 27),
+(8, 28),
+(9, 29),
+(10, 30),
+(1, 31),
+(2, 32),
+(3, 33),
+(4, 34),
+(5, 35),
+(6, 36),
+(7, 37),
+(8, 38),
+(9, 39),
+(10, 40);
+
+INSERT INTO tblVideoStreamViewer 
+VALUES 
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10);
+
+INSERT INTO tblVideoStreamController 
+VALUES
+(1, 1, 155, 206, 2.8),
+(2, 1, 20, 21, 3.72),
+(3, 1, 80, 183, 4.22),
+(4, 1, 223, 153, 2.59),
+(5, 1, 100, 210, 3.74),
+(6, 1, 184, 48, 1.44),
+(7, 1, 18, 81, 4.49),
+(8, 1, 46, 67, 4.83),
+(9, 1, 228, -3, 3.48),
+(10, 1, 129, 78, 3.2);
+
+INSERT INTO tblMaintenance 
+VALUES
+(1, 1, 1, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.', '2020-03-25 08:33:50'),
+(2, 2, 2, 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.', '2019-10-01 04:28:31'),
+(3, 3, 3, 'Donec dapibus.', '2019-07-23 18:15:11'),
+(4, 4, 4, 'Maecenas rhoncus aliquam lacus.', '2019-09-05 16:08:39'),
+(5, 5, 5, 'Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla.', '2020-03-15 05:56:25'),
+(6, 6, 6, 'Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue.', '2019-09-19 01:15:13'),
+(7, 7, 7, 'In blandit ultrices enim.', '2020-01-06 10:54:49'),
+(8, 8, 8, 'Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci.', '2020-04-21 15:51:01'),
+(9, 9, 9, 'Morbi ut odio.', '2020-04-08 21:10:43'),
+(10, 10, 10, 'Morbi non quam nec dui luctus rutrum.', '2019-11-11 14:48:48');
+
+INSERT INTO tblMaintenancePart 
+VALUES 
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10);
+
+
+INSERT INTO tblPartSupplier 
+VALUES ();
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10);
+
+
+INSERT INTO tblOrder 
+VALUES 
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10);
+
+INSERT INTO tblOrderItem 
+VALUES
+(1, 1, 1),
+(2, 2, 2),
+(3, 3, 3),
+(4, 4, 4),
+(5, 5, 5),
+(6, 6, 6),
+(7, 7, 7),
+(8, 8, 8),
+(9, 9, 9),
+(10, 10, 10);
+
+INSERT INTO tblZoneCountry 
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10);
+
+INSERT INTO tblZoneCondition 
+VALUES
+(1, "Jungle"),
+(2, "Forest"),
+(3, "Savannah"),
+(4, "Jungle"),
+(5, "Ice and Snow (extreme cold)"),
+(6, "Urban"),
+(7, "Jungle"),
+(8, "Deserts"),
+(9, "Urban"),
+(10, "Urban");
+
+INSERT INTO tblSubscriptionZone 
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10);
+
+INSERT INTO tblSubscriptionDatabox 
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10);
+
+INSERT INTO tblContract 
+VALUES
+(1, '2019-03-18 08:23:19', null, 41, 1),
+(2, '2020-01-14 15:15:31', null, 42, 2),
+(3, '2019-09-29 18:47:50', null, 43, 3),
+(4, '2019-09-02 13:36:09', '2019-08-16 00:41:41', 44, 4),
+(5, '2019-07-27 05:02:13', '2020-06-12 12:13:13', 45, 5),
+(6, '2019-04-30 04:33:32', null, 46, 6),
+(7, '2019-11-01 14:18:23', '2019-09-01 06:50:14', 47, 7),
+(8, '2019-09-13 15:29:21', null, 48, 8),
+(9, '2019-06-13 01:15:51', '2020-05-12 10:57:35', 49, 9),
+(10, '2019-11-09 01:22:31', null, 50 10),
+(11, '2019-07-25 14:30:30', '2020-04-09 05:30:39', 51, 1),
+(12, '2020-03-24 07:10:33', null, 52, 2),
+(13, '2019-08-12 06:21:44', null, 53, 3),
+(14, '2020-02-05 22:33:28', null, 54, 4),
+(15, '2020-02-04 21:09:01', null, 55, 5),
+(16, '2020-03-10 13:42:59', '2019-05-24 08:51:53', 56, 6),
+(17, '2019-09-27 06:05:18', null, 57, 7),
+(18, '2019-12-03 04:19:33', null, 58, 8),
+(19, '2020-03-18 07:25:00', null, 59, 9),
+(20, '2019-09-25 19:44:37', null, 60 10);
+
+
+INSERT INTO tblContractedBTDatabox 
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10),
+(11, 11),
+(12, 12),
+(13, 13),
+(14, 14),
+(15, 15),
+(16, 16),
+(17, 17),
+(18, 18),
+(19, 19),
+(20, 20);
+
+INSERT INTO tblContractedZone 
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 1),
+(11, 2),
+(12, 3),
+(13, 4),
+(14, 5),
+(15, 6),
+(16, 7),
+(17, 8),
+(18, 9),
+(19, 1),
+(20, 2);
+
+INSERT INTO tblContractScientificData 
+VALUES 
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10),
+(11, 11),
+(12, 12),
+(13, 13),
+(14, 14),
+(15, 15),
+(16, 16),
+(17, 17),
+(18, 18),
+(19, 19),
+(20, 20),
+(1, 21),
+(2, 22),
+(3, 23),
+(4, 24),
+(5, 25),
+(6, 26),
+(7, 27),
+(8, 28),
+(9, 29),
+(10, 30),
+(11, 31),
+(12, 32),
+(13, 33),
+(14, 34),
+(15, 35),
+(16, 36),
+(17, 37),
+(18, 38),
+(19, 39),
+(20, 40),
+(1, 41),
+(2, 42),
+(3, 43),
+(4, 44),
+(5, 45),
+(6, 46),
+(7, 47),
+(8, 48),
+(9, 49),
+(10, 50),
+(11, 51),
+(12, 52),
+(13, 53),
+(14, 54),
+(15, 55),
+(16, 56),
+(17, 57),
+(18, 58),
+(19, 59),
+(20, 60),
+(1, 61),
+(2, 62),
+(3, 63),
+(4, 64),
+(5, 65),
+(6, 66),
+(7, 67),
+(8, 68),
+(9, 69),
+(10, 70),
+(11, 71),
+(12, 72),
+(13, 73),
+(14, 74),
+(15, 75),
+(16, 76),
+(17, 77),
+(18, 78),
+(19, 79),
+(20, 80),
+(1, 81),
+(2, 82),
+(3, 83),
+(4, 84),
+(5, 85),
+(6, 86),
+(7, 87),
+(8, 88),
+(9, 89),
+(10, 90),
+(11, 91),
+(12, 92),
+(13, 93),
+(14, 94),
+(15, 95),
+(16, 96),
+(17, 97),
+(18, 98),
+(19, 99),
+(20, 100);
+
+INSERT INTO tblStaffRole 
 VALUES
 
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
 
-Insert INTO tblStore 
-VALUES ();
+INSERT INTO tblOwnsDataRights 
+VALUES
 
-Insert INTO tblSalespersonStore 
-VALUES ();
+INSERT INTO tblOwnsVideoRights 
+VALUES
 
-Insert INTO tblSale 
-VALUES ();
-
-Insert INTO tblVideoStreamViewer 
-VALUES ();
-
-Insert INTO tblVideoStreamController 
-VALUES ();
-
-Insert INTO tblMaintenance 
-VALUES ();
-
-Insert INTO tblMaintenancePart 
-VALUES ();
-
-Insert INTO tblPartSupplier 
-VALUES ();
-
-Insert INTO tblOrder 
-VALUES ();
-
-Insert INTO tblOrderItem 
-VALUES ();
-
-Insert INTO tblZoneCountry 
-VALUES ();
-
-Insert INTO tblZoneCondition 
-VALUES ();
-
-Insert INTO tblSubscriptionZone 
-VALUES ();
-
-Insert INTO tblSubscriptionDatabox 
-VALUES ();
-
-Insert INTO tblContract 
-VALUES ();
-
-Insert INTO tblContractedBTDatabox 
-VALUES ();
-
-Insert INTO tblContractedZone 
-VALUES ();
-
-Insert INTO tblContractScientificData 
-VALUES ();
-
-Insert INTO tblStaffRole 
-VALUES ();
-
-Insert INTO tblOwnsDataRights 
-VALUES ();
-
-Insert INTO tblOwnsVideoRights 
-VALUES ();
 
 
 -- 1. A sales person subscribes to a new standard subscription to a BT Databox . 
@@ -2241,13 +2668,13 @@ BEGIN
     VALUES (pAddressPrefix, pStreetNumber, pStreetName, (SELECT LAST INSERT INDEX?????TODO))
 
     INSERT INTO tblAccount([Name], [Password], [AddressID], [PhoneNumber])
-    VALUES (pName, pPassword, (Select last insert index???TODO), pPhoneNumber);
+    VALUES (pName, pPassword, (Select last INSERT index???TODO), pPhoneNumber);
 
     INSERT INTO tblCustomer
-    VALUES (SELECT LAST insert index);
+    VALUES (SELECT LAST INSERT index);
 
     INSERT INTO tblSubscriber
-    Values (SELECT LAST insert index);
+    Values (SELECT LAST INSERT index);
 
     INSERT INTO tblSubscription ([AccountID], )
 END;
@@ -2314,8 +2741,8 @@ BEGIN
 
 END;
 
--- 9. Write a query to be used to Insert data from a  BT Databox to its stored data on the Being There database. The transaction receives the  BT Databox ID.
-DROP PROCEDURE IF EXISTS insertBTDataboxData;
+-- 9. Write a query to be used to INSERT data from a  BT Databox to its stored data on the Being There database. The transaction receives the  BT Databox ID.
+DROP PROCEDURE IF EXISTS INSERTBTDataboxData;
 CREATE PROCEDURE allVideoStreamViewers()
 AS
 BEGIN
