@@ -1,4 +1,5 @@
-use DAT601;
+create database brandNew;
+use brandNew;
 go
 -- DDL Making tables and indexes and CHECKS
 drop procedure if exists MakeTables;
@@ -206,20 +207,16 @@ go
 -- a BT DataboxID, a Latitude, and a Longitude.
 
 DROP PROCEDURE IF EXISTS ListDataBoxesByOrganisation;
-
 GO
-    CREATE PROCEDURE ListDataBoxesByOrganisation 
-	AS 
-    BEGIN
-    SELECT C.ContractingOrg, DB.Lat, DB.Long, DB.DBNUM 
-    FROM tblContract C JOIN tblContractZone CZ
-                        ON C.ID = CZ.ContractID
-                        JOIN tblZone Z
-                        ON Z.ID = CZ.ZoneID
-                        JOIN tblDataboxZone DZ
-                        ON Z.ID = DZ.ZoneID
-                        JOIN tblDATABOX DB
-                        ON DZ.DataBoxID = DBNUM;
+CREATE PROCEDURE ListDataBoxesByOrganisation 
+AS 
+BEGIN
+SELECT C.ContractingOrg, DB.Lat, DB.Long, DB.DBNUM 
+FROM tblContract C 
+JOIN tblContractZone CZ ON C.ID = CZ.ContractID
+JOIN tblZone Z ON Z.ID = CZ.ZoneID 
+JOIN tblDataboxZone DZ ON Z.ID = DZ.ZoneID
+JOIN tblDATABOX DB ON DZ.DataBoxID = DBNUM;
 END;
-
 GO
+EXEC ListDataBoxesByOrganisation;
