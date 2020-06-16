@@ -9,412 +9,2212 @@ GO
 DROP PROCEDURE IF EXISTS createDBBeingThere;
 CREATE PROCEDURE createDBBeingThere()
 AS
-BEGIN
-    DROP TABLE IF EXISTS tblOwnsVideoRights;
-    DROP TABLE IF EXISTS tblOwnsDataRights;
-    DROP TABLE IF EXISTS tblStaffRole;
-    DROP TABLE IF EXISTS tblContractScientificData;
-    DROP TABLE IF EXISTS tblContractedZone;
-    DROP TABLE IF EXISTS tblContractedBTDatabox;
-    DROP TABLE IF EXISTS tblContract;
-    DROP TABLE IF EXISTS tblSubscriptoinDatabox;
-    DROP TABLE IF EXISTS tblSubscriptionZone;
-    DROP TABLE IF EXISTS tblZoneCondition;
-    DROP TABLE IF EXISTS tblZoneCountry;
-    DROP TABLE IF EXISTS tblOrderItem;
-    DROP TABLE IF EXISTS tblOrder;
-    DROP TABLE IF EXISTS tblPartSupplier;
-    DROP TABLE IF EXISTS tblMaintenancePart;
-    DROP TABLE IF EXISTS tblMaintenance;
-    DROP TABLE IF EXISTS tblVideoStreamController;
-    DROP TABLE IF EXISTS tblVideoStreamViewer;
-    DROP TABLE IF EXISTS tblSale;
-    DROP TABLE IF EXISTS tblSalespersonStore;
-    DROP TABLE IF EXISTS tblStore;
-    DROP TABLE IF EXISTS tblBTDataboxZone;
-    DROP TABLE IF EXISTS tblBTDataboxPart;
-    DROP TABLE IF EXISTS tblBTDataboxPart;
-    DROP TABLE IF EXISTS tblBTDataboxData;
-    DROP TABLE IF EXISTS tblBTDataboxStream;
-    DROP TABLE IF EXISTS tblPriceChange;
-    DROP TABLE IF EXISTS tblSuperPlatinum;
-    DROP TABLE IF EXISTS tblPlatinum;
-    DROP TABLE IF EXISTS tblGold;
-    DROP TABLE IF EXISTS tblSubscription;
-    DROP TABLE IF EXISTS tblDiscount;
-    DROP TABLE IF EXISTS tblSubscriber;
-    DROP TABLE IF EXISTS tblContractee;
-    DROP TABLE IF EXISTS tblDroneOwner;
-    DROP TABLE IF EXISTS tblPayment;
-    DROP TABLE IF EXISTS tblCustomer;
-    DROP TABLE IF EXISTS tblAccount;
-    DROP TABLE IF EXISTS tblAddress;
-    DROP TABLE IF EXISTS tblPostCode;
-    DROP TABLE IF EXISTS tblVideoStream;
-    DROP TABLE IF EXISTS tblSupplier;
-    DROP TABLE IF EXISTS tblPart;
-    DROP TABLE IF EXISTS tblBTDatabox;
-    DROP TABLE IF EXISTS tblScientificData;
-    DROP TABLE IF EXISTS tblStaff;
-    DROP TABLE IF EXISTS tblDrone;
-    DROP TABLE IF EXISTS tblMaintenanceperson;
-    DROP TABLE IF EXISTS tblSalesperson;
-    DROP TABLE IF EXISTS tblAdministrationExecutive;
-    DROP TABLE IF EXISTS tblDirector;
-    DROP TABLE IF EXISTS tblCondition;
-    DROP TABLE IF EXISTS tblZone;
-    DROP TABLE IF EXISTS tblCountry;
+DROP TABLE IF EXISTS tblOwnsVideoRights;
+DROP TABLE IF EXISTS tblOwnsDataRights;
+DROP TABLE IF EXISTS tblStaffRole;
+DROP TABLE IF EXISTS tblContractScientificData;
+DROP TABLE IF EXISTS tblContractedZone;
+DROP TABLE IF EXISTS tblContractedBTDatabox;
+DROP TABLE IF EXISTS tblContract;
+DROP TABLE IF EXISTS tblSubscriptionDatabox;
+DROP TABLE IF EXISTS tblSubscriptionZone;
+DROP TABLE IF EXISTS tblZoneCondition;
+DROP TABLE IF EXISTS tblZoneCountry;
+DROP TABLE IF EXISTS tblOrderItem;
+DROP TABLE IF EXISTS tblOrder;
+DROP TABLE IF EXISTS tblPartSupplier;
+DROP TABLE IF EXISTS tblMaintenancePart;
+DROP TABLE IF EXISTS tblMaintenance;
+DROP TABLE IF EXISTS tblVideoStreamController;
+DROP TABLE IF EXISTS tblVideoStreamViewer;
+DROP TABLE IF EXISTS tblSale;
+DROP TABLE IF EXISTS tblSalespersonStore;
+DROP TABLE IF EXISTS tblStore;
+DROP TABLE IF EXISTS tblBTDataboxZone;
+DROP TABLE IF EXISTS tblBTDataboxPart;
+DROP TABLE IF EXISTS tblBTDataboxData;
+DROP TABLE IF EXISTS tblBTDataboxStream;
+DROP TABLE IF EXISTS tblPriceChange;
+DROP TABLE IF EXISTS tblSuperPlatinum;
+DROP TABLE IF EXISTS tblPlatinum;
+DROP TABLE IF EXISTS tblGold;
+DROP TABLE IF EXISTS tblSubscription;
+DROP TABLE IF EXISTS tblDiscount;
+DROP TABLE IF EXISTS tblSubscriber;
+DROP TABLE IF EXISTS tblContractee;
+DROP TABLE IF EXISTS tblDroneOwner;
+DROP TABLE IF EXISTS tblPayment;
+DROP TABLE IF EXISTS tblCustomer;
+DROP TABLE IF EXISTS tblAccount;
+DROP TABLE IF EXISTS tblSupplier;
+DROP TABLE IF EXISTS tblAddress;
+DROP TABLE IF EXISTS tblPostCode;
+DROP TABLE IF EXISTS tblVideoStream;
+DROP TABLE IF EXISTS tblPart;
+DROP TABLE IF EXISTS tblBTDatabox;
+DROP TABLE IF EXISTS tblScientificData;
+DROP TABLE IF EXISTS tblStaff;
+DROP TABLE IF EXISTS tblDrone;
+DROP TABLE IF EXISTS tblMaintenanceperson;
+DROP TABLE IF EXISTS tblSalesperson;
+DROP TABLE IF EXISTS tblAdministrationExecutive;
+DROP TABLE IF EXISTS tblDirector;
+DROP TABLE IF EXISTS tblCondition;
+DROP TABLE IF EXISTS tblZone;
+DROP TABLE IF EXISTS tblCountry;
 
-    CREATE TABLE BeingThere.tblCountry ( 
-            [Country] VARCHAR(64) IDENTITY PRIMARY KEY 
-        );
-    
-        CREATE TABLE BeingThere.tblZone ( 
-            [ZoneID] INT IDENTITY PRIMARY KEY,
-            [MinimumLatitude] Decimal(10, 7) NOT NULL,
-            [MaximumLatitude] Decimal (10, 7) NOT NULL,
-            [MinimumLongitude] Decimal (10, 7) NOT NULL,
-            [MaximumLongitude] Decimal (10, 7) NOT NULL
-        );
-    
-        CREATE TABLE BeingThere.tblCondition (
-            [ConditionID] INT IDENTITY PRIMARY KEY,
-            [ConditionDescription] VARCHAR(255) NOT NULL
-        );
-    
-        CREATE TABLE BeingThere.tblDirector (
-            [DirectorID] INT IDENTITY PRIMARY KEY
-        );
-        
-        CREATE TABLE BeingThere.tblAdministrationExecutive (
-            [AdminExecID] INT IDENTITY PRIMARY KEY
-        );
+CREATE TABLE BeingThere.tblCountry ( 
+        [Country] VARCHAR(64) IDENTITY PRIMARY KEY 
+    );
 
-        CREATE TABLE BeingThere.tblSalesperson (
-            [SalespersonID] INT IDENTITY PRIMARY KEY
-        )
-        CREATE TABLE BeingThere.tblMaintenancePerson ( 
-            [MaintencepersonID] INT IDENTITY PRIMARY KEY
-        );
-        CREATE TABLE BeingThere.tblDrone (
-            [DroneID] INT IDENTITY PRIMARY KEY,
-            [Description] VARCHAR(255) NOT NULL,
-            [OperationTime] INT NOT NULL
-        );
-        CREATE TABLE BeingThere.tblStaff (
-            [AccountID] INT IDENTITY PRIMARY KEY,
-            [Salary] MONEY NOT NULL,
-            [NextOfKin] VARCHAR(64) NOT NULL,
-            [BeganEmployment] DATE NOT NULL,
-            [EndedEmployment] DATE
-        )
-        CREATE TABLE BeingThere.tblScientificData (
-            [ScientificDataID] INT IDENTITY PRIMARY KEY,
-            [Longitude] Decimal(10, 7) NOT NULL,
-            [Latitude] Decimal(10, 7) NOT NULL,
-            [Altitude] INT NOT NULL,
-            [Temperature] Decimal(5, 2) NOT NULL,
-            [AmbientLightStrength] Decimal(11, 4) NOT NULL,
-            [RecordingTime] TIME NOT NULL
-        )
-        CREATE TABLE BeingThere.tblBTDatabox ( 
-            [BTDataboxID] INT IDENTITY PRIMARY KEY,
-            [FirstOperated] DATE,
-            [NextScheduledMaintanence] DATE,
-            [IPRating] VARCHAR(2) NOT NULL
-        )
-        CREATE TABLE BeingThere.tblPart (
-            [PartID] INT IDENTITY PRIMARY KEY,
-            [Partname] VARCHAR(64) NOT NULL,
-            [Description] VARCHAR(64) NOT NULL,
-            [Cost] MONEY NOT NULL
-        )
-        CREATE TABLE BeingThere.tblSupplier (
-            [SupplierID] INT IDENTITY PRIMARY KEY
-            [SupplierName] VARCHAR(64) NOT NULL,
-            [ContactPerson] VARCHAR(64) NOT NULL,
-            [Email] VARCHAR(64) NOT NULL,
-            [Address] VARCHAR(64) NOT NULL,
-            [PhoneNumber] VARCHAR(64) NOT NULL
-        )
-        CREATE TABLE BeingThere.tblVideoStream (
-            [StreamID] INT IDENTITY PRIMARY KEY
-            [StartTime] DATETIME NOT NULL,
-            [EndTime] DATETIME
-            [Length] INT
-        )
-        CREATE TABLE BeingThere.tblPostCode (
-            [PostCodeID] INT IDENTITY PRIMARY KEY
-            [PostCode] VARCHAR(16) NOT NULL,
-            [City] VARCHAR(64) NOT NULL,
-            [Country] VARCHAR(64) NOT NULL,
-            FOREIGN KEY (Country) REFERENCES BeingThere.tblCountry (Country)
-        )
-        CREATE TABLE BeingThere.tblAddress (
-            [AddressID] INT IDENTITY PRIMARY KEY,
-            [Prefix] VARCHAR(16),
-            [StreetNumber] VARCHAR(16) NOT NULL,
-            [StreetName] VARCHAR(64) NOT NULL,
-            [PostCodeID] INT NOT NULL,
-            FOREIGN KEY (PostCodeID) REFERENCES BeingThere.tblPostCode (PostCodeID)
-        
-        )
-        CREATE TABLE BeingThere.tblAccount ( 
-            [AccountID] INT IDENTITY PRIMARY KEY,
-            [Name] VARCHAR(255) NOT NULL,
-            [Password] VARCHAR(64) NOT NULL,
-            [AddressID] INT NOT NULL,
-            [PhoneNumber] VARCHAR(64),
-            FOREIGN KEY (AddressID) REFERENCES BeingThere.tblAddress (AddressID)
-        )
-        CREATE TABLE BeingThere.tblCustomer ( 
-            [AccountID] INT IDENTITY PRIMARY KEY,
-            FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount (AccountID)
-        )
-        CREATE TABLE BeingThere.tblPayment ( 
-            [PaymentID] INT IDENTITY PRIMARY KEY,
-            [Type] VARCHAR(16) NOT NULL,
-            [PaymentDate] DATE NOT NULL,
-            [Amount] MONEY NOT NULL,
-            [CustomerID] INT NOT NULL,
-            FOREIGN KEY (CustomerID) REFERENCES BeingThere.tblCustomer(CustomerID)
-        )
-        CREATE TABLE BeingThere.tblDroneOwner ( 
-            [AccountID] INT,
-            [DroneID] INT,
-            PRIMARY KEY(AccountID, DroneID),
-            FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount(AccountID),
-            FOREIGN KEY (DroneID) REFERENCES BeingThere.tblDrone(DroneID)
-        )
-        CREATE TABLE BeingThere.tblContractee (
-            [AccountID] INT PRIMARY KEY,
-            FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount (AccountID)
-        )
-        CREATE TABLE BeingThere.tblSubscriber ( 
-            [AccountID] INT PRIMARY KEY,
-            FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount (AccountID)
-        )
-        CREATE TABLE BeingThere.tblDiscount (
-            [DiscountAmount] REAL IDENTITY PRIMARY KEY
-        )
-        CREATE TABLE BeingThere.tblSubscription (
-            [SubscriptionID] INT IDENTITY PRIMARY KEY,
-            [AccountID] INT NOT NULL,
-            [TotalPrice] MONEY,
-            FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount (AccountID)
-        )
-        CREATE TABLE BeingThere.tblGold ( 
-            [SubscriptionID] INT PRIMARY KEY,
-            [GoldPrice] MONEY NOT NULL,
-            FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblSubscription (SubscriptionID)
-        )
-        CREATE TABLE BeingThere.tblPlatinum (
-            [SubscriptionID] INT PRIMARY KEY,
-            [PlatinumPrice] MONEY NOT NULL,
-            FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblGold (SubscriptionID)
-        )
-        CREATE TABLE BeingThere.tblSuperPlatinum (
-            [SubscriptionID] INT PRIMARY KEY,
-            [SuperPlatinumPrice] MONEY NOT NULL,
-            FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblPlatinum (SubscriptionID)
-        )
-        CREATE TABLE BeingThere.tblPriceChange (
-            [PriceChangeID] INT IDENTITY PRIMARY KEY,
-            [DirectorID] INT NOT NULL,
-            [SubscriptionID] INT NOT NULL,
-            [Date] DATE NOT NULL,
-            [PreviousPrice] MONEY NOT NULL,
-            [NewPrice] MONEY NOT NULL,
-            FOREIGN KEY (DirectorID) REFERENCES BeingThere.tblDirector (DirectorID),
-            FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblPlatinum (SubscriptionID)
-        )
-        CREATE TABLE BeingThere.tblBTDataboxStream ( 
-            [BTDataboxID] INT NOT NULL,
-            [StreamID] INT NOT NULL,
-            PRIMARY KEY(BTDataboxID, StreamID),
-            FOREIGN KEY (BTDataboxID) REFERENCES BeingThere.tblBTDatabox (BTDataboxID),
-            FOREIGN KEY (StreamID) REFERENCES BeingThere.tblVideoStream (StreamID)
-        )
-        CREATE TABLE BeingThere.tblBTDataboxData (
-            [BTDataboxID] INT NOT NULL,
-            [ScientificDataID] INT NOT NULL,
-            PRIMARY KEY(BTDataboxID, ScientificDataID),
-            FOREIGN KEY (BTDataboxID) REFERENCES BeingThere.tblBTDatabox (BTDataboxID),
-            FOREIGN KEY (ScientificDataID) REFERENCES BeingThere.tblScientificData (ScientificDataID)
-        )
-        CREATE TABLE BeingThere.tblBTDataboxPart (
-            [BTDataboxID] INT NOT NULL,
-            [PartID] INT NOT NULL,
-            PRIMARY KEY(BTDataboxID, PartID),
-            FOREIGN KEY (BTDataboxID) REFERENCES BeingThere.tblBTDatabox (BTDataboxID),
-            FOREIGN KEY (PartID) REFERENCES BeingThere.tblPart (PartID)
-        )
-        CREATE TABLE BeingThere.tblBTDataboxZone (
-            [BTDataboxID] INT NOT NULL,
-            [ZoneID] INT NOT NULL,
-            PRIMARY KEY(BTDataboxID, ZoneID),
-            FOREIGN KEY (BTDataboxID) REFERENCES BeingThere.tblBTDataboxData (BTDataboxID),
-            FOREIGN KEY (ZoneID) REFERENCES BeingThere.tblZone (ZoneID)
-        )
-        CREATE TABLE BeingThere.tblStore (
-            [StoreID] INT IDENTITY PRIMARY KEY,
-            [Name] VARCHAR(64) NOT NULL,
-            [AddressID] INT NOT NULL,
-            [PhoneNumber] VARCHAR(32) NOT NULL,
-            FOREIGN KEY (BTDataboxID) REFERENCES BeingThere.tblBTDataboxData (BTDataboxID),
-            FOREIGN KEY (ZoneID) REFERENCES BeingThere.tblZone (ZoneID)
-        )
-        CREATE TABLE BeingThere.tblSalespersonStore ( 
-            [StoreID] INT NOT NULL,
-            [SalespersonID] INT NOT NULL,
-            PRIMARY KEY(StoreID, SalespersonID),
-            FOREIGN KEY (StoreID) REFERENCES BeingThere.tblStore (StoreID),
-            FOREIGN KEY (SalespersonID) REFERENCES BeingThere.tblSalesperson (SalespersonID)
-        )
-        CREATE TABLE BeingThere.tblSale (
-            [SalesPersonID] INT NOT NULL,
-            [SubscriptionID] INT NOT NULL,
-            [DiscountAmount] REAL,
-            PRIMARY KEY(SalesPersonID, SubscriptionID),
-            FOREIGN KEY (SalesPersonID) REFERENCES BeingThere.tblSalesperson (SalesPersonID),
-            FOREIGN KEY (ZoneID) REFERENCES BeingThere.tblZone (ZoneID)
-        )
-        CREATE TABLE BeingThere.tblVideoStreamViewer (
-            [StreamID] INT NOT NULL,
-            [SubscriptionID] INT NOT NULL,
-            PRIMARY KEY(StreamID, SubscriptionID),
-            FOREIGN KEY (StreamID) REFERENCES BeingThere.tblVideoStream (StreamID),
-            FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblSubscription (SubscriptionID)
-        )
-        CREATE TABLE BeingThere.tblVideoStreamController (
-            [StreamID] INT NOT NULL,
-            [SubscriptionID] INT NOT NULL,
-            [Pan] Decimal(6, 3) NOT NULL,
-            [Tilt] Decimal(6, 3) NOT NULL,
-            [Zoom] Decimal(6, 3) NOT NULL,
-            FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblSubscription (SubscriptionID)
-        )
-        CREATE TABLE BeingThere.tblMaintenancePart ( 
-            [MaintenanceID] INT NOT NULL,
-            [PartID] INT NOT NULL,
-            PRIMARY KEY(MaintenanceID, PartID),
-            FOREIGN KEY (MaintenanceID) REFERENCES BeingThere.tblMaintenance (MaintenanceID),
-            FOREIGN KEY (PartID) REFERENCES BeingThere.tblPart (PartID)
-        )
-        CREATE TABLE BeingThere.tblPartSupplier ( 
-            [PartID] INT NOT NULL,
-            [SupplierID] INT NOT NULL,
-            PRIMARY KEY(PartID, SupplierID),
-            FOREIGN KEY (PartID) REFERENCES BeingThere.tblPart (PartID),
-            FOREIGN KEY (SupplierID) REFERENCES BeingThere.tblSupplier (SupplierID)
-        )
-        CREATE TABLE BeingThere.tblOrder ( 
-            [OrderID] INT NOT NULL,
-            [MaintenancePersonID] INT NOT NULL,
-            PRIMARY KEY(OrderID, SupplierID),
-            FOREIGN KEY (OrderID) REFERENCES BeingThere.tblOrder (OrderID),
-            FOREIGN KEY (MaintenancePersonID) REFERENCES BeingThere.tblMaintenancePerson(MaintenancePersonID)
-        )
-        CREATE TABLE BeingThere.tblOrderItem (
-            [OrderID] INT NOT NULL,
-            [PartID] INT NOT NULL,
-            [SupplierID] INT NOT NULL,
-            PRIMARY KEY(OrderID, PartID, SupplierID),
-            FOREIGN KEY (OrderID) REFERENCES BeingThere.tblOrder (OrderID),
-            FOREIGN KEY (PartID) REFERENCES BeingThere.tbl(PartID),
-            FOREIGN KEY (SupplierID) REFERENCES BeingThere.tblSupplier(SupplierID)
-        )
-        CREATE TABLE BeingThere.tblZoneCountry ( 
-            [ZoneID] INT NOT NULL,
-            [CountryID] INT NOT NULL,
-            PRIMARY KEY(ZoneID, CountryID),
-            FOREIGN KEY (ZoneID) REFERENCES BeingThere.tblZone (ZoneID),
-            FOREIGN KEY (CountryID) REFERENCES BeingThere.tblCountry(CountryID)
-        )
+CREATE TABLE BeingThere.tblZone ( 
+    [ZoneID] INT IDENTITY PRIMARY KEY,
+    [MinimumLatitude] Decimal(10, 7) NOT NULL,
+    [MaximumLatitude] Decimal (10, 7) NOT NULL,
+    [MinimumLongitude] Decimal (10, 7) NOT NULL,
+    [MaximumLongitude] Decimal (10, 7) NOT NULL
+);
 
-        CREATE TABLE BeingThere.tblZoneCondition (
-            [ZoneID] INT NOT NULL,
-            [ConditionID] INT NOT NULL,
-            PRIMARY KEY(ZoneID, ConditionID),
-            FOREIGN KEY (ZoneID) REFERENCES BeingThere.tblZone (ZoneID),
-            FOREIGN KEY (ConditionID) REFERENCES BeingThere.tblCondition(ConditionID)
-        )
-        CREATE TABLE BeingThere.tblSubscriptionZone (
-            [SubscriptionID] INT NOT NULL,
-            [ZoneID] INT NOT NULL,
-            PRIMARY KEY(SubscriptionID, ZoneID),
-            FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblSubscription (SubscriptionID),
-            FOREIGN KEY (ZoneID) REFERENCES BeingThere.tblZone(ZoneID)
-        )
-    
-        CREATE TABLE BeingThere.tblSubscriptionBTDatabox (
-            [SubscriptionID] INT NOT NULL,
-            [BTDataboxID] INT NOT NULL,
-            PRIMARY KEY(SubscriptionID, BTDataboxID),
-            FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblSubscription (SubscriptionID),
-            FOREIGN KEY (BTDataboxID) REFERENCES BeingThere.tblBTDatabox(BTDataboxID)
-        ) 
-    
-        CREATE TABLE BeingThere.tblContract (
-            [ContractID] INT IDENTITY PRIMARY KEY,
-            [StartDate] DATE NOT NULL,
-            [EndDate] DATE,
-            [Value] INT NOT NULL,
-            [Contractee] INT NOT NULL,
-            [EnteredByAdmin] INT NOT NULL,
-            FOREIGN KEY (Contractee) REFERENCES BeingThere.tblContractee (AccountID),
-            FOREIGN KEY (EnteredByAdmin) REFERENCES BeingThere.tblAdministrationExecutive(AdminExecID)
-        )
-    
-        CREATE TABLE BeingThere.tblContractedBTDatabox (
-            [ContractID] INT NOT NULL,
-            [BTDataboxID] INT NOT NULL,
-            PRIMARY KEY(ContractID, BTDataboxID),
-            FOREIGN KEY (ContractID) REFERENCES BeingThere.tblContract (ContractID),
-            FOREIGN KEY (BTDataboxID) REFERENCES BeingThere.tblBTDatabox(BTDataboxID)
-        )
-    
-        CREATE TABLE BeingThere.tblContractedZone (
-            [ContractID] INT NOT NULL,
-            [ZoneID] INT NOT NULL,
-            PRIMARY KEY(ContractID, BTDataboxID),
-            FOREIGN KEY (ContractID) REFERENCES BeingThere.tblContract (ContractID),
-            FOREIGN KEY (ZoneID) REFERENCES BeingThere.tblZone(ZoneID)
-        )
-    
-        CREATE TABLE BeingThere.tblContractScientificData (
-            [ContractID] INT NOT NULL,
-            [ScientificDataID] INT NOT NULL,
-            PRIMARY KEY(ContractID, BTDataboxID),
-            FOREIGN KEY (ContractID) REFERENCES BeingThere.tblContract (ContractID),
-            FOREIGN KEY (ScientificDataID) REFERENCES BeingThere.tblScientificData(ScientificDataID)
-        )
-    
-        CREATE TABLE BeingThere.tblStaffRole (
-            [AccountID] INT NOT NULL,
-            [RoleID] INT NOT NULL,
-            PRIMARY KEY(AccountID, RoleID),
-            FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount (AccountID),
-            FOREIGN KEY (RoleID) REFERENCES BeingThere.tblBTDatabox(RoleID)
-        )
-    
-        CREATE TABLE BeingThere.tblOwnsDataRights (
-            [ScientificDataID] INT NOT NULL,
-            [SubscriptionID] INT NOT NULL,
-            PRIMARY KEY(ScientificDataID, SubscriptionID),
-            FOREIGN KEY (ScientificDataID) REFERENCES BeingThere.tblScientificData (ScientificDataID),
-            FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblPlatinum(SubscriptionID)
-        )
-    
-        CREATE TABLE BeingThere.tblOwnsVideoRights (
-            [StreamID] INT NOT NULL,
-            [SubscriptionID] INT NOT NULL,
-            PRIMARY KEY(StreamID, SubscriptionID),
-            FOREIGN KEY (StreamID) REFERENCES BeingThere.tblVideoStream (StreamID),
-            FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblSuperPlatinum(SubscriptionID)
-        )
-    
-END;
+CREATE TABLE BeingThere.tblCondition (
+    [ConditionID] INT IDENTITY PRIMARY KEY,
+    [ConditionDescription] VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE BeingThere.tblDirector (
+    [DirectorID] INT IDENTITY PRIMARY KEY
+);
+
+CREATE TABLE BeingThere.tblAdministrationExecutive (
+    [AdminExecID] INT IDENTITY PRIMARY KEY
+);
+
+CREATE TABLE BeingThere.tblSalesperson (
+    [SalespersonID] INT IDENTITY PRIMARY KEY
+)
+CREATE TABLE BeingThere.tblMaintenancePerson ( 
+    [MaintencepersonID] INT IDENTITY PRIMARY KEY
+);
+CREATE TABLE BeingThere.tblDrone (
+    [DroneID] INT IDENTITY PRIMARY KEY,
+    [Description] VARCHAR(255) NOT NULL,
+    [OperationTime] INT NOT NULL
+);
+CREATE TABLE BeingThere.tblStaff (
+    [AccountID] INT IDENTITY PRIMARY KEY,
+    [Salary] MONEY NOT NULL,
+    [NextOfKin] VARCHAR(64) NOT NULL,
+    [BeganEmployment] DATE NOT NULL,
+    [EndedEmployment] DATE
+)
+CREATE TABLE BeingThere.tblScientificData (
+    [ScientificDataID] INT IDENTITY PRIMARY KEY,
+    [Longitude] Decimal(10, 7) NOT NULL,
+    [Latitude] Decimal(10, 7) NOT NULL,
+    [Altitude] INT NOT NULL,
+    [Temperature] Decimal(5, 2) NOT NULL,
+    [AmbientLightStrength] Decimal(11, 4) NOT NULL,
+    [RecordingTime] DATETIME NOT NULL
+)
+CREATE TABLE BeingThere.tblBTDatabox ( 
+    [BTDataboxID] INT IDENTITY PRIMARY KEY,
+    [FirstOperated] DATE,
+    [NextScheduledMaintanence] DATE,
+    [IPRating] VARCHAR(2) NOT NULL
+)
+CREATE TABLE BeingThere.tblPart (
+    [PartID] INT IDENTITY PRIMARY KEY,
+    [Partname] VARCHAR(64) NOT NULL,
+    [Description] VARCHAR(64) NOT NULL,
+    [Cost] MONEY NOT NULL
+)
+CREATE TABLE BeingThere.tblVideoStream (
+    [StreamID] INT IDENTITY PRIMARY KEY
+    [StartTime] DATETIME NOT NULL,
+    [EndTime] DATETIME
+    [Length] INT
+)
+CREATE TABLE BeingThere.tblPostCode (
+    [PostCodeID] INT IDENTITY PRIMARY KEY
+    [PostCode] VARCHAR(16) NOT NULL,
+    [City] VARCHAR(64) NOT NULL,
+    [Country] VARCHAR(64) NOT NULL,
+    FOREIGN KEY (Country) REFERENCES BeingThere.tblCountry (Country)
+)
+CREATE TABLE BeingThere.tblAddress (
+    [AddressID] INT IDENTITY PRIMARY KEY,
+    [Prefix] VARCHAR(16),
+    [StreetNumber] VARCHAR(16) NOT NULL,
+    [StreetName] VARCHAR(64) NOT NULL,
+    [PostCodeID] INT NOT NULL,
+    FOREIGN KEY (PostCodeID) REFERENCES BeingThere.tblPostCode (PostCodeID)
+
+)
+CREATE TABLE BeingThere.tblSupplier (
+    [SupplierID] INT IDENTITY PRIMARY KEY
+    [SupplierName] VARCHAR(64) NOT NULL,
+    [ContactPerson] VARCHAR(64) NOT NULL,
+    [Email] VARCHAR(64) NOT NULL,
+    [Address] INT NOT NULL
+    [PhoneNumber] VARCHAR(64) NOT NULL,
+    FOREIGN KEY (Address) REFERENCES BeingThere.tblAddress (AddressID) -- needs to be moved
+)
+CREATE TABLE BeingThere.tblAccount ( 
+    [AccountID] INT IDENTITY PRIMARY KEY,
+    [Name] VARCHAR(255) NOT NULL,
+    [Password] VARCHAR(64) NOT NULL,
+    [AddressID] INT NOT NULL,
+    [PhoneNumber] VARCHAR(64),
+    FOREIGN KEY (AddressID) REFERENCES BeingThere.tblAddress (AddressID)
+)
+CREATE TABLE BeingThere.tblCustomer ( 
+    [AccountID] INT IDENTITY PRIMARY KEY,
+    FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount (AccountID)
+)
+CREATE TABLE BeingThere.tblPayment (
+    [PaymentID] INT IDENTITY PRIMARY KEY,
+    [Type] VARCHAR(16) NOT NULL,
+    [PaymentDate] DATE NOT NULL,
+    [Amount] MONEY NOT NULL,
+    [CustomerID] INT NOT NULL,
+    FOREIGN KEY (CustomerID) REFERENCES BeingThere.tblCustomer(CustomerID)
+)
+CREATE TABLE BeingThere.tblDroneOwner ( 
+    [AccountID] INT,
+    [DroneID] INT,
+    PRIMARY KEY(AccountID, DroneID),
+    FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount(AccountID),
+    FOREIGN KEY (DroneID) REFERENCES BeingThere.tblDrone(DroneID)
+)
+CREATE TABLE BeingThere.tblContractee (
+    [AccountID] INT PRIMARY KEY,
+    FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount (AccountID)
+)
+CREATE TABLE BeingThere.tblSubscriber ( 
+    [AccountID] INT PRIMARY KEY,
+    FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount (AccountID)
+)
+CREATE TABLE BeingThere.tblDiscount (
+    [DiscountAmount] REAL IDENTITY PRIMARY KEY
+)
+CREATE TABLE BeingThere.tblSubscription (
+    [SubscriptionID] INT IDENTITY PRIMARY KEY,
+    [AccountID] INT NOT NULL,
+    [TotalPrice] MONEY,
+    FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount (AccountID)
+)
+CREATE TABLE BeingThere.tblGold ( 
+    [SubscriptionID] INT PRIMARY KEY,
+    [GoldPrice] MONEY NOT NULL,
+    FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblSubscription (SubscriptionID)
+)
+CREATE TABLE BeingThere.tblPlatinum (
+    [SubscriptionID] INT PRIMARY KEY,
+    [PlatinumPrice] MONEY NOT NULL,
+    FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblGold (SubscriptionID)
+)
+CREATE TABLE BeingThere.tblSuperPlatinum (
+    [SubscriptionID] INT PRIMARY KEY,
+    [SuperPlatinumPrice] MONEY NOT NULL,
+    FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblPlatinum (SubscriptionID)
+)
+CREATE TABLE BeingThere.tblPriceChange (
+    [PriceChangeID] INT IDENTITY PRIMARY KEY,
+    [DirectorID] INT NOT NULL,
+    [SubscriptionID] INT NOT NULL,
+    [Date] DATE NOT NULL,
+    [PreviousPrice] MONEY NOT NULL,
+    [NewPrice] MONEY NOT NULL,
+    FOREIGN KEY (DirectorID) REFERENCES BeingThere.tblDirector (DirectorID),
+    FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblPlatinum (SubscriptionID)
+)
+CREATE TABLE BeingThere.tblBTDataboxStream ( 
+    [BTDataboxID] INT NOT NULL,
+    [StreamID] INT NOT NULL,
+    PRIMARY KEY(BTDataboxID, StreamID),
+    FOREIGN KEY (BTDataboxID) REFERENCES BeingThere.tblBTDatabox (BTDataboxID),
+    FOREIGN KEY (StreamID) REFERENCES BeingThere.tblVideoStream (StreamID)
+)
+CREATE TABLE BeingThere.tblBTDataboxData (
+    [BTDataboxID] INT NOT NULL,
+    [ScientificDataID] INT NOT NULL,
+    PRIMARY KEY(BTDataboxID, ScientificDataID),
+    FOREIGN KEY (BTDataboxID) REFERENCES BeingThere.tblBTDatabox (BTDataboxID),
+    FOREIGN KEY (ScientificDataID) REFERENCES BeingThere.tblScientificData (ScientificDataID)
+)
+CREATE TABLE BeingThere.tblBTDataboxPart (
+    [BTDataboxID] INT NOT NULL,
+    [PartID] INT NOT NULL,
+    PRIMARY KEY(BTDataboxID, PartID),
+    FOREIGN KEY (BTDataboxID) REFERENCES BeingThere.tblBTDatabox (BTDataboxID),
+    FOREIGN KEY (PartID) REFERENCES BeingThere.tblPart (PartID)
+)
+CREATE TABLE BeingThere.tblBTDataboxZone (
+    [BTDataboxID] INT NOT NULL,
+    [ZoneID] INT NOT NULL,
+    PRIMARY KEY(BTDataboxID, ZoneID),
+    FOREIGN KEY (BTDataboxID) REFERENCES BeingThere.tblBTDataboxData (BTDataboxID),
+    FOREIGN KEY (ZoneID) REFERENCES BeingThere.tblZone (ZoneID)
+)
+CREATE TABLE BeingThere.tblStore (
+    [StoreID] INT IDENTITY PRIMARY KEY,
+    [Name] VARCHAR(64) NOT NULL,
+    [AddressID] INT NOT NULL,
+    [PhoneNumber] VARCHAR(32) NOT NULL,
+    FOREIGN KEY (BTDataboxID) REFERENCES BeingThere.tblBTDataboxData (BTDataboxID),
+    FOREIGN KEY (ZoneID) REFERENCES BeingThere.tblZone (ZoneID)
+)
+CREATE TABLE BeingThere.tblSalespersonStore ( 
+    [StoreID] INT NOT NULL,
+    [SalespersonID] INT NOT NULL,
+    PRIMARY KEY(StoreID, SalespersonID),
+    FOREIGN KEY (StoreID) REFERENCES BeingThere.tblStore (StoreID),
+    FOREIGN KEY (SalespersonID) REFERENCES BeingThere.tblSalesperson (SalespersonID)
+)
+CREATE TABLE BeingThere.tblSale (
+    [SalesPersonID] INT NOT NULL,
+    [SubscriptionID] INT NOT NULL,
+    [DiscountAmount] REAL,
+    PRIMARY KEY(SalesPersonID, SubscriptionID),
+    FOREIGN KEY (SalesPersonID) REFERENCES BeingThere.tblSalesperson (SalesPersonID),
+    FOREIGN KEY (ZoneID) REFERENCES BeingThere.tblZone (ZoneID)
+)
+CREATE TABLE BeingThere.tblVideoStreamViewer (
+    [StreamID] INT NOT NULL,
+    [SubscriptionID] INT NOT NULL,
+    PRIMARY KEY(StreamID, SubscriptionID),
+    FOREIGN KEY (StreamID) REFERENCES BeingThere.tblVideoStream (StreamID),
+    FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblSubscription (SubscriptionID)
+)
+CREATE TABLE BeingThere.tblVideoStreamController (
+    [StreamID] INT NOT NULL,
+    [SubscriptionID] INT NOT NULL,
+    [Pan] Decimal(6, 3) NOT NULL,
+    [Tilt] Decimal(6, 3) NOT NULL,
+    [Zoom] Decimal(6, 3) NOT NULL,
+    FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblSubscription (SubscriptionID)
+)
+CREATE TABEL BeingThere.tblMaintenance (
+    [MaintenanceID] INT IDENTITY PRIMARY KEY,
+    [MaintenancepersonID] INT NOT NULL,
+    [BTdataboxID] INT NOT NULL,
+    [Report] VARCHAR(255) NOT NULL,
+    [Date] DATE NOT NULL,
+    FOREIGN KEY (MaintencepersonID) REFERENCES BeingThere.tblMaintenancePerson (MaintencepersonID),
+    FOREIGN KEY (BTdataboxID) REFERENCES BeingThere.tblBTDatabox (BTdataboxID)
+)
+CREATE TABLE BeingThere.tblMaintenancePart ( 
+    [MaintenanceID] INT NOT NULL,
+    [PartID] INT NOT NULL,
+    PRIMARY KEY(MaintenanceID, PartID),
+    FOREIGN KEY (MaintenanceID) REFERENCES BeingThere.tblMaintenance (MaintenanceID),
+    FOREIGN KEY (PartID) REFERENCES BeingThere.tblPart (PartID)
+)
+CREATE TABLE BeingThere.tblPartSupplier ( 
+    [PartID] INT NOT NULL,
+    [SupplierID] INT NOT NULL,
+    PRIMARY KEY(PartID, SupplierID),
+    FOREIGN KEY (PartID) REFERENCES BeingThere.tblPart (PartID),
+    FOREIGN KEY (SupplierID) REFERENCES BeingThere.tblSupplier (SupplierID)
+)
+CREATE TABLE BeingThere.tblOrder ( 
+    [OrderID] INT NOT NULL,
+    [MaintenancePersonID] INT NOT NULL,
+    PRIMARY KEY(OrderID, SupplierID),
+    FOREIGN KEY (OrderID) REFERENCES BeingThere.tblOrder (OrderID),
+    FOREIGN KEY (MaintenancePersonID) REFERENCES BeingThere.tblMaintenancePerson(MaintenancePersonID)
+)
+CREATE TABLE BeingThere.tblOrderItem (
+    [OrderID] INT NOT NULL,
+    [PartID] INT NOT NULL,
+    [SupplierID] INT NOT NULL,
+    PRIMARY KEY(OrderID, PartID, SupplierID),
+    FOREIGN KEY (OrderID) REFERENCES BeingThere.tblOrder (OrderID),
+    FOREIGN KEY (PartID) REFERENCES BeingThere.tbl(PartID),
+    FOREIGN KEY (SupplierID) REFERENCES BeingThere.tblSupplier(SupplierID)
+)
+CREATE TABLE BeingThere.tblZoneCountry ( 
+    [ZoneID] INT NOT NULL,
+    [CountryID] INT NOT NULL,
+    PRIMARY KEY(ZoneID, CountryID),
+    FOREIGN KEY (ZoneID) REFERENCES BeingThere.tblZone (ZoneID),
+    FOREIGN KEY (CountryID) REFERENCES BeingThere.tblCountry(CountryID)
+)
+
+CREATE TABLE BeingThere.tblZoneCondition (
+    [ZoneID] INT NOT NULL,
+    [ConditionID] INT NOT NULL,
+    PRIMARY KEY(ZoneID, ConditionID),
+    FOREIGN KEY (ZoneID) REFERENCES BeingThere.tblZone (ZoneID),
+    FOREIGN KEY (ConditionID) REFERENCES BeingThere.tblCondition(ConditionID)
+)
+CREATE TABLE BeingThere.tblSubscriptionZone (
+    [SubscriptionID] INT NOT NULL,
+    [ZoneID] INT NOT NULL,
+    PRIMARY KEY(SubscriptionID, ZoneID),
+    FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblSubscription (SubscriptionID),
+    FOREIGN KEY (ZoneID) REFERENCES BeingThere.tblZone(ZoneID)
+)
+
+CREATE TABLE BeingThere.tblSubscriptionBTDatabox (
+    [SubscriptionID] INT NOT NULL,
+    [BTDataboxID] INT NOT NULL,
+    PRIMARY KEY(SubscriptionID, BTDataboxID),
+    FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblSubscription (SubscriptionID),
+    FOREIGN KEY (BTDataboxID) REFERENCES BeingThere.tblBTDatabox(BTDataboxID)
+) 
+
+CREATE TABLE BeingThere.tblContract (
+    [ContractID] INT IDENTITY PRIMARY KEY,
+    [StartDate] DATE NOT NULL,
+    [EndDate] DATE,
+    [Value] INT NOT NULL,
+    [Contractee] INT NOT NULL,
+    [EnteredByAdmin] INT NOT NULL,
+    FOREIGN KEY (Contractee) REFERENCES BeingThere.tblContractee (AccountID),
+    FOREIGN KEY (EnteredByAdmin) REFERENCES BeingThere.tblAdministrationExecutive(AdminExecID)
+)
+
+CREATE TABLE BeingThere.tblContractedBTDatabox (
+    [ContractID] INT NOT NULL,
+    [BTDataboxID] INT NOT NULL,
+    PRIMARY KEY(ContractID, BTDataboxID),
+    FOREIGN KEY (ContractID) REFERENCES BeingThere.tblContract (ContractID),
+    FOREIGN KEY (BTDataboxID) REFERENCES BeingThere.tblBTDatabox(BTDataboxID)
+)
+
+CREATE TABLE BeingThere.tblContractedZone (
+    [ContractID] INT NOT NULL,
+    [ZoneID] INT NOT NULL,
+    PRIMARY KEY(ContractID, BTDataboxID),
+    FOREIGN KEY (ContractID) REFERENCES BeingThere.tblContract (ContractID),
+    FOREIGN KEY (ZoneID) REFERENCES BeingThere.tblZone(ZoneID)
+)
+
+CREATE TABLE BeingThere.tblContractScientificData (
+    [ContractID] INT NOT NULL,
+    [ScientificDataID] INT NOT NULL,
+    PRIMARY KEY(ContractID, BTDataboxID),
+    FOREIGN KEY (ContractID) REFERENCES BeingThere.tblContract (ContractID),
+    FOREIGN KEY (ScientificDataID) REFERENCES BeingThere.tblScientificData(ScientificDataID)
+)
+
+CREATE TABLE BeingThere.tblStaffRole (
+    [AccountID] INT NOT NULL,
+    [RoleID] INT NOT NULL,
+    PRIMARY KEY(AccountID, RoleID),
+    FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount (AccountID),
+    FOREIGN KEY (RoleID) REFERENCES BeingThere.tblBTDatabox(RoleID)
+)
+
+CREATE TABLE BeingThere.tblOwnsDataRights (
+    [ScientificDataID] INT NOT NULL,
+    [SubscriptionID] INT NOT NULL,
+    PRIMARY KEY(ScientificDataID, SubscriptionID),
+    FOREIGN KEY (ScientificDataID) REFERENCES BeingThere.tblScientificData (ScientificDataID),
+    FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblPlatinum(SubscriptionID)
+)
+
+CREATE TABLE BeingThere.tblOwnsVideoRights (
+    [StreamID] INT NOT NULL,
+    [SubscriptionID] INT NOT NULL,
+    PRIMARY KEY(StreamID, SubscriptionID),
+    FOREIGN KEY (StreamID) REFERENCES BeingThere.tblVideoStream (StreamID),
+    FOREIGN KEY (SubscriptionID) REFERENCES BeingThere.tblSuperPlatinum(SubscriptionID)
+)
+GO;
+
+Insert INTO tblCountry
+VALUES 
+("Andorra"),
+("United Arab Emirates"),
+("Afghanistan"),
+("Antigua and Barbuda"),
+("Anguilla"),
+("Albania"),
+("Armenia"),
+("Netherlands Antilles"),
+("Angola"),
+("Antarctica"),
+("Argentina"),
+("American Samoa"),
+("Austria"),
+("Australia"),
+("Aruba"),
+("Azerbaijan"),
+("Bosnia and Herzegovina"),
+("Barbados"),
+("Bangladesh"),
+("Belgium"),
+("Burkina Faso"),
+("Bulgaria"),
+("Bahrain"),
+("Burundi"),
+("Benin"),
+("Bermuda"),
+("Brunei"),
+("Bolivia"),
+("Brazil"),
+("Bahamas"),
+("Bhutan"),
+("Bouvet Island"),
+("Botswana"),
+("Belarus"),
+("Belize"),
+("Canada"),
+("Cocos [Keeling] Islands"),
+("Congo [DRC]"),
+("Central African Republic"),
+("Congo [Republic]"),
+("Switzerland"),
+("Côte d'Ivoire"),
+("Cook Islands"),
+("Chile"),
+("Cameroon"),
+("China"),
+("Colombia"),
+("Costa Rica"),
+("Cuba"),
+("Cape Verde"),
+("Christmas Island"),
+("Cyprus"),
+("Czech Republic"),
+("Germany"),
+("Djibouti"),
+("Denmark"),
+("Dominica"),
+("Dominican Republic"),
+("Algeria"),
+("Ecuador"),
+("Estonia"),
+("Egypt"),
+("Western Sahara"),
+("Eritrea"),
+("Spain"),
+("Ethiopia"),
+("Finland"),
+("Fiji)"),
+("Falkland Islands [Islas Malvinas]"),
+("Micronesia"),
+("Faroe Islands"),
+("France"),
+("Gabon"),
+("United Kingdom"),
+("Grenada"),
+("Georgia"),
+("French Guiana"),
+("Guernsey"),
+("Ghana"),
+("Gibraltar"),
+("Greenland"),
+("Gambia"),
+("Guinea"),
+("Guadeloupe"),
+("Equatorial Guinea"),
+("Greece"),
+("South Georgia and the South Sandwich Islands"),
+("Guatemala"),
+("Guam"),
+("Guinea-Bissau"),
+("Guyana"),
+("Gaza Strip"),
+("Hong Kong"),
+("Heard Island and McDonald Islands"),
+("Honduras"),
+("Croatia"),
+("Haiti"),
+("Hungary"),
+("Indonesia"),
+("Ireland"),
+("Israel"),
+("Isle of Man"),
+("India"),
+("British Indian Ocean Territory"),
+("Iraq"),
+("Iran"),
+("Iceland"),
+("Italy"),
+("Jersey"),
+("Jamaica"),
+("Jordan"),
+("Japan"),
+("Kenya"),
+("Kyrgyzstan"),
+("Cambodia"),
+("Kiribati"),
+("Comoros"),
+("Saint Kitts and Nevis"),
+("North Korea"),
+("South Korea"),
+("Kuwait"),
+("Cayman Islands"),
+("Kazakhstan"),
+("Laos"),
+("Lebanon"),
+("Saint Lucia"),
+("Liechtenstein"),
+("Sri Lanka"),
+("Liberia"),
+("Lesotho"),
+("Lithuania"),
+("Luxembourg"),
+("Latvia"),
+("Libya"),
+("Morocco"),
+("Monaco"),
+("Moldova"),
+("Montenegro"),
+("Madagascar"),
+("Marshall Islands"),
+("Macedonia [FYROM]"),
+("Mali"),
+("Myanmar [Burma]"),
+("Mongolia"),
+("Macau"),
+("Northern Mariana Islands"),
+("Martinique"),
+("Mauritania"),
+("Montserrat"),
+("Malta"),
+("Mauritius"),
+("Maldives"),
+("Malawi"),
+("Mexico"),
+("Malaysia"),
+("Mozambique"),
+("Namibia"),
+("New Caledonia"),
+("Niger"),
+("Norfolk Island"),
+("Nigeria"),
+("Nicaragua"),
+("Netherlands"),
+("Norway"),
+("Nepal"),
+("Nauru"),
+("Niue"),
+("New Zealand"),
+("Oman"),
+("Panama"),
+("Peru"),
+("French Polynesia"),
+("Papua New Guinea"),
+("Philippines"),
+("Pakistan"),
+("Poland"),
+("Saint Pierre and Miquelon"),
+("Pitcairn Islands"),
+("Puerto Rico"),
+("Palestinian Territories"),
+("Portugal"),
+("Palau"),
+("Paraguay"),
+("Qatar"),
+("Réunion"),
+("Romania"),
+("Serbia"),
+("Russia"),
+("Rwanda"),
+("Saudi Arabia"),
+("Solomon Islands"),
+("Seychelles"),
+("Sudan"),
+("Sweden"),
+("Singapore"),
+("Saint Helena"),
+("Slovenia"),
+("Svalbard and Jan Mayen"),
+("Slovakia"),
+("Sierra Leone"),
+("San Marino"),
+("Senegal"),
+("Somalia"),
+("Suriname"),
+("São Tomé and Príncipe"),
+("El Salvador"),
+("Syria"),
+("Swaziland"),
+("Turks and Caicos Islands"),
+("Chad"),
+("French Southern Territories"),
+("Togo"),
+("Thailand"),
+("Tajikistan"),
+("Tokelau"),
+("Timor-Leste"),
+("Turkmenistan"),
+("Tunisia"),
+("Tonga"),
+("Turkey"),
+("Trinidad and Tobago"),
+("Tuvalu"),
+("Taiwan"),
+("Tanzania"),
+("Ukraine"),
+("Uganda"),
+("U.S. Minor Outlying Islands"),
+("United States"),
+("Uruguay"),
+("Uzbekistan"),
+("Vatican City"),
+("Saint Vincent and the Grenadines"),
+("Venezuela"),
+("British Virgin Islands"),
+("U.S. Virgin Islands"),
+("Vietnam"),
+("Vanuatu"),
+("Wallis and Futuna"),
+("Samoa"),
+("Kosovo"),
+("Yemen"),
+("Mayotte"),
+("South Africa"),
+("Zambia"),
+("Zimbabwe");
+
+Insert INTO tblZone
+VALUES ();
+
+Insert INTO tblCondition
+VALUES
+("Jungle", "A jungle is land covered with dense forest and tangled vegetation, usually in hot climates"),
+("Forest", "A forest is a large area dominated by trees"),
+("Savannah", "A savannah is a mixed woodland-grassland ecosystem characterised by the trees being sufficiently widely spaced so that the canopy does not close. The open canopy allows sufficient light to reach the ground to support a herbaceous layer of grasses"),
+("Ice and Snow (extreme cold)", ""),
+("Deserts", "A desert is a barren area of landscape where little precipitation occurs and, consequently, living conditions are hostile for plant and animal life"),
+("Urban", "An urban area, or built-up area, is a human settlement with a high population density and infrastructure of built environment");
+
+Insert INTO tblDirector
+VALUES
+(1),
+(2),
+(3),
+(4),
+(5),
+(6),
+(7),
+(8),
+(9),
+(10);
+
+Insert INTO tblAdministrationExecutive
+VALUES
+(1),
+(2),
+(3),
+(4),
+(5),
+(6),
+(7),
+(8),
+(9),
+(10);
+Insert INTO tblSalesperson 
+VALUES
+(1),
+(2),
+(3),
+(4),
+(5),
+(6),
+(7),
+(8),
+(9),
+(10);
+
+Insert INTO tblMaintenanceperson 
+VALUES
+(1),
+(2),
+(3),
+(4),
+(5),
+(6),
+(7),
+(8),
+(9),
+(10);
+
+Insert INTO tblDrone 
+VALUES 
+(1, 'Pellentesque at nulla.'),
+(2, 'Aenean sit amet justo.'),
+(3, 'Integer ac neque.'),
+(4, 'Etiam pretium iaculis justo.'),
+(5, 'Etiam vel augue.'),
+(6, 'Aenean lectus.'),
+(7, 'In hac habitasse platea dictumst.'),
+(8, 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc.'),
+(9, 'Donec quis orci eget orci vehicula condimentum.'),
+(10, 'Nullam porttitor lacus at turpis.'),
+(11, 'Donec semper sapien a libero.'),
+(12, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa.'),
+(13, 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi.'),
+(14, 'Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.'),
+(15, 'Morbi porttitor lorem id ligula.'),
+(16, 'Nulla tempus.'),
+(17, 'Sed ante.'),
+(18, 'Proin risus.'),
+(19, 'Vestibulum rutrum rutrum neque.'),
+(20, 'Quisque id justo sit amet sapien dignissim vestibulum.');
+
+
+Insert INTO tblStaff 
+VALUES (1, '$2059.06', 'Libbey Karpe', '12/24/2019', null),
+(2, '$1123.93', 'Brent Siemantel', '9/9/2019', null),
+(3, '$3822.34', 'Abigale Kassel', '12/30/2019', null),
+(4, '$2394.02', 'Tedie Werner', '9/21/2019', null),
+(5, '$3774.69', 'Walther Menco', '4/11/2020', null),
+(6, '$2621.30', 'Idelle Rathjen', '11/19/2019', null),
+(7, '$2040.69', 'Wheeler Imlaw', '1/19/2020', null),
+(8, '$3572.57', 'Merrilee Huscroft', '7/11/2019', null),
+(9, '$1717.76', 'Samson Merigeau', '2/16/2020', null),
+(10, '$1768.98', 'Helen Elders', '7/5/2019', null),
+(11, '$3589.03', 'Guillermo Espinoy', '1/9/2020', null),
+(12, '$2506.45', 'Jamie Brayn', '3/9/2020', null),
+(13, '$1308.20', 'Ferrell Spinola', '8/14/2019', '6/4/2020'),
+(14, '$3491.55', 'Zolly Mingame', '9/21/2019', null),
+(15, '$2318.56', 'Ashil Crenshaw', '11/19/2019', null),
+(16, '$2234.02', 'Lin Nestoruk', '1/5/2020', null),
+(17, '$1439.19', 'Codie Croom', '11/11/2019', null),
+(18, '$1995.89', 'Meyer Swalteridge', '2/11/2020', null),
+(19, '$3855.36', 'Arleyne Weatherley', '3/2/2020', '4/28/2019'),
+(20, '$1339.22', 'Rorie Cutill', '10/16/2019', null),
+(21, '$3354.00', 'Kellia Mallam', '9/1/2019', null),
+(22, '$3289.49', 'Palm Adlem', '10/23/2019', null),
+(23, '$3594.88', 'Katina Niesel', '3/29/2020', null),
+(24, '$1207.01', 'Maurine Atkirk', '11/8/2019', '7/18/2019'),
+(25, '$2006.58', 'Elwira Natte', '3/31/2020', null),
+(26, '$3810.86', 'Petronilla Victoria', '1/20/2020', null),
+(27, '$1301.19', 'Von Costall', '7/6/2019', '3/20/2020'),
+(28, '$2178.34', 'Dolph Purple', '2/20/2020', null),
+(29, '$2036.82', 'Redd Sapson', '3/22/2020', null),
+(30, '$1697.82', 'Minerva Brownstein', '11/3/2019', '10/24/2019'),
+(31, '$2669.64', 'Briano Forsbey', '1/23/2020', '7/8/2019'),
+(32, '$3768.56', 'Sydelle Fantonetti', '9/14/2019', null),
+(33, '$3596.34', 'Dennie Langelay', '10/6/2019', null),
+(34, '$3537.10', 'Arda Hynard', '1/6/2020', null);
+
+
+INSERT INTO tblScientificData 
+VALUES 
+(1, -61.344385, 15.38447, 613, 33.61, 33.8391, '2019-11-06 11:41:47'),
+(2, 40.6854309, -14.5656065, 1785, 35.0, 56.4677, '2019-10-01 21:04:52'),
+(3, -111.8749872, 33.3107008, 3836, 37.57, 65.1923, '2020-04-06 15:19:02'),
+(4, 121.0143656, 14.5788472, 3146, 37.95, 99.9618, '2019-06-21 01:04:13'),
+(5, 126.09611, 39.1425, 1891, 4.61, 36.111, '2019-08-01 13:42:54'),
+(6, 17.5860395, 52.8818616, 3897, 21.61, 47.1164, '2019-09-28 11:56:18'),
+(7, 103.5083998, 16.4311476, 3422, 15.35, 44.6682, '2019-04-19 20:03:57'),
+(8, 36.0199456, 52.2820161, 2548, 36.7, 80.1538, '2019-10-24 01:16:09'),
+(9, 43.2923971, 52.0379571, 2584, 43.79, 4.9143, '2020-01-22 07:46:55'),
+(10, 114.8864193, -8.2735418, 1500, 30.77, 47.8682, '2020-04-25 02:25:10'),
+(11, -87.0218192, 13.649619, 1421, 30.55, 20.2546, '2019-10-10 19:21:38'),
+(12, 6.6304104, 6.6687831, 3779, 44.37, 38.3524, '2020-01-09 20:34:11'),
+(13, 99.1788304, -1.6258482, 2142, 32.82, 11.4071, '2019-12-17 08:06:41'),
+(14, 111.7910758, 23.1421682, 673, 31.41, 5.6212, '2019-12-26 05:29:09'),
+(15, 117.223371, 39.109563, 69, 30.34, 29.6488, '2020-01-03 14:05:59'),
+(16, 138.9099913, 37.6533531, 93, 15.46, 59.0069, '2019-11-24 06:07:36'),
+(17, -8.9052753, 39.8647755, 2232, 43.72, 18.567, '2019-09-18 14:58:46'),
+(18, 2.8797149, 42.6962642, 40, 2.43, 13.5799, '2019-11-12 21:27:20'),
+(19, -77.4, -10.116667, 3256, 35.29, 23.4515, '2020-03-27 22:04:52'),
+(20, 109.0771185, -7.5109156, 2040, 17.61, 64.3759, '2020-06-06 21:28:54'),
+(21, 97.3580243, 57.4492483, 3704, 22.64, 60.5233, '2019-04-19 13:40:49'),
+(22, 4.6419648, 52.3811357, 2052, 44.57, 57.4696, '2020-02-21 11:14:28'),
+(23, 27.993441, 8.303998, 1076, 14.64, 21.0222, '2019-11-03 14:34:38'),
+(24, 87.271781, 26.6646381, 712, 43.44, 12.1456, '2020-04-12 08:44:50'),
+(25, 116.3397725, 39.9947462, 2764, 29.56, 72.3546, '2019-10-16 03:00:36'),
+(26, 117.1168644, 36.1899557, 415, 20.49, 19.0755, '2019-10-12 00:26:32'),
+(27, 121.637093, 16.9905258, 1692, 18.66, 83.5346, '2020-04-11 22:15:23'),
+(28, 20.4489216, 44.786568, 777, 20.05, 27.1383, '2019-06-24 22:26:30'),
+(29, 118.865506, -8.6965738, 1488, 2.77, 0.9739, '2020-05-27 03:41:21'),
+(30, 69.1447081, 35.4018071, 3342, 15.49, 76.9254, '2020-04-29 15:21:04'),
+(31, -42.1917995, -21.4138052, 3881, 7.57, 8.8044, '2019-10-21 10:13:01'),
+(32, 54.0068191, 46.9691061, 64, 41.36, 20.2835, '2019-10-21 22:11:18'),
+(33, 22.3956933, 39.7219085, 1349, 40.03, 41.6449, '2020-04-10 07:18:13'),
+(34, -66.8081979, 2.7005604, 2184, 20.14, 16.8153, '2019-08-08 22:10:36'),
+(35, 5.2057909, 7.2571325, 2180, 43.84, 88.0093, '2019-07-24 09:58:57'),
+(36, 106.5618306, -6.2434343, 3901, 20.74, 8.9846, '2020-01-11 12:13:27'),
+(37, 111.0654148, -6.6018462, 1115, 11.24, 70.8874, '2019-07-10 06:45:52'),
+(38, 113.12873, 29.356803, 3226, 38.28, 75.6498, '2019-11-04 23:26:13'),
+(39, 50.8076496, 59.3119146, 3448, 18.07, 40.9941, '2020-03-20 17:59:01'),
+(40, -84.3368699, 9.834321, 3657, 1.53, 1.111, '2019-09-14 22:37:10'),
+(41, 135.1145437, 44.2636981, 3327, 36.13, 71.7755, '2020-02-01 00:34:05'),
+(42, 133.9326833, 44.348809, 2595, 4.78, 63.9479, '2019-04-30 21:07:12'),
+(43, 106.0155278, -6.3855073, 1708, 19.13, 2.9182, '2019-08-10 20:28:27'),
+(44, -77.142764, 38.8822689, 2774, 41.12, 57.6838, '2020-02-24 04:16:15'),
+(45, 0.2075745, 48.0885087, 1127, 37.62, 97.554, '2020-03-21 03:18:32'),
+(46, -7.6589255, 37.6410379, 3589, 26.69, 42.0944, '2020-05-05 03:45:49'),
+(47, -7.5345759, 41.2218624, 441, 41.79, 13.7593, '2019-12-25 15:31:27'),
+(48, 57.1576821, 55.556613, 793, 25.21, 15.8915, '2019-07-15 03:10:15'),
+(49, -9.3964878, 38.9426594, 855, 41.13, 36.2168, '2019-06-21 21:48:24'),
+(50, 14.271615, 55.9858675, 1523, 9.98, 54.3289, '2019-07-02 02:56:17'),
+(51, 2.281825, 48.7276331, 3690, 14.54, 21.1736, '2019-07-01 14:06:50'),
+(52, 114.288097, -8.4425528, 2336, 24.04, 80.8521, '2019-06-23 08:36:59'),
+(53, -61.344385, 15.38447, 613, 33.61, 33.8391, '2019-11-06 11:41:47'),
+(54, 40.6854309, -14.5656065, 1785, 35.0, 56.4677, '2019-10-01 21:04:52'),
+(55, -111.8749872, 33.3107008, 3836, 37.57, 65.1923, '2020-04-06 15:19:02'),
+(56, 121.0143656, 14.5788472, 3146, 37.95, 99.9618, '2019-06-21 01:04:13'),
+(57, 126.09611, 39.1425, 1891, 4.61, 36.111, '2019-08-01 13:42:54'),
+(58, 17.5860395, 52.8818616, 3897, 21.61, 47.1164, '2019-09-28 11:56:18'),
+(59, 103.5083998, 16.4311476, 3422, 15.35, 44.6682, '2019-04-19 20:03:57'),
+(60, 36.0199456, 52.2820161, 2548, 36.7, 80.1538, '2019-10-24 01:16:09'),
+(61, 43.2923971, 52.0379571, 2584, 43.79, 4.9143, '2020-01-22 07:46:55'),
+(62, 114.8864193, -8.2735418, 1500, 30.77, 47.8682, '2020-04-25 02:25:10'),
+(63, 119.996847, 29.454189, 1918, 3.92, 72.5993, '2019-09-10 09:08:56'),
+(64, 13.2772423, 49.7030481, 1499, 6.35, 3.3953, '2019-06-19 03:44:12'),
+(65, 122.7924488, 7.8395214, 2395, 3.7, 20.9331, '2020-01-23 19:17:28'),
+(66, 120.3089541, -3.3472662, 561, 15.85, 64.6498, '2019-07-11 13:29:08'),
+(67, 70.5552362, 37.1017088, 2605, 8.43, 33.3975, '2019-08-31 11:06:07'),
+(68, 104.100502, -1.259553, 3209, 5.73, 26.7796, '2019-07-24 09:22:37'),
+(69, -56.7664844, -27.1435718, 448, 27.5, 33.5449, '2019-11-06 20:11:00'),
+(70, -49.3164138, -25.1860913, 1435, 23.07, 19.116, '2019-09-28 08:06:15'),
+(71, 15.4377229, 53.1675674, 1176, 36.79, 48.3454, '2019-08-23 14:02:55'),
+(72, -73.840258, 8.588397, 237, 20.23, 72.8114, '2020-04-16 22:12:00'),
+(73, 89.982425, 29.222417, 2105, 6.62, 97.1202, '2019-11-22 17:26:15'),
+(74, 113.366904, 22.948016, 874, 12.81, 34.4266, '2020-04-28 15:48:54'),
+(75, 18.1543922, 50.1327056, 3978, 27.34, 37.4493, '2019-07-02 23:21:23'),
+(76, -51.3238273, -30.1090924, 2240, 7.16, 57.9138, '2019-11-12 13:38:13'),
+(77, 5.8875346, 49.7663957, 3630, 22.66, 44.2508, '2019-11-23 19:36:16'),
+(78, 5.868937, 45.644535, 1004, 14.31, 3.5978, '2019-09-24 14:05:05'),
+(79, 43.6510502, 52.9918299, 3310, 22.02, 75.9979, '2019-07-02 21:19:45'),
+(80, 128.2579205, 35.474465, 797, 24.11, 55.1669, '2019-06-05 10:46:10'),
+(81, 116.3426552, -2.7540915, 2568, 17.57, 71.9358, '2020-03-26 19:47:08'),
+(82, 44.0519756, 40.106025, 290, 4.83, 53.9396, '2019-05-30 15:55:10'),
+(83, 37.29209, 53.7111077, 2569, 36.55, 38.0644, '2020-03-16 09:02:31'),
+(84, 16.018026, 45.1458598, 679, 18.84, 10.969, '2020-02-07 07:30:21'),
+(85, -73.3436918, 45.5257774, 3503, 37.77, 15.9893, '2019-09-19 11:20:19'),
+(86, 124.423984, -8.2600716, 3319, 18.72, 7.1388, '2020-04-14 10:51:52'),
+(87, 114.758301, 27.859517, 3012, 11.65, 67.6484, '2019-09-10 04:06:07'),
+(88, 38.4094028, 46.7604507, 3653, 27.85, 30.5747, '2020-01-17 20:12:51'),
+(89, 123.5983638, 13.1487371, 933, 14.11, 22.1995, '2020-01-27 07:08:15'),
+(90, -87.6075294, 14.6276215, 3004, 9.02, 83.071, '2020-01-04 14:24:20'),
+(91, 15.2359979, 46.1542793, 2810, 44.26, 29.0655, '2019-12-21 03:44:10'),
+(92, 73.6386612, 54.5859873, 2005, 15.7, 96.2824, '2019-12-24 01:33:30'),
+(93, 35.0843, 32.433378, 1193, 11.99, 68.1125, '2019-08-26 09:24:32'),
+(94, 25.5783873, 49.5290136, 107, 4.59, 74.0914, '2019-05-31 22:19:46'),
+(95, 11.3317605, 2.1514272, 834, 39.44, 17.7495, '2019-09-23 17:11:35'),
+(96, -60.6923382, -32.9285798, 1833, 42.69, 27.8569, '2019-10-23 02:18:31'),
+(97, 110.18122, 22.654032, 1462, 15.08, 76.5179, '2020-01-06 03:15:47'),
+(98, 85.693742, 46.089148, 2465, 32.34, 32.826, '2019-09-25 01:15:24'),
+(99, -8.6441655, 40.5740471, 35, 8.06, 66.2182, '2019-09-16 08:48:33'),
+(100, 99.397126, 23.538092, 1326, 12.07, 6.3024, '2019-12-30 05:24:31');
+
+INSERT INTO tblBTDatabox 
+VALUES (1, '2019-11-25 12:00:08', '5/26/2021', '67'),
+(2, '2019-08-10 20:37:59', '7/30/2021', '53'),
+(3, '2020-01-24 11:58:42', '8/3/2021', '33'),
+(4, '2019-12-26 02:20:21', '10/28/2021', '24'),
+(5, '2019-12-22 13:06:14', '11/2/2020', '44'),
+(6, '2020-05-31 08:10:34', '1/18/2022', '43'),
+(7, '2019-06-25 18:13:09', '1/4/2021', '34'),
+(8, '2019-08-09 18:54:52', '6/26/2020', '66'),
+(9, '2019-08-14 15:45:50', '5/30/2021', '48'),
+(10, '2019-08-21 00:52:21', '3/11/2022', '28'),
+(11, '2019-07-04 15:53:39', '7/4/2020', '48'),
+(12, '2020-05-27 05:18:08', '2/19/2022', '47'),
+(13, '2019-12-03 19:19:07', '4/18/2022', '66'),
+(14, '2019-10-09 13:37:34', '4/8/2022', '24'),
+(15, '2019-06-29 01:32:00', '7/2/2020', '44'),
+(16, '2020-03-10 13:44:39', '5/12/2022', '33'),
+(17, '2020-05-14 22:19:47', '6/8/2021', '55'),
+(18, '2020-05-07 08:23:44', '11/18/2020', '56'),
+(19, '2020-06-10 12:04:53', '1/17/2021', '32'),
+(20, '2020-05-12 14:43:18', '6/12/2022', '22'),
+(21, '2020-04-26 22:55:25', '4/30/2022', '45'),
+(22, '2020-03-26 15:06:21', '7/3/2021', '43'),
+(23, '2019-07-18 10:30:52', '11/29/2021', '42'),
+(24, '2020-01-11 01:00:20', '9/29/2020', '44'),
+(25, '2019-07-10 17:22:38', '6/24/2020', '66'),
+(26, '2020-04-06 06:25:15', '8/28/2020', '68'),
+(27, '2019-06-29 03:15:13', '3/7/2021', '44'),
+(28, '2020-04-30 06:54:57', '11/27/2020', '55'),
+(29, '2019-07-26 19:47:33', '3/4/2021', '67');
+
+
+INSERT INTO tblPart
+VALUES (1, 'India', 'Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris. Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet.'),
+(2, 'Mike', 'Nulla justo. Aliquam quis turpis eget elit sodales scelerisque.'),
+(3, 'Tango', 'Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl. Aenean lectus.'),
+(4, 'Oscar', 'Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.'),
+(5, 'Charlie', 'Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. Integer tincidunt ante vel ipsum.'),
+(6, 'Hotel', 'Cras pellentesque volutpat dui.'),
+(7, 'Sierra', 'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt.'),
+(8, 'Yankee', 'Vivamus vestibulum sagittis sapien.'),
+(9, 'Papa', 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.'),
+(10, 'Romeo', 'Maecenas pulvinar lobortis est. Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum. Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem. Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.'),
+(11, 'Tango', 'Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.'),
+(12, 'Echo', 'Maecenas pulvinar lobortis est. Phasellus sit amet erat. Nulla tempus.'),
+(13, 'Lima', 'Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum.'),
+(14, 'Kilo', 'Donec quis orci eget orci vehicula condimentum. Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est. Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum. Proin eu mi.'),
+(15, 'Papa', 'Suspendisse potenti. Cras in purus eu magna vulputate luctus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.'),
+(16, 'Alfa', 'Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.'),
+(17, 'Juliett', 'Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam.'),
+(18, 'Sierra', 'Praesent id massa id nisl venenatis lacinia.'),
+(19, 'Victor', 'Etiam pretium iaculis justo. In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.'),
+(20, 'Charlie', 'Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede. Morbi porttitor lorem id ligula.');
+
+INSERT INTO tblVideoStream 
+(1, '2019-09-22 16:32:38', '2021-05-05 15:59:46'),
+(2, '2019-12-26 06:33:54', '2021-09-24 09:54:57'),
+(3, '2020-03-29 06:04:08', '2020-06-15 07:56:22'),
+(4, '2019-10-16 21:38:55', '2020-08-26 05:38:47'),
+(5, '2020-04-23 16:07:59', '2021-11-05 09:11:32'),
+(6, '2019-10-27 13:44:00', '2021-10-03 22:37:13'),
+(7, '2019-11-30 10:11:13', '2021-04-09 02:41:11'),
+(8, '2020-01-25 15:57:10', '2022-06-01 13:36:50'),
+(9, '2019-12-23 03:34:10', '2022-04-07 19:13:34'),
+(10, '2020-05-23 10:38:20', '2020-11-23 23:24:37'),
+(11, '2020-01-20 15:21:06', '2021-04-11 21:30:55'),
+(12, '2020-03-24 04:00:15', '2020-10-04 22:23:26'),
+(13, '2020-01-17 04:35:40', '2021-01-20 03:46:38'),
+(14, '2020-03-17 05:19:17', '2020-06-29 01:57:44'),
+(15, '2020-04-15 09:30:51', '2020-07-30 22:40:16'),
+(16, '2020-05-12 15:02:45', '2022-02-03 11:07:44'),
+(17, '2020-03-12 06:09:44', '2021-03-22 12:00:34'),
+(18, '2020-03-21 00:27:42', '2021-10-19 11:11:25'),
+(19, '2020-04-22 05:24:29', '2021-04-04 15:06:27'),
+(20, '2019-11-19 20:55:25', '2021-09-21 17:10:06'),
+(21, '2020-04-28 08:28:43', '2020-12-11 07:29:28'),
+(22, '2020-01-04 08:59:49', '2020-12-24 11:57:17'),
+(23, '2019-12-29 08:30:02', '2020-09-19 13:41:52'),
+(24, '2019-11-09 06:03:55', '2021-07-03 08:03:15'),
+(25, '2019-07-02 04:02:44', '2021-03-11 22:03:00'),
+(26, '2019-10-21 06:07:36', '2022-03-27 03:55:14'),
+(27, '2020-05-22 01:57:51', '2021-03-03 23:20:53'),
+(28, '2019-06-20 02:30:53', '2020-06-25 13:31:33'),
+(29, '2019-12-29 02:54:52', '2021-03-17 14:03:29'),
+(30, '2020-02-12 06:38:40', '2022-03-01 17:33:58'),
+(31, '2020-03-11 00:51:31', '2021-11-15 09:45:37'),
+(32, '2020-04-22 05:53:26', '2020-11-26 16:07:26'),
+(33, '2020-03-31 18:52:49', '2022-06-12 07:26:16'),
+(34, '2019-07-21 17:20:06', '2020-06-24 20:27:55'),
+(35, '2019-11-20 12:51:34', '2022-04-20 13:22:57'),
+(36, '2019-09-10 02:27:16', '2022-01-29 01:02:19'),
+(37, '2019-09-07 22:13:42', '2022-01-24 06:14:20'),
+(38, '2019-07-25 19:57:02', '2020-12-26 22:17:45'),
+(39, '2019-07-29 05:51:40', '2020-10-04 09:37:05'),
+(40, '2020-03-19 18:54:32', '2020-06-27 09:33:02'),
+(41, '2019-07-21 07:22:51', '2021-06-22 07:30:38'),
+(42, '2019-10-21 00:42:29', '2020-09-30 14:51:12'),
+(43, '2020-03-29 01:38:42', '2021-11-19 03:45:58'),
+(44, '2020-01-13 11:01:39', '2021-03-21 05:27:51'),
+(45, '2019-07-19 23:18:41', '2021-06-03 06:53:51'),
+(46, '2020-01-31 10:55:35', '2021-02-25 10:05:30'),
+(47, '2019-06-22 14:43:03', '2022-01-21 14:28:12'),
+(48, '2019-11-24 19:00:23', '2020-11-17 16:51:58'),
+(49, '2019-06-23 17:45:29', '2021-03-16 23:34:28'),
+(50, '2019-10-09 15:07:12', '2021-06-06 03:32:57'),
+(51, '2019-08-20 00:13:52', '2021-12-25 23:19:20'),
+(52, '2019-08-21 05:16:38', '2021-08-29 10:59:03'),
+(53, '2020-05-24 06:49:08', '2020-08-09 12:12:32'),
+(54, '2019-12-05 02:35:09', '2021-01-11 12:12:09'),
+(55, '2020-01-01 19:37:14', '2021-06-30 16:07:16'),
+(56, '2019-12-06 22:15:02', '2021-01-30 12:34:22'),
+(57, '2020-02-12 13:26:37', '2021-05-02 22:10:57'),
+(58, '2020-01-13 20:08:12', '2020-10-20 22:25:20'),
+(59, '2019-09-21 04:41:32', '2021-04-19 15:08:04'),
+(60, '2019-07-15 03:47:22', '2020-11-19 02:54:11'),
+(61, '2019-11-07 17:03:48', '2020-12-14 04:37:33'),
+(62, '2020-04-16 17:20:06', '2022-06-04 22:03:17'),
+(63, '2020-04-05 11:48:18', '2020-06-30 15:36:44'),
+(64, '2019-07-06 01:03:58', '2021-10-14 23:38:11'),
+(65, '2020-05-22 00:35:28', '2022-04-02 16:17:13'),
+(66, '2020-05-31 06:03:41', '2021-10-09 10:36:08'),
+(67, '2020-05-25 06:25:35', '2021-11-15 19:32:58'),
+(68, '2020-05-15 07:58:44', '2021-12-20 01:15:29'),
+(69, '2019-08-01 13:04:39', '2022-02-07 13:55:09'),
+(70, '2019-09-17 19:12:18', '2021-09-19 01:15:12'),
+(71, '2020-04-05 15:39:39', '2020-12-29 12:25:58'),
+(72, '2020-03-06 02:32:07', '2020-10-14 02:37:03'),
+(73, '2020-03-29 09:44:01', '2020-08-06 16:20:29'),
+(74, '2019-08-02 14:49:50', '2022-02-05 22:46:54'),
+(75, '2020-01-04 01:38:35', '2022-04-04 08:33:34'),
+(76, '2020-02-07 00:58:00', '2022-04-03 07:22:53'),
+(77, '2019-09-28 18:19:27', '2022-02-28 06:15:15'),
+(78, '2019-07-24 04:58:40', '2022-02-06 08:25:19'),
+(79, '2020-02-04 06:39:26', '2021-02-06 07:38:09'),
+(80, '2020-03-27 14:23:26', '2020-09-29 19:13:10'),
+(81, '2020-04-03 01:06:58', '2020-10-14 07:48:26'),
+(82, '2020-03-04 07:49:40', '2021-11-03 06:40:08'),
+(83, '2019-06-19 00:15:25', '2022-03-08 11:24:22'),
+(84, '2019-12-17 01:34:30', '2021-12-27 16:17:03'),
+(85, '2020-04-20 01:37:54', '2022-05-29 05:40:04'),
+(86, '2019-09-09 21:31:13', '2022-03-18 14:06:18'),
+(87, '2020-02-17 14:52:21', '2022-05-01 09:49:45'),
+(88, '2019-07-30 23:18:39', '2020-10-20 04:47:48'),
+(89, '2019-11-29 08:56:30', '2021-08-13 19:29:32'),
+(90, '2019-07-19 20:51:34', '2020-12-05 10:50:56'),
+(91, '2019-07-12 19:27:10', '2021-03-29 05:08:25'),
+(92, '2019-12-24 05:46:10', '2021-06-01 03:12:39'),
+(93, '2019-09-26 19:48:38', '2022-06-03 13:15:29'),
+(94, '2019-10-30 09:25:30', '2022-06-07 12:42:21'),
+(95, '2019-09-16 13:14:21', '2021-12-11 23:01:10'),
+(96, '2020-04-26 00:24:11', '2021-01-30 16:07:04'),
+(97, '2019-11-22 20:25:24', '2021-03-20 02:28:10'),
+(98, '2020-02-08 02:35:35', '2020-08-08 12:10:41'),
+(99, '2020-01-27 00:54:07', '2021-06-04 06:45:45'),
+(100, '2020-06-07 08:29:04', '2021-07-24 14:12:45');
+
+INSERT INTO tblPostCode
+VALUES 
+(1, 67314, 'Karangpete', 11),
+(2, 52180, 'San Isidro', 46),
+(3, 71712, 'Karasuk', 46),
+(4, 83125, 'Sorol', 25),
+(5, 53894, 'Valejas', 150),
+(6, 49290, 'Paoua', 83),
+(7, 84182, 'Trới', 172),
+(8, 83986, 'Ja Ela', 141),
+(9, 18351, 'Chapelton', 25),
+(10, 73295, 'Dawu Chengguanzhen', 47),
+(11, 53317, 'Dijon', 88),
+(12, 68844, 'Pingyang', 12),
+(13, 97441, 'Inanwatan', 158),
+(14, 9272, 'Koronadal', 36),
+(15, 21108, 'Bistrica ob Sotli', 63),
+(16, 29045, 'Maslovka', 159),
+(17, 86201, 'Babakan', 28),
+(18, 14176, 'Besukrejo', 124),
+(19, 55296, 'Huskvarna', 48),
+(20, 30667, 'Karlstad', 175),
+(21, 65907, 'Maymana', 131),
+(22, 31553, 'Tunzhai', 80),
+(23, 56429, 'Yunmenling', 58),
+(24, 92831, 'Águas Belas', 1),
+(25, 54927, 'Xuezhen', 55),
+(26, 55308, 'Morbatoh', 174),
+(27, 40668, 'Daultāla', 52),
+(28, 2092, 'Londiani', 90),
+(29, 54717, 'Brody', 151),
+(30, 60544, 'Akron', 65),
+(31, 80213, 'Shilu', 151),
+(32, 45592, 'Kosaya Gora', 158),
+(33, 70917, 'Xiaogang', 100),
+(34, 3250, 'Selorejo', 166),
+(35, 15793, 'Frösön', 142),
+(36, 72238, 'Yuetang', 1),
+(37, 80506, 'Miami', 145),
+(38, 72806, 'Kalidawe', 172),
+(39, 12674, 'Colón', 10),
+(40, 80447, 'Borovskiy', 163),
+(41, 88296, 'Cimalati', 38),
+(42, 74508, 'Alah Sāy', 97),
+(43, 28508, 'Aleksandrovka', 51),
+(44, 46281, 'San Buenaventura', 149),
+(45, 56492, 'Dzyatlava', 8),
+(46, 7918, 'Macapá', 122),
+(47, 31680, 'Baiqiao', 40),
+(48, 31604, 'Magok', 52),
+(49, 36561, 'Tangchi', 140),
+(50, 86451, 'Berlin', 2),
+(51, 97488, 'Liangjing', 88),
+(52, 27291, 'Simo', 42),
+(53, 85744, 'Xinjian', 84),
+(54, 5150, 'Sungaipuntik', 4),
+(55, 9192, 'Randusari', 28),
+(56, 37751, 'Chyżne', 174),
+(57, 36223, 'São Torcato', 54),
+(58, 7780, 'Douba', 92),
+(59, 28799, 'Tongqing', 152),
+(60, 40227, 'Phra Phrom', 38),
+(61, 15303, 'Biruinţa', 36),
+(62, 74392, 'Cisompet', 114),
+(63, 54178, 'Mineiros', 25),
+(64, 20541, 'Maribong', 35),
+(65, 55062, 'Cherbourg-Octeville', 151),
+(66, 83222, 'Erechim', 140),
+(67, 38795, 'Dajie', 64),
+(68, 32294, 'Chernukha', 79),
+(69, 44525, 'Hartford', 115),
+(70, 53364, 'Ambo Village', 5),
+(71, 97353, 'Yucun', 101),
+(72, 65776, 'Łagów', 60),
+(73, 15416, 'Saraktash', 82),
+(74, 85037, 'Pontivy', 60),
+(75, 98722, 'Ujung', 156),
+(76, 71517, 'Bamenda', 124),
+(77, 29650, 'Baikouquan', 109),
+(78, 99921, 'Rogachëvo', 78),
+(79, 95503, 'Situbondo', 176),
+(80, 40732, 'Jiangti', 55),
+(81, 26938, 'Rozkishne', 27),
+(82, 64538, 'Dolní Cerekev', 147),
+(83, 27298, 'Juigalpa', 123),
+(84, 83587, 'Qianpai', 146),
+(85, 53556, 'Pasararba', 6),
+(86, 1009, 'Khairpur Nathan Shāh', 178),
+(87, 29675, 'Pruzhany', 105),
+(88, 50061, 'Çlirim', 142),
+(89, 33082, 'Ostrožac', 52),
+(90, 16102, 'Barwałd Górny', 66),
+(91, 42361, 'Diawara', 83),
+(92, 81369, 'Hulei', 1),
+(93, 23519, 'Wat Sing', 128),
+(94, 37410, 'Jammāl', 161),
+(95, 6109, 'Martigues', 3),
+(96, 67337, 'Anau', 130),
+(97, 10607, 'Swift Current', 139),
+(98, 1662, 'Abha', 106),
+(99, 80745, 'Aserrí', 42),
+(100, 9789, 'Canguçu', 69);
+
+
+Insert INTO tblAddress 
+VALUES (
+(1, null, 13, 'Arizona Drive', 1),
+(2, null, 23, 'Granby Terrace', 2),
+(3, null, 26, 'Kingsford Street', 3),
+(4, 10, 49, 'Linden Pass', 4),
+(5, 8, 75, 'Kedzie Trail', 5),
+(6, null, 92, 'Melody Hill', 6),
+(7, null, 97, 'Scott Trail', 7),
+(8, null, 84, 'Gina Hill', 8),
+(9, null, 68, 'Vera Lane', 9),
+(10, null, 99, 'Magdeline Trail', 10),
+(11, null, 31, 'Sundown Pass', 11),
+(12, 6, 3, 'Golf Course Hill', 12),
+(13, null, 84, 'Gale Avenue', 13),
+(14, null, 68, 'Lakewood Alley', 14),
+(15, null, 14, 'Sommers Court', 15),
+(16, null, 11, 'Daystar Hill', 16),
+(17, null, 69, 'Northfield Parkway', 17),
+(18, null, 56, 'Ohio Drive', 18),
+(19, null, 29, 'Loeprich Point', 19),
+(20, null, 65, 'Vahlen Alley', 20),
+(21, null, 26, 'Carberry Center', 21),
+(22, null, 35, 'Center Pass', 22),
+(23, null, 34, 'Superior Circle', 23),
+(24, 4, 58, 'Chinook Plaza', 24),
+(25, null, 50, 'Donald Court', 25),
+(26, null, 83, 'Lillian Court', 26),
+(27, null, 44, 'Claremont Crossing', 27),
+(28, null, 30, 'Nobel Plaza', 28),
+(29, null, 31, 'Thierer Pass', 29),
+(30, null, 24, 'Dunning Court', 30),
+(31, null, 36, 'Riverside Crossing', 31),
+(32, null, 24, 'Mitchell Trail', 32),
+(33, null, 48, 'Mayfield Center', 33),
+(34, null, 27, 'Elmside Drive', 34),
+(35, null, 9, 'Bunting Road', 35),
+(36, null, 99, 'Roxbury Way', 36),
+(37, null, 23, 'Eastlawn Alley', 37),
+(38, null, 75, 'Randy Pass', 38),
+(39, 2, 80, 'Chinook Terrace', 39),
+(40, null, 12, 'Rutledge Parkway', 40),
+(41, null, 96, 'Esker Junction', 41),
+(42, null, 1, 'Hoffman Park', 42),
+(43, 8, 94, 'Marquette Parkway', 43),
+(44, null, 71, 'Clyde Gallagher Hill', 44),
+(45, null, 56, 'Westport Avenue', 45),
+(46, null, 58, 'Butterfield Avenue', 46),
+(47, null, 24, 'Stoughton Plaza', 47),
+(48, 5, 50, 'Express Lane', 48),
+(49, null, 41, 'Stoughton Center', 49),
+(50, null, 71, 'Chive Drive', 50),
+(51, 3, 52, 'Jay Drive', 51),
+(52, null, 1, 'Mockingbird Pass', 52),
+(53, 3, 38, 'Old Shore Street', 53),
+(54, null, 15, 'Iowa Trail', 54),
+(55, null, 90, 'Norway Maple Place', 55),
+(56, null, 14, 'Waxwing Drive', 56),
+(57, null, 22, 'Weeping Birch Alley', 57),
+(58, 9, 91, 'Surrey Junction', 58),
+(59, null, 34, 'Schiller Road', 59),
+(60, null, 97, 'Debra Plaza', 60),
+(61, null, 9, 'Washington Point', 61),
+(62, null, 42, 'Comanche Point', 62),
+(63, null, 44, 'Oneill Junction', 63),
+(64, null, 37, 'Clove Court', 64),
+(65, null, 76, 'Miller Trail', 65),
+(66, null, 18, 'Luster Trail', 66),
+(67, null, 23, 'Hoard Circle', 67),
+(68, null, 86, 'Mayer Pass', 68),
+(69, null, 52, 'Ridgeway Drive', 69),
+(70, null, 26, 'Eagle Crest Trail', 70),
+(71, null, 19, 'Duke Point', 71),
+(72, null, 56, 'Schurz Plaza', 72),
+(73, null, 55, 'Fisk Place', 73),
+(74, null, 4, 'Nancy Parkway', 74),
+(75, null, 100, '1st Circle', 75),
+(76, null, 90, 'Mockingbird Way', 76),
+(77, null, 11, 'Johnson Road', 77),
+(78, null, 37, 'Stephen Court', 78),
+(79, null, 45, 'Corry Trail', 79),
+(80, null, 18, 'Westend Trail', 80),
+(81, 6, 41, 'Village Green Avenue', 81),
+(82, null, 8, 'Dunning Avenue', 82),
+(83, null, 80, 'Crowley Way', 83),
+(84, null, 22, 'Shoshone Park', 84),
+(85, null, 41, 'Vernon Place', 85),
+(86, 1, 41, 'Goodland Way', 86),
+(87, 9, 16, 'Northport Hill', 87),
+(88, null, 91, 'Morning Lane', 88),
+(89, 4, 47, 'Stoughton Park', 89),
+(90, null, 36, 'Lien Way', 90),
+(91, null, 57, 'Hoepker Court', 91),
+(92, null, 90, 'Loftsgordon Avenue', 92),
+(93, 1, 84, 'Brentwood Avenue', 93),
+(94, null, 49, 'Toban Point', 94),
+(95, null, 83, 'Scott Avenue', 95),
+(96, null, 77, 'Algoma Plaza', 96),
+(97, null, 18, 'Little Fleur Crossing', 97),
+(98, null, 68, 'La Follette Circle', 98),
+(99, 1, 54, 'Rutledge Terrace', 99),
+(100, null, 33, 'American Place', 100);
+
+INSERT INTO tblSupplier 
+VALUES (1, 'Stokes and Sons', 'Caterina Merrett', 1, '838-508-2769'),
+(2, 'Bosco-Welch', 'Harriott Nieass', 2, '936-846-5134'),
+(3, 'Monahan, Block and Kihn', 'Olivia Terrazzo', 3, '736-290-2226'),
+(4, 'Sipes LLC', 'Kiele Curtin', 4, '409-124-1507'),
+(5, 'Beatty Group', 'Gil Suddock', 5, '593-600-4927'),
+(6, 'Wilkinson, Hand and Williamson', 'Oran Withnall', 6, '100-699-0541'),
+(7, 'Carroll and Sons', 'Eric Stainson', 7, '279-615-3121'),
+(8, 'Block-VonRueden', 'Neill Miche', 8, '260-544-0050'),
+(9, 'Wisozk, Farrell and Ferry', 'Kerrill Kobiera', 9, '895-818-3778'),
+(10, 'Batz, Lynch and Ratke', 'Agnola Witcombe', 10, '950-825-0309');
+
+Insert INTO tblAccount 
+VALUES
+(1, 'Idalina Innett', 'N4nZGS', 11, '609-409-9290'),
+(2, 'Cherish Roches', 'rEhmEG7Q', 12, '152-334-3646'),
+(3, 'Rafe Dobbins', '9H2sJ3A', 13, '980-539-0274'),
+(4, 'Bird Pettengell', 'ziiuKTix0FH', 14, '687-481-2487'),
+(5, 'Rozanne MacGall', '8uo7PdB', 15, '265-582-7752'),
+(6, 'Benedikt Lockwood', '7KtxhQP9Ao', 16, '334-705-4959'),
+(7, 'Maisey Hemshall', '7FaLgZt', 17, '213-744-7578'),
+(8, 'Chrystal Shimony', 'WzY5UrV7', 18, '413-605-9712'),
+(9, 'Malorie Saenz', 'YfApzsQhPnRg', 19, '606-828-3314'),
+(10, 'Conrado Deelay', 'jzRHa6xh4rrA', 20, '739-166-8490'),
+(11, 'Gloriana McSparran', '8mHQueb', 21, '376-369-5162'),
+(12, 'Farlee Chaperling', 'iWDnyVnCKPAP', 22, '591-157-8077'),
+(13, 'Turner Braidford', '8oXPfXR', 23, '839-707-7918'),
+(14, 'Gaynor Baumert', 'xckEf3i', 24, '920-731-3273'),
+(15, 'Sidonnie Scampion', '7vugRaZ7M', 25, '404-176-7670'),
+(16, 'Ross Hanshaw', '2L6a4nD3rpw', 26, '507-148-2030'),
+(17, 'Robbi Lamberti', 'qfXWtw', 27, '699-774-5510'),
+(18, 'Cloris Reiach', 'Mcw6I0aD56o', 28, '545-789-8029'),
+(19, 'Dominique Loeber', '9qAH4c', 29, '856-465-9453'),
+(20, 'Clari Skipworth', 'VXJwYe', 30, '451-667-8839'),
+(21, 'Devan McWhin', 'PFtZckWiS2jh', 31, '956-999-9908'),
+(22, 'Laughton Kerfod', '6ZDkKvbcwL2', 32, '548-413-8944'),
+(23, 'Tanner Mersey', 'vgwC4fjlBX', 33, '963-974-2360'),
+(24, 'Bernie Millthorpe', 'HrkPOUXGpp', 34, '345-801-7119'),
+(25, 'Hasty Kalberer', 'q9lq0w', 35, '112-127-1689'),
+(26, 'Lynnette Boss', 'oH5Uin', 36, '815-756-3392'),
+(27, 'Tom Moulden', 'MsEiPD', 37, '993-492-3717'),
+(28, 'Major Blanchette', 'UkTPZhndhCR', 38, '192-122-9465'),
+(29, 'Edna Vannuccini', 'GimkqJfAd5', 39, '687-206-7017'),
+(30, 'Tarrah Wraggs', '1yUbWnPl2z', 40, '355-592-0270'),
+(31, 'Brose Kristof', 'WTjDIYxzfDgF', 41, '677-257-2965'),
+(32, 'Lonna Whitington', 'AfQf9CP9R', 42, '150-817-6387'),
+(33, 'Juieta Vasilmanov', 'qvgxRA', 43, '221-235-4610'),
+(34, 'Halette Kittiman', '2MVW2sUn2HEG', 44, '191-990-2900'),
+(35, 'Blondelle Penberthy', 'LtL2VfUcCRnK', 45, '738-759-3765'),
+(36, 'Hamlen Counihan', 'd3OnRgc6Ez', 46, '482-670-4066'),
+(37, 'Deanne Cantillion', '9360WoLYg', 47, '867-306-0405'),
+(38, 'Ricki Coopman', '3vyp7z876DlP', 48, '528-381-6268'),
+(39, 'Farlee McWilliams', 'n544llFrK7q', 49, '419-911-6034'),
+(40, 'Monika Albrook', 'dA4aKq5TA', 50, '455-596-4397'),
+(41, 'Carissa Ausiello', 'acQmWuVzNTr', 51, '762-944-4607'),
+(42, 'Pincas Mackerness', 'Lf8AJ1Ams6I', 52, '268-103-7977'),
+(43, 'Ben Joincey', 'cYSn0COVkzB', 53, '417-746-5063'),
+(44, 'Lorne McNeice', '41QQt9Cj9', 54, '448-216-1815'),
+(45, 'Loutitia Lagen', 'ZZqKG996', 55, '213-186-7404'),
+(46, 'Hollyanne McErlaine', 'AkKl8iYu', 56, '845-415-9602'),
+(47, 'Tiphani Hawse', 'uZ6tk7QT', 57, '280-547-2217'),
+(48, 'Larry Quarlis', 'KNQfCZKMLnL', 58, '919-340-6586'),
+(49, 'Doria Dinsell', 'ZORQun', 59, '326-712-8911'),
+(50, 'Ethelda Gogerty', '5tiEls3gxyMs', 60, '102-467-5646'),
+(51, 'Charmain Moverley', '1U8txP25rL9H', 61, '169-381-6884'),
+(52, 'Rriocard Eacott', 'QA3mnzUQ', 62, '424-409-3616'),
+(53, 'Barney Shalders', 'DIZ8CxO', 63, '614-252-7262'),
+(54, 'Culley Waggett', 'Vql9M0', 64, '840-442-2772'),
+(55, 'Trudey Santon', '5stDaLI5nMW', 65, '178-998-8474'),
+(56, 'Ambur Mazzia', 'zn0pBjin', 66, '784-946-8033'),
+(57, 'Ogden Molden', 'Db11FF6CQVU', 67, '916-286-5039'),
+(58, 'Iorgos O''Keenan', 'olj4lq', 68, '432-757-3784'),
+(59, 'Andras Fray', 'bsfZDeEuV', 69, '482-838-7282'),
+(60, 'Erek Olivetta', 'bFSXrERO', 70, '499-266-0812'),
+(61, 'Alwin Shill', '3lXRe49sz', 71, '989-855-4398'),
+(62, 'Norine Walshaw', 'H9zWvpy', 72, '402-892-6746'),
+(63, 'Ellissa Brackenbury', 'cZfsiYMWJDs', 73, '480-806-0240'),
+(64, 'Mab Castanie', 'XNVCls4XjQ0', 74, '314-260-6045'),
+(65, 'Davidson Halladay', 'BMtkLvz7FRss', 75, '520-437-3048'),
+(66, 'Lorens Erie', '8695784r1', 76, '421-997-1437'),
+(67, 'Ruy Fenech', 'uoJjJ4pXvc', 77, '200-573-8970'),
+(68, 'Marlow Geffen', '95rvuwzCU', 78, '716-721-3435'),
+(69, 'Tybi Scarbarrow', 'MD54b4i96lDf', 79, '174-349-7052'),
+(70, 'Eugen Arnall', 'Y7YZyiiHCL5E', 80, '796-478-8571'),
+(71, 'Maddy Reide', 'TBcZK5hJ', 81, '208-498-4195'),
+(72, 'Riva Hatwells', 'o4gaCKuHE', 82, '963-251-1114'),
+(73, 'Robby Polle', 'R9BgXZ', 83, '360-901-6455'),
+(74, 'Rafa Whatson', 'WRVjTp', 84, '314-768-4029'),
+(75, 'Sherrie Audus', 'tTRsDrKc', 85, '209-954-2855'),
+(76, 'Joe Drysdall', 'YQTAGOOEPxni', 86, '831-942-8730'),
+(77, 'Auberta Allott', '4quuZk4', 87, '520-217-7769'),
+(78, 'Rosamund Olenchikov', 'P76iziV77', 88, '547-985-2395'),
+(79, 'Sherline Azam', 'P8TTzW9F', 89, '676-289-2784'),
+(80, 'Edi Raulston', 'Fn2UFEmt2w', 90, '937-457-7417'),
+(81, 'Kettie Gegg', 'sePrrjbVCj68', 91, '175-874-2219'),
+(82, 'Salmon Figgs', 'toLvdxmDn28', 92, '394-903-3571'),
+(83, 'Ingeberg Sapson', 'zajfr0xid', 93, '696-366-2123'),
+(84, 'Travers Gurner', 'BWJrbB5OIPio', 94, '492-695-1337'),
+(85, 'Ame Brister', 'bxqi94S', 95, '964-173-7715'),
+(86, 'Abagail Hizir', 'XfiIFMpY', 96, '152-917-4892'),
+(87, 'Pacorro Pratt', 'yIrshlBtHP', 97, '129-385-5920'),
+(88, 'Gertie Benneton', 'twpFwi', 98, '607-675-0596'),
+(89, 'Agosto Stormonth', '0vPCi4zLO8ed', 99, '740-365-5663'),
+(90, 'Natassia Musicka', '9uJIyBv8hqw', 100, '495-888-4068');
+
+Insert INTO tblCustomer 
+VALUES (
+("1"),
+("2"),
+("3"),
+("4"),
+("5"),
+("6"),
+("7"),
+("8"),
+("9"),
+("10"),
+("11"),
+("12"),
+("13"),
+("14"),
+("15"),
+("16"),
+("17"),
+("18"),
+("19"),
+("20"),
+("21"),
+("22"),
+("23"),
+("24"),
+("25"),
+("26"),
+("27"),
+("28"),
+("29"),
+("30"),
+("31"),
+("32"),
+("33"),
+("34"),
+("35"),
+("36"),
+("37"),
+("38"),
+("39"),
+("40"),
+("41"),
+("42"),
+("43"),
+("44"),
+("45"),
+("46"),
+("47"),
+("48"),
+("49"),
+("50"),
+("51"),
+("52"),
+("53"),
+("54"),
+("55"),
+("56"),
+("57"),
+("58"),
+("59"),
+("60");
+
+Insert INTO tblPayment 
+VALUES
+(1, 'jcb', '2020-01-14 08:35:42', '$981.16', 1),
+(2, 'jcb', '2019-11-16 22:42:45', '$406.15', 2),
+(3, 'jcb', '2019-12-15 16:44:25', '$204.09', 3),
+(4, 'laser', '2020-01-21 12:52:11', '$690.47', 4),
+(5, 'mastercard', '2020-02-02 13:31:37', '$190.05', 5),
+(6, 'laser', '2019-10-15 05:32:55', '$715.47', 6),
+(7, 'jcb', '2019-09-12 23:55:23', '$937.87', 7),
+(8, 'switch', '2019-10-31 14:46:47', '$753.14', 8),
+(9, 'switch', '2019-06-16 07:28:09', '$55.69', 9),
+(10, 'jcb', '2020-02-06 20:13:03', '$674.86', 10),
+(11, 'jcb', '2020-02-28 13:25:47', '$432.62', 11),
+(12, 'jcb', '2019-08-16 13:08:28', '$172.35', 12),
+(13, 'mastercard', '2020-01-30 15:37:57', '$954.51', 13),
+(14, 'jcb', '2020-06-14 04:07:09', '$442.89', 14),
+(15, 'maestro', '2020-04-29 14:39:02', '$289.39', 15),
+(16, 'americanexpress', '2019-06-30 15:37:26', '$741.89', 16),
+(17, 'jcb', '2020-03-04 14:28:04', '$548.83', 17),
+(18, 'mastercard', '2019-07-27 02:28:36', '$515.34', 18),
+(19, 'jcb', '2020-04-04 22:16:32', '$389.96', 19),
+(20, 'maestro', '2020-01-10 04:00:02', '$958.22', 20),
+(21, 'diners-club-enroute', '2019-07-19 20:21:47', '$904.43', 21),
+(22, 'china-unionpay', '2019-11-20 03:59:59', '$439.35', 22),
+(23, 'jcb', '2020-03-10 15:45:47', '$911.89', 23),
+(24, 'jcb', '2020-05-06 01:08:40', '$269.93', 24),
+(25, 'diners-club-carte-blanche', '2020-02-01 20:16:51', '$65.68', 25),
+(26, 'diners-club-enroute', '2019-11-09 23:03:46', '$572.93', 26),
+(27, 'diners-club-enroute', '2019-10-20 15:01:19', '$442.47', 27),
+(28, 'mastercard', '2020-01-20 13:11:00', '$413.96', 28),
+(29, 'jcb', '2020-02-22 01:04:02', '$664.23', 29),
+(30, 'mastercard', '2019-07-21 02:57:48', '$137.32', 30),
+(31, 'switch', '2020-03-19 16:38:10', '$982.49', 31),
+(32, 'china-unionpay', '2020-01-01 01:10:59', '$318.58', 32),
+(33, 'visa-electron', '2020-04-19 12:23:03', '$891.51', 33),
+(34, 'jcb', '2019-11-19 18:41:45', '$653.82', 34),
+(35, 'bankcard', '2019-06-16 06:27:50', '$624.57', 35),
+(36, 'jcb', '2020-05-27 18:37:36', '$716.08', 36),
+(37, 'jcb', '2019-09-10 19:51:28', '$636.16', 37),
+(38, 'mastercard', '2019-06-17 12:47:18', '$404.89', 38),
+(39, 'maestro', '2019-08-28 12:03:17', '$571.82', 39),
+(40, 'diners-club-enroute', '2019-10-27 08:30:43', '$909.42', 40),
+(41, 'china-unionpay', '2019-08-28 20:41:08', '$246.98', 41),
+(42, 'jcb', '2019-09-04 19:40:55', '$884.72', 42),
+(43, 'laser', '2019-10-17 02:13:16', '$918.63', 43),
+(44, 'instapayment', '2019-10-21 01:51:38', '$690.14', 44),
+(45, 'laser', '2019-10-22 02:56:04', '$412.86', 45),
+(46, 'jcb', '2019-08-31 15:28:24', '$459.53', 46),
+(47, 'switch', '2020-01-05 16:03:39', '$376.70', 47),
+(48, 'visa-electron', '2019-09-12 16:40:29', '$230.01', 48),
+(49, 'switch', '2019-12-29 05:36:52', '$87.65', 49),
+(50, 'mastercard', '2020-04-05 19:02:07', '$656.42', 50),
+(51, 'jcb', '2020-05-24 13:12:03', '$406.45', 51),
+(52, 'switch', '2019-11-05 00:37:00', '$311.90', 52),
+(53, 'laser', '2020-01-24 20:48:32', '$684.25', 53),
+(54, 'diners-club-enroute', '2019-12-23 11:24:32', '$941.58', 54),
+(55, 'diners-club-us-ca', '2019-10-22 20:02:30', '$967.23', 55),
+(56, 'jcb', '2020-06-09 01:37:35', '$483.30', 56),
+(57, 'bankcard', '2019-12-10 15:24:54', '$368.04', 57),
+(58, 'jcb', '2019-08-11 05:06:42', '$274.53', 58),
+(59, 'jcb', '2020-05-15 06:31:38', '$850.23', 59),
+(60, 'americanexpress', '2019-07-05 16:16:57', '$949.61', 60),
+(61, 'jcb', '2020-01-14 13:04:19', '$496.41', 61),
+(62, 'diners-club-carte-blanche', '2019-06-25 01:30:45', '$658.89', 62),
+(63, 'jcb', '2020-02-28 05:45:44', '$601.38', 63),
+(64, 'americanexpress', '2020-01-10 23:52:22', '$659.47', 64),
+(65, 'jcb', '2020-01-10 23:34:02', '$350.89', 65),
+(66, 'jcb', '2020-05-02 07:07:35', '$197.55', 66),
+(67, 'jcb', '2019-06-25 00:21:50', '$53.79', 67),
+(68, 'americanexpress', '2020-05-10 12:03:13', '$713.56', 68),
+(69, 'diners-club-enroute', '2019-11-29 19:50:20', '$100.76', 69),
+(70, 'mastercard', '2020-02-10 13:44:10', '$888.68', 70),
+(71, 'diners-club-us-ca', '2019-12-25 03:42:59', '$235.64', 71),
+(72, 'instapayment', '2020-04-02 02:05:27', '$606.87', 72),
+(73, 'jcb', '2020-05-29 16:21:12', '$742.54', 73),
+(74, 'jcb', '2020-03-08 01:44:08', '$396.96', 74),
+(75, 'visa', '2020-05-06 11:31:16', '$576.96', 75),
+(76, 'maestro', '2019-06-23 12:30:59', '$79.15', 76),
+(77, 'visa', '2020-05-06 23:43:05', '$501.47', 77),
+(78, 'jcb', '2019-07-20 15:33:31', '$821.09', 78),
+(79, 'jcb', '2019-08-09 07:44:25', '$505.94', 79),
+(80, 'jcb', '2020-03-31 22:04:09', '$372.18', 80),
+(81, 'diners-club-us-ca', '2020-05-11 14:31:51', '$487.93', 81),
+(82, 'jcb', '2019-12-10 07:34:20', '$234.19', 82),
+(83, 'maestro', '2019-11-04 13:41:25', '$202.72', 83),
+(84, 'diners-club-us-ca', '2019-10-03 16:43:47', '$138.30', 84),
+(85, 'diners-club-carte-blanche', '2020-02-06 03:23:21', '$366.29', 85),
+(86, 'jcb', '2019-10-29 11:01:41', '$906.90', 86),
+(87, 'jcb', '2019-08-25 10:20:22', '$857.61', 87),
+(88, 'china-unionpay', '2019-10-12 12:44:44', '$463.03', 88),
+(89, 'jcb', '2019-08-22 12:00:46', '$681.11', 89),
+(90, 'switch', '2019-10-17 04:39:14', '$327.39', 90),
+(91, 'americanexpress', '2020-05-14 21:44:30', '$974.03', 91),
+(92, 'mastercard', '2020-03-09 21:18:13', '$585.16', 92),
+(93, 'laser', '2020-01-20 07:30:35', '$832.40', 93),
+(94, 'jcb', '2019-07-30 01:50:24', '$415.28', 94),
+(95, 'diners-club-enroute', '2019-10-17 01:07:40', '$991.63', 95),
+(96, 'jcb', '2019-10-23 03:03:51', '$174.74', 96),
+(97, 'switch', '2019-08-20 03:23:27', '$658.10', 97),
+(98, 'jcb', '2020-03-14 09:56:53', '$270.08', 98),
+(99, 'laser', '2019-07-25 02:25:21', '$476.98', 99),
+(100, 'jcb', '2019-07-16 06:25:45', '$248.62', 100);
+
+
+Insert INTO tblDroneOwner 
+VALUES ("101", "1"),
+("102", "2"),
+("103", "3"),
+("104", "4"),
+("105", "5"),
+("106", "6"),
+("107", "7"),
+("108", "8"),
+("109", "9"),
+("110", "10"),
+("111", "11"),
+("112", "12"),
+("113", "13"),
+("114", "14"),
+("115", "15"),
+("116", "16"),
+("117", "17"),
+("118", "18"),
+("119", "19"),
+("120", "20");
+
+Insert INTO tblContractee 
+VALUES (
+("41"),
+("42"),
+("43"),
+("44"),
+("45"),
+("46"),
+("47"),
+("48"),
+("49"),
+("50"),
+("51"),
+("52"),
+("53"),
+("54"),
+("55"),
+("56"),
+("57"),
+("58"),
+("59"),
+("60");
+
+Insert INTO tblSubscriber 
+VALUES
+("1"),
+("2"),
+("3"),
+("4"),
+("5"),
+("6"),
+("7"),
+("8"),
+("9"),
+("10"),
+("11"),
+("12"),
+("13"),
+("14"),
+("15"),
+("16"),
+("17"),
+("18"),
+("19"),
+("20"),
+("21"),
+("22"),
+("23"),
+("24"),
+("25"),
+("26"),
+("27"),
+("28"),
+("29"),
+("30"),
+("31"),
+("32"),
+("33"),
+("34"),
+("35"),
+("36"),
+("37"),
+("38"),
+("39"),
+("40");
+
+Insert INTO tblDiscount 
+VALUES (0.0),
+(0.1),
+(0.2),
+(0.3),
+(0.4),
+(0.5),
+(0.6),
+(0.7),
+(0.8),
+(0.9),
+(1.0),
+(1.1),
+(1.2),
+(1.3),
+(1.4),
+(1.5),
+(1.6),
+(1.7),
+(1.8),
+(1.9),
+(2.0);
+
+Insert INTO tblSubscription 
+VALUES ("1"),
+("2"),
+("3"),
+("4"),
+("5"),
+("6"),
+("7"),
+("8"),
+("9"),
+("10"),
+("11"),
+("12"),
+("13"),
+("14"),
+("15"),
+("16"),
+("17"),
+("18"),
+("19"),
+("20"),
+("21"),
+("22"),
+("23"),
+("24"),
+("25"),
+("26"),
+("27"),
+("28"),
+("29"),
+("30"),
+("31"),
+("32"),
+("33"),
+("34"),
+("35"),
+("36"),
+("37"),
+("38"),
+("39"),
+("40");
+
+Insert INTO tblGold 
+VALUES
+("11"),
+("12"),
+("13"),
+("14"),
+("15"),
+("16"),
+("17"),
+("18"),
+("19"),
+("20"),
+("21"),
+("22"),
+("23"),
+("24"),
+("25"),
+("26"),
+("27"),
+("28"),
+("29"),
+("30"),
+("31"),
+("32"),
+("33"),
+("34"),
+("35"),
+("36"),
+("37"),
+("38"),
+("39"),
+("40");
+
+Insert INTO tblPlatinum 
+VALUES
+("20"),
+("21"),
+("22"),
+("23"),
+("24"),
+("25"),
+("26"),
+("27"),
+("28"),
+("29"),
+("30"),
+("31"),
+("32"),
+("33"),
+("34"),
+("35"),
+("36"),
+("37"),
+("38"),
+("39"),
+("40");
+
+Insert INTO tblSuperPlatinum 
+VALUES ("30"),
+("31"),
+("32"),
+("33"),
+("34"),
+("35"),
+("36"),
+("37"),
+("38"),
+("39"),
+("40");
+
+Insert INTO tblPriceChange 
+VALUES (
+(1, 5, 55, '2019-06-19 18:29:30', '$42.06', '$92.34'),
+(2, 4, 25, '2020-01-23 22:41:30', '$44.22', '$83.18'),
+(3, 4, 35, '2019-07-11 06:27:55', '$46.50', '$56.66'),
+(4, 9, 29, '2019-11-09 06:47:59', '$40.82', '$62.84'),
+(5, 3, 48, '2020-01-23 19:48:10', '$40.83', '$57.14'),
+(6, 6, 8, '2019-11-16 14:14:07', '$49.65', '$78.68'),
+(7, 7, 68, '2020-06-06 06:08:47', '$41.86', '$89.00'),
+(8, 4, 4, '2020-05-24 18:28:14', '$42.09', '$90.96'),
+(9, 5, 44, '2020-01-30 11:28:20', '$43.35', '$71.83'),
+(10, 3, 96, '2019-10-08 07:13:41', '$41.74', '$89.66'),
+(11, 7, 73, '2019-12-02 01:25:03', '$40.92', '$80.63'),
+(12, 6, 19, '2019-07-13 15:43:15', '$49.79', '$99.29'),
+(13, 9, 55, '2020-03-07 12:29:58', '$46.29', '$83.48'),
+(14, 7, 17, '2020-05-12 21:02:53', '$47.23', '$96.93'),
+(15, 4, 56, '2019-10-06 07:51:45', '$46.91', '$58.24'),
+(16, 1, 10, '2020-01-25 17:36:11', '$45.70', '$75.14'),
+(17, 1, 70, '2020-05-15 02:38:38', '$45.43', '$55.12'),
+(18, 1, 85, '2019-08-23 14:03:26', '$43.52', '$62.35'),
+(19, 2, 51, '2019-09-23 03:05:43', '$45.10', '$70.18'),
+(20, 8, 70, '2020-03-11 03:08:00', '$49.44', '$80.12'),
+(21, 5, 38, '2020-04-16 15:22:16', '$47.03', '$51.72'),
+(22, 10, 29, '2019-07-17 20:43:33', '$49.79', '$73.38'),
+(23, 9, 98, '2020-06-02 13:17:24', '$45.61', '$69.36'),
+(24, 10, 36, '2019-12-30 19:03:49', '$48.74', '$82.15'),
+(25, 9, 8, '2019-11-17 12:23:18', '$48.97', '$99.04'),
+(26, 7, 92, '2020-03-06 08:51:02', '$43.67', '$57.85'),
+(27, 8, 57, '2019-07-30 11:54:52', '$40.54', '$81.31'),
+(28, 2, 96, '2020-01-23 22:53:11', '$45.14', '$90.58'),
+(29, 7, 84, '2019-12-29 10:17:42', '$41.21', '$65.02'),
+(30, 10, 78, '2019-11-13 00:28:49', '$46.28', '$80.27'),
+(31, 3, 11, '2019-06-26 00:39:53', '$40.39', '$61.46'),
+(32, 1, 59, '2019-06-29 11:16:55', '$43.30', '$52.26'),
+(33, 5, 17, '2019-07-05 15:26:53', '$46.08', '$72.67'),
+(34, 8, 46, '2020-02-16 03:08:53', '$49.44', '$64.26'),
+(35, 6, 19, '2019-09-20 06:49:08', '$40.93', '$79.55'),
+(36, 5, 49, '2020-06-11 21:07:45', '$44.08', '$64.25'),
+(37, 10, 78, '2020-01-03 18:16:23', '$46.25', '$56.77'),
+(38, 8, 65, '2020-05-29 08:30:42', '$40.86', '$79.74'),
+(39, 2, 99, '2020-04-24 17:54:57', '$45.65', '$68.85'),
+(40, 2, 79, '2020-02-15 10:48:11', '$40.86', '$98.73'),
+(41, 5, 1, '2020-04-02 18:28:36', '$44.94', '$55.50'),
+(42, 8, 21, '2019-12-01 01:15:36', '$41.57', '$90.04'),
+(43, 3, 87, '2019-06-24 09:59:47', '$44.64', '$92.06'),
+(44, 7, 29, '2020-03-10 04:35:06', '$42.03', '$99.38'),
+(45, 7, 20, '2019-12-10 04:43:45', '$47.02', '$73.61'),
+(46, 10, 12, '2020-06-09 08:31:24', '$42.19', '$55.14'),
+(47, 5, 15, '2020-03-22 01:12:11', '$45.65', '$88.85'),
+(48, 6, 52, '2019-08-25 19:10:06', '$42.30', '$79.37'),
+(49, 9, 68, '2020-01-23 04:39:10', '$40.19', '$89.39'),
+(50, 8, 90, '2020-06-06 13:18:58', '$42.24', '$64.74'),
+(51, 5, 43, '2019-12-08 23:41:19', '$44.68', '$87.69'),
+(52, 9, 87, '2019-06-30 14:46:40', '$43.70', '$64.68'),
+(53, 6, 91, '2020-03-30 09:05:04', '$49.66', '$65.31'),
+(54, 10, 75, '2019-12-08 05:33:22', '$48.67', '$58.10'),
+(55, 8, 71, '2019-12-18 06:01:24', '$47.45', '$54.21'),
+(56, 2, 13, '2019-12-20 05:51:28', '$43.17', '$73.58'),
+(57, 4, 42, '2020-03-06 12:29:13', '$44.18', '$62.95'),
+(58, 6, 6, '2019-09-08 23:47:47', '$49.23', '$58.21'),
+(59, 6, 5, '2019-07-31 09:56:58', '$44.07', '$78.89'),
+(60, 8, 92, '2020-03-08 16:21:04', '$40.68', '$64.39'),
+(61, 8, 34, '2019-09-17 18:30:30', '$40.38', '$76.31'),
+(62, 7, 12, '2020-03-27 16:54:34', '$45.01', '$60.88'),
+(63, 8, 6, '2020-03-04 18:06:43', '$41.94', '$58.68'),
+(64, 8, 91, '2020-05-26 21:32:01', '$48.01', '$90.41'),
+(65, 5, 5, '2019-12-21 15:53:07', '$44.05', '$83.97'),
+(66, 3, 92, '2019-07-07 09:55:53', '$40.21', '$61.49'),
+(67, 10, 59, '2019-07-20 01:41:31', '$45.28', '$56.98'),
+(68, 4, 73, '2019-09-09 08:51:42', '$47.73', '$89.27'),
+(69, 8, 70, '2020-02-13 00:59:03', '$46.27', '$84.02'),
+(70, 6, 96, '2020-01-21 17:24:56', '$45.44', '$55.07'),
+(71, 6, 4, '2020-05-29 12:41:38', '$41.19', '$84.68'),
+(72, 4, 92, '2019-10-24 16:59:51', '$41.57', '$59.75'),
+(73, 1, 13, '2019-10-24 20:11:41', '$45.49', '$81.16'),
+(74, 5, 17, '2019-12-17 14:35:04', '$44.47', '$82.89'),
+(75, 6, 98, '2020-01-09 14:33:53', '$46.51', '$86.87'),
+(76, 4, 15, '2019-11-04 11:25:27', '$46.07', '$81.06'),
+(77, 10, 23, '2019-09-02 07:00:31', '$49.48', '$81.04'),
+(78, 9, 92, '2019-07-17 07:14:07', '$45.42', '$94.29'),
+(79, 1, 80, '2019-07-28 03:47:37', '$44.20', '$71.78'),
+(80, 7, 40, '2020-06-13 03:36:00', '$46.28', '$79.04'),
+(81, 4, 58, '2019-11-23 00:29:21', '$48.73', '$96.57'),
+(82, 7, 14, '2019-07-16 03:02:39', '$41.18', '$81.75'),
+(83, 7, 90, '2019-12-08 08:22:23', '$41.35', '$68.71'),
+(84, 6, 81, '2019-10-11 23:24:32', '$45.88', '$87.70'),
+(85, 7, 14, '2019-06-21 00:28:40', '$47.78', '$90.22'),
+(86, 8, 83, '2020-04-30 14:09:20', '$45.57', '$71.79'),
+(87, 10, 4, '2020-03-01 21:54:40', '$45.70', '$74.93'),
+(88, 1, 95, '2020-01-08 21:06:07', '$45.53', '$65.14'),
+(89, 1, 95, '2020-01-16 23:30:15', '$43.63', '$73.32'),
+(90, 5, 12, '2020-01-25 11:15:21', '$40.05', '$91.26'),
+(91, 9, 12, '2019-11-10 11:06:07', '$44.98', '$82.06'),
+(92, 5, 49, '2020-03-04 15:12:59', '$47.02', '$70.55'),
+(93, 9, 13, '2020-05-10 13:37:40', '$47.35', '$97.66'),
+(94, 9, 16, '2020-06-07 21:18:25', '$40.66', '$61.61'),
+(95, 10, 46, '2020-04-22 20:26:38', '$48.87', '$56.69'),
+(96, 9, 50, '2020-01-08 22:50:54', '$43.90', '$51.51'),
+(97, 6, 30, '2020-01-29 13:07:10', '$49.37', '$89.77'),
+(98, 5, 96, '2019-08-07 05:04:44', '$48.34', '$92.27'),
+(99, 6, 7, '2019-08-11 07:25:14', '$41.07', '$77.40'),
+(100, 8, 77, '2019-07-29 08:54:47', '$47.39', '$81.31');
+
+Insert INTO tblBTDataboxStream 
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10),
+(11, 11),
+(12, 12),
+(13, 13),
+(14, 14),
+(15, 15),
+(16, 16),
+(17, 17),
+(18, 18),
+(19, 19),
+(20, 20),
+(21, 21),
+(22, 22),
+(23, 23),
+(24, 24),
+(25, 25),
+(26, 26),
+(27, 27),
+(28, 28),
+(29, 29),
+(30, 30),
+(1, 31),
+(2, 32),
+(3, 33),
+(4, 34),
+(5, 35),
+(6, 36),
+(7, 37),
+(8, 38),
+(9, 39),
+(10, 40),
+(11, 41),
+(12, 42),
+(13, 43),
+(14, 44),
+(15, 45),
+(16, 46),
+(17, 47),
+(18, 48),
+(19, 49),
+(20, 50),
+(21, 51),
+(22, 52),
+(23, 53),
+(24, 54),
+(25, 55),
+(26, 56),
+(27, 57),
+(28, 58),
+(29, 59),
+(30, 60),
+(1, 61),
+(2, 62),
+(3, 63),
+(4, 64),
+(5, 65),
+(6, 66),
+(7, 67),
+(8, 68),
+(9, 69),
+(10, 70),
+(11, 71),
+(12, 72),
+(13, 73),
+(14, 74),
+(15, 75),
+(16, 76),
+(17, 77),
+(18, 78),
+(19, 79),
+(20, 80),
+(21, 81),
+(22, 82),
+(23, 83),
+(24, 84),
+(25, 85),
+(26, 86),
+(27, 87),
+(28, 88),
+(29, 89),
+(30, 90),
+(1, 91),
+(2, 92),
+(3, 93),
+(4, 94),
+(5, 95),
+(6, 96),
+(7, 97),
+(8, 98),
+(9, 99),
+(10, 100);
+
+Insert INTO tblBTDataboxData 
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10),
+(11, 11),
+(12, 12),
+(13, 13),
+(14, 14),
+(15, 15),
+(16, 16),
+(17, 17),
+(18, 18),
+(19, 19),
+(20, 20),
+(21, 21),
+(22, 22),
+(23, 23),
+(24, 24),
+(25, 25),
+(26, 26),
+(27, 27),
+(28, 28),
+(29, 29),
+(30, 30),
+(1, 31),
+(2, 32),
+(3, 33),
+(4, 34),
+(5, 35),
+(6, 36),
+(7, 37),
+(8, 38),
+(9, 39),
+(10, 40),
+(11, 41),
+(12, 42),
+(13, 43),
+(14, 44),
+(15, 45),
+(16, 46),
+(17, 47),
+(18, 48),
+(19, 49),
+(20, 50),
+(21, 51),
+(22, 52),
+(23, 53),
+(24, 54),
+(25, 55),
+(26, 56),
+(27, 57),
+(28, 58),
+(29, 59),
+(30, 60),
+(1, 61),
+(2, 62),
+(3, 63),
+(4, 64),
+(5, 65),
+(6, 66),
+(7, 67),
+(8, 68),
+(9, 69),
+(10, 70),
+(11, 71),
+(12, 72),
+(13, 73),
+(14, 74),
+(15, 75),
+(16, 76),
+(17, 77),
+(18, 78),
+(19, 79),
+(20, 80),
+(21, 81),
+(22, 82),
+(23, 83),
+(24, 84),
+(25, 85),
+(26, 86),
+(27, 87),
+(28, 88),
+(29, 89),
+(30, 90),
+(1, 91),
+(2, 92),
+(3, 93),
+(4, 94),
+(5, 95),
+(6, 96),
+(7, 97),
+(8, 98),
+(9, 99),
+(10, 100);
+
+Insert INTO tblBTDataboxPart 
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10),
+(11, 11),
+(12, 12),
+(13, 13),
+(14, 14),
+(15, 15),
+(16, 16),
+(17, 17),
+(18, 18),
+(19, 19),
+(20, 20),
+(21, 1),
+(22, 2),
+(23, 3),
+(24, 4),
+(25, 5),
+(26, 6),
+(27, 7),
+(28, 8),
+(29, 9),
+(30, 10),
+(1, 11),
+(2, 12),
+(3, 13),
+(4, 14),
+(5, 15),
+(6, 16),
+(7, 17),
+(8, 18),
+(9, 19),
+(10, 20),
+(11, 1),
+(12, 2),
+(13, 3),
+(14, 4),
+(15, 5),
+(16, 6),
+(17, 7),
+(18, 8),
+(19, 9),
+(20, 10),
+(21, 11),
+(22, 12),
+(23, 13),
+(24, 14),
+(25, 15),
+(26, 16),
+(27, 17),
+(28, 18),
+(29, 19),
+(30, 20),
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10),
+(11, 11),
+(12, 12),
+(13, 13),
+(14, 14),
+(15, 15),
+(16, 16),
+(17, 17),
+(18, 18),
+(19, 19),
+(20, 20);
+
+Insert INTO tblBTDataboxZone 
+VALUES
+
+
+Insert INTO tblStore 
+VALUES ();
+
+Insert INTO tblSalespersonStore 
+VALUES ();
+
+Insert INTO tblSale 
+VALUES ();
+
+Insert INTO tblVideoStreamViewer 
+VALUES ();
+
+Insert INTO tblVideoStreamController 
+VALUES ();
+
+Insert INTO tblMaintenance 
+VALUES ();
+
+Insert INTO tblMaintenancePart 
+VALUES ();
+
+Insert INTO tblPartSupplier 
+VALUES ();
+
+Insert INTO tblOrder 
+VALUES ();
+
+Insert INTO tblOrderItem 
+VALUES ();
+
+Insert INTO tblZoneCountry 
+VALUES ();
+
+Insert INTO tblZoneCondition 
+VALUES ();
+
+Insert INTO tblSubscriptionZone 
+VALUES ();
+
+Insert INTO tblSubscriptionDatabox 
+VALUES ();
+
+Insert INTO tblContract 
+VALUES ();
+
+Insert INTO tblContractedBTDatabox 
+VALUES ();
+
+Insert INTO tblContractedZone 
+VALUES ();
+
+Insert INTO tblContractScientificData 
+VALUES ();
+
+Insert INTO tblStaffRole 
+VALUES ();
+
+Insert INTO tblOwnsDataRights 
+VALUES ();
+
+Insert INTO tblOwnsVideoRights 
+VALUES ();
+
 
 -- 1. A sales person subscribes to a new standard subscription to a BT Databox . 
 -- The transaction receives the sales person Id, a discount %, all subscriber details, and a BT Databox ID. 
@@ -521,7 +2321,7 @@ AS
 BEGIN
 
 END;
--- Call createDBBeingThere();
+EXEC createDBBeingThere();
 
 -- discount REAL CHECK ( Discount >+ 0.0 and Discount <+ 100.00)
 
