@@ -1,4 +1,4 @@
-use BeingThere;
+use DAT601;
 go
 -- DDL Making tables and indexes and CHECKS
 drop procedure if exists MakeTables;
@@ -206,19 +206,10 @@ go
 -- a BT DataboxID, a Latitude, and a Longitude.
 
 DROP PROCEDURE IF EXISTS ListDataBoxesByOrganisation;
-go
-CREATE PROCEDURE ListDataBoxesByOrganisation
-AS
-BEGIN
- -- 
-
-END;
-go
-
-DROP PROCEDURE IF EXISTS ListDataBoxesByOrganisation;
 
 GO
-    CREATE PROCEDURE ListDataBoxesByOrganisation AS BEGIN -- 
+    CREATE PROCEDURE ListDataBoxesByOrganisation 
+	AS BEGIN -- 
     SELECT C.ContractingOrg, DB.Lat, DB.Long, DB.DBNUM, 
     FROM tblContract C
     JOIN tblContractZone CZ
