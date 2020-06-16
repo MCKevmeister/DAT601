@@ -95,16 +95,12 @@ begin
 	INSERT INTO tblZone
 	OUTPUT INSERTED.ID INTO @ZoneIDtbl
 	VALUES ('Nelson Central');
-	INSERT INTO tblZoneBoundaryMarker
-	VALUES ((SELECT ZoneID from @ZoneIDtbl),  -41.27078, 173.28404 );
 	
 	DELETE FROM @ZoneIDtbl;
 	
 	INSERT INTO tblZone
 	OUTPUT INSERTED.ID INTO @ZoneIDtbl
 	VALUES ('Nelson South');
-	INSERT INTO tblZoneBoundaryMarker
-	VALUES ((SELECT ZoneID from @ZoneIDtbl),  -41.27078, 173.28404 );
 	
 	DROP TABLE IF EXISTS tblOrganisation;
 
