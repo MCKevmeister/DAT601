@@ -399,8 +399,12 @@ CREATE TABLE BeingThere.tblContractScientificData (
 )
 
 CREATE TABLE BeingThere.tblStaffRole (
-    [AccountID] INT NOT NULL,
-    [RoleID] INT NOT NULL,
+    [StaffRoleID] INT IDENTITY PRIMARY KEY,
+    [AccountID] INT,
+    [DirectorID] INT,
+    [AdminExecID] INT,
+    [SalespersonID] INT,
+    [MaintencepersonID] INT,
     PRIMARY KEY(AccountID, RoleID),
     FOREIGN KEY (AccountID) REFERENCES BeingThere.tblAccount (AccountID),
     FOREIGN KEY (RoleID) REFERENCES BeingThere.tblStaffRole(AccountID, RoleID)
@@ -1393,65 +1397,65 @@ VALUES
 
 INSERT INTO tblCustomer 
 VALUES (
-("1"),
-("2"),
-("3"),
-("4"),
-("5"),
-("6"),
-("7"),
-("8"),
-("9"),
-("10"),
-("11"),
-("12"),
-("13"),
-("14"),
-("15"),
-("16"),
-("17"),
-("18"),
-("19"),
-("20"),
-("21"),
-("22"),
-("23"),
-("24"),
-("25"),
-("26"),
-("27"),
-("28"),
-("29"),
-("30"),
-("31"),
-("32"),
-("33"),
-("34"),
-("35"),
-("36"),
-("37"),
-("38"),
-("39"),
-("40"),
-("41"),
-("42"),
-("43"),
-("44"),
-("45"),
-("46"),
-("47"),
-("48"),
-("49"),
-("50"),
-("51"),
-("52"),
-("53"),
-("54"),
-("55"),
-("56"),
-("57"),
-("58"),
-("59"),
+("1"), 
+("2"), 
+("3"), 
+("4"), 
+("5"), 
+("6"), 
+("7"), 
+("8"), 
+("9"), 
+("10"), 
+("11"), 
+("12"), 
+("13"), 
+("14"), 
+("15"), 
+("16"), 
+("17"), 
+("18"), 
+("19"), 
+("20"), 
+("21"), 
+("22"), 
+("23"), 
+("24"), 
+("25"), 
+("26"), 
+("27"), 
+("28"), 
+("29"), 
+("30"), 
+("31"), 
+("32"), 
+("33"), 
+("34"), 
+("35"), 
+("36"), 
+("37"), 
+("38"), 
+("39"), 
+("40"), 
+("41"), 
+("42"), 
+("43"), 
+("44"), 
+("45"), 
+("46"), 
+("47"), 
+("48"), 
+("49"), 
+("50"), 
+("51"), 
+("52"), 
+("53"), 
+("54"), 
+("55"), 
+("56"), 
+("57"), 
+("58"), 
+("59"), 
 ("60");
 
 INSERT INTO tblPayment 
@@ -2596,47 +2600,46 @@ VALUES
 INSERT INTO tblStaffRole 
 VALUES
 
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
+(1 , 60, null, 1, null, null),
+(2 , 61, null, 2, null, null),
+(3 , 62, null, 3, null, null),
+(4 , 63, null, 4, null, null),
+(5 , 64, null, 5, null, null),
+(6 , 65, null, 6, null, null),
+(7 , 66, null, 7, null, null),
+(8 , 67, null, 8, null, null),
+(9 , 69, null, 9, null, null),
+(10, 70, null, 10, null, null),
+(11, 71, 1, null, null, null),
+(12, 72, 2, null, null, null),
+(13, 73, 3, null, null, null),
+(14, 74, 4, null, null, null),
+(15, 75, 5, null, null, null),
+(16, 76, 6, null, null, null),
+(17, 77, 7, null, null, null),
+(18, 78, 8, null, null, null),
+(19, 79, 9, null, null, null),
+(20, 80, 10, null, null, null),
+(21, 81, null, null, 1, null),
+(22, 82, null, null, 2, null),
+(23, 83, null, null, 3, null),
+(24, 84, null, null, 4, null),
+(25, 85, null, null, 5, null),
+(26, 86, null, null, 6, null),
+(27, 87, null, null, 7, null),
+(28, 88, null, null, 8, null),
+(29, 89, null, null, 9, null),
+(30, 90, null, null, 10, null),
+(31, 91, null, null, null, 1),
+(32, 92, null, null, null, 2),
+(33, 93, null, null, null, 3),
+(34, 94, null, null, null, 4),
+(35, 95, null, null, null, 5),
+(36, 96, null, null, null, 6),
+(37, 97, null, null, null, 7),
+(38, 98, null, null, null, 8),
+(39, 99, null, null, null, 9),
+(40, 100, null, null, null, 10);
 
 INSERT INTO tblOwnsDataRights 
 VALUES
@@ -2843,16 +2846,41 @@ VALUES
 (98, 38),
 (99, 39),
 (100, 40);
-
-
 GO;
+
+DROP PROCEDURE IF EXISTS SubscribeToDatabox; 
+go
+CREATE PROCEDURE SubscribeToDatabox @pSalesID AS INTEGER, @pSubFirstName VARCHAR(30),
+	  @pSubSecondName VARCHAR(30),
+	  @pSubscriberAddress VARCHAR(255),
+	  @pSubphone VARCHAR(12),
+	  @pDiscount REAL,
+	  @pDataboxID INTEGER
+
+as
+begin
+       DECLARE @tblID TABLE ( SUBID INTEGER);
+
+	   INSERT INTO tblSubScription(	  SalesID ,SubFirstName,SubSecondName ,SubscriberAddress, Subphone, Discount) 
+	   OUTPUT INSERTED.SubID INTO @tblID
+	   VALUES ( @pSalesID ,@pSubFirstName,@pSubSecondName ,@pSubscriberAddress, @pSubphone, @pDiscount);
+
+	   INSERT INTO tblSubDatabox VALUES ( (SELECT SUbID from @tblID),@pDataboxID); 
+end;
+
+go
 
 -- 1. A sales person subscribes to a new standard subscription to a BT Databox . 
 -- The transaction receives the sales person Id, a discount %, all subscriber details, and a BT Databox ID. 
 DROP PROCEDURE IF EXISTS newStandardSubscription;
-CREATE PROCEDURE newStandardSubscription (pSalesPersonID INT, pDiscount REAL, pName VARCHAR(255), pPassword VARCHAR(64), pPhoneNumber VARCHAR(64), pAddressPrefix VARCHAR(16), pStreetNumber VARCHAR(64), pStreetName VARCHAR(64), pPostCode VARCHAR(16), pCity VARCHAR(64), pCountry VARCHAR(64))
+CREATE PROCEDURE newStandardSubscription @pSalesPersonID AS INTEGER, @pDiscount AS REAL, 
+                                         @pName AS VARCHAR(255), @pPassword AS VARCHAR(64), 
+                                         @pPhoneNumber AS VARCHAR(64), @pAddressPrefix AS VARCHAR(16), 
+                                         @pStreetNumber AS VARCHAR(64), @pStreetName AS VARCHAR(64), 
+                                         @pPostCode AS VARCHAR(16), @pCity AS VARCHAR(64), @pCountry AS VARCHAR(64))
 AS
 BEGIN
+    DECLARE @tblID TABLE ( SUBID INTEGER);
     -- IF NOT EXISTS(SELECT * FROM tblAccount WHERE [Name] = pName AND (SELECT * FROM tblAddress WHERE [Prefix] = pAddressPrefix AND [StreetNumber] = pStreetNumber) AND [STREETNAME] = pStreetName AND (''))
     IF NOT EXISTS(SELECT * FROM tblCountry WHERE [Country] = pCountry)
     THEN
@@ -2865,7 +2893,8 @@ BEGIN
     THEN    
         BEGIN
             INSERT INTO tblPostCode ([PostCode], [City], [Country])
-            VALUES (pPostCode, pCity, (SELECT LAST INSERT INDEX?????TODO));
+            OUTPUT INSERTED.SubID INTO @tblID
+            VALUES (@pPostCode, @pCity, @pCountry);
         END;
     END IF;
     INSERT INTO tblAddress([Prefix], [StreetNumber], [StreetName], [PostCodeID])
@@ -2952,7 +2981,13 @@ AS
 BEGIN
 
 END;
+
 EXEC createDBBeingThere();
+EXEC InsertPoinlessDataThatIsRidiclious();
+
+
+
+
 
 -- discount REAL CHECK ( Discount >+ 0.0 and Discount <+ 100.00)
 
@@ -2965,3 +3000,124 @@ EXEC createDBBeingThere();
 -- where sp.name = @psalesname
 
 -- exec showsales Jane
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Transaction A 
+-- INCLUDE Text from brief about the transaction
+
+-- TESTING A - Thomas Salesperson ID 1 sells a subscription to Jane Doe at a discount of 3% to DATABOX 1
+exec SubscribeToDatabox 1,'Jane','Doe','t','t',3.0,1;
+select * from tblSubscription;
+select * from tblSubDatabox;
+go
+
+-- Transaction B
+-- Put the description of Transaction B here
+DROP PROCEDURE IF EXISTS ShowSales;
+go
+CREATE PROCEDURE ShowSales @pName VARCHAR(255)
+as
+begin
+  SELECT SubFirstName, SubSecondName, Discount
+  FROM 
+       tblSalesPerson as SP JOIN tblSubScription SB on SP.ID = SB.SalesID
+  WHERE
+        SP.Name = @pName;
+end;
+go
+-- TESTING B
+EXEC ShowSales 'Thomas';
+go 
+
+-- Transaction C
+-- Put the text describing transaction C here
+
+-- Transaction A 
+-- INCLUDE Text from brief about the transaction
+DROP PROCEDURE IF EXISTS SubscribeToDatabox; 
+go
+CREATE PROCEDURE SubscribeToDatabox @pSalesID AS INTEGER, @pSubFirstName VARCHAR(30),
+	  @pSubSecondName VARCHAR(30),
+	  @pSubscriberAddress VARCHAR(255),
+	  @pSubphone VARCHAR(12),
+	  @pDiscount REAL,
+	  @pDataboxID INTEGER
+
+as
+begin
+       DECLARE @tblID TABLE ( SUBID INTEGER);
+
+	   INSERT INTO tblSubScription(SalesID ,SubFirstName,SubSecondName ,SubscriberAddress, Subphone, Discount) 
+	   OUTPUT INSERTED.SubID INTO @tblID
+	   VALUES ( @pSalesID ,@pSubFirstName,@pSubSecondName ,@pSubscriberAddress, @pSubphone, @pDiscount);
+
+	   INSERT INTO tblSubDatabox VALUES ( (SELECT SUbID from @tblID),@pDataboxID); 
+end;
+GO
+
+-- Transaction B
+-- Put the description of Transaction B here
+DROP PROCEDURE IF EXISTS ShowSales;
+go
+CREATE PROCEDURE ShowSales @pName VARCHAR(255)
+as
+begin
+  SELECT SubFirstName, SubSecondName, Discount
+  FROM 
+       tblSalesPerson as SP JOIN tblSubScription SB on SP.ID = SB.SalesID
+  WHERE
+        SP.Name = @pName;
+end;
+go
+
+-- TESTING B
+go 
+
+-- Transaction C
+-- Put the text describing transaction C here
+-- List the location in latitude, longitude coordinates, 
+-- of each BT Databox that is currently in a contract. 
+-- The transaction presents the Contracting organisation's name, 
+-- a BT DataboxID, a Latitude, and a Longitude.
+
+DROP PROCEDURE IF EXISTS ListDataBoxesByOrganisation;
+go
+CREATE PROCEDURE ListDataBoxesByOrganisation
+AS
+BEGIN
+  select[Name], DBNum, Long, Lat
+  From
+		tblContract ct join tblContractZone Ctz on ct.id = ctz.ContractID
+		join tblZone tz on tz.ID = ctz.ZoneID 
+		JOIN tblDataBoxZone on tblDataBoxZone.ZoneID = tz.ID 
+		JOIN tblDatabox ON tblDatabox.DBNUM = tblDataboxZone.DataBoxID
+		JOIN tblOrganisation ON ct.ContractingOrg = TblOrganisation.[Name]; 
+
+END;
+go
+exec ListDataBoxesByOrganisation;
