@@ -319,10 +319,8 @@ CREATE TABLE tblPartSupplier (
     FOREIGN KEY (SupplierID) REFERENCES tblSupplier (SupplierID)
 )
 CREATE TABLE tblOrder ( 
-    [OrderID] INT NOT NULL,
+    [OrderID] INT PRIMARY KEY IDENTITY,
     [MaintenancePersonID] INT NOT NULL,
-    PRIMARY KEY(OrderID, SupplierID),
-    FOREIGN KEY (OrderID) REFERENCES tblOrder (OrderID),
     FOREIGN KEY (MaintenancePersonID) REFERENCES tblMaintenancePerson(MaintenancePersonID)
 )
 CREATE TABLE tblOrderItem (
@@ -398,18 +396,6 @@ CREATE TABLE tblContractScientificData (
     PRIMARY KEY(ContractID, BTDataboxID),
     FOREIGN KEY (ContractID) REFERENCES tblContract (ContractID),
     FOREIGN KEY (ScientificDataID) REFERENCES tblScientificData(ScientificDataID)
-)
-
-CREATE TABLE tblStaffRole (
-    [StaffRoleID] INT IDENTITY PRIMARY KEY,
-    [AccountID] INT,
-    [DirectorID] INT,
-    [AdminExecID] INT,
-    [SalespersonID] INT,
-    [MaintencepersonID] INT,
-    PRIMARY KEY(AccountID, RoleID),
-    FOREIGN KEY (AccountID) REFERENCES tblAccount (AccountID),
-    FOREIGN KEY (RoleID) REFERENCES tblStaffRole(AccountID, RoleID)
 )
 
 CREATE TABLE tblOwnsDataRights (
