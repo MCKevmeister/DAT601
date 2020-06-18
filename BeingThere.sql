@@ -1,10 +1,9 @@
+DROP DATABASE IF EXISTS BeingThere;
 GO
-    DROP DATABASE IF EXISTS BeingThere
-GO
-    CREATE DATABASE BeingThere
-GO
-    USE BeingThere
-GO
+CREATE DATABASE BeingThere;
+GO;
+USE BeingThere;
+GO;
 
 DROP PROCEDURE IF EXISTS createDBBeingThere;
 GO;
@@ -55,12 +54,12 @@ DROP TABLE IF EXISTS tblVideoStream;
 DROP TABLE IF EXISTS tblPart;
 DROP TABLE IF EXISTS tblBTDatabox;
 DROP TABLE IF EXISTS tblScientificData;
-DROP TABLE IF EXISTS tblStaff;
-DROP TABLE IF EXISTS tblDrone;
 DROP TABLE IF EXISTS tblMaintenanceperson;
 DROP TABLE IF EXISTS tblSalesperson;
 DROP TABLE IF EXISTS tblAdministrationExecutive;
 DROP TABLE IF EXISTS tblDirector;
+DROP TABLE IF EXISTS tblStaff;
+DROP TABLE IF EXISTS tblDrone;
 DROP TABLE IF EXISTS tblCondition;
 DROP TABLE IF EXISTS tblZone;
 DROP TABLE IF EXISTS tblCountry;
@@ -68,8 +67,7 @@ DROP TABLE IF EXISTS tblCountry;
 CREATE TABLE tblCountry ( 
     [CountryID] INT IDENTITY PRIMARY KEY,
     [Country] VARCHAR(64) NOT NULL
-    );
-
+);
 CREATE TABLE tblZone ( 
     [ZoneID] INT IDENTITY PRIMARY KEY,
     [MinimumLatitude] Decimal(10, 7) NOT NULL,
@@ -77,26 +75,10 @@ CREATE TABLE tblZone (
     [MinimumLongitude] Decimal (10, 7) NOT NULL,
     [MaximumLongitude] Decimal (10, 7) NOT NULL
 );
-
 CREATE TABLE tblCondition (
     [ConditionID] INT IDENTITY PRIMARY KEY,
     [ConditionName] VARCHAR(32) NOT NULL,
     [ConditionDescription] VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE tblDirector (
-    [DirectorID] INT IDENTITY PRIMARY KEY
-);
-
-CREATE TABLE tblAdministrationExecutive (
-    [AdminExecID] INT IDENTITY PRIMARY KEY
-);
-
-CREATE TABLE tblSalesperson (
-    [SalespersonID] INT IDENTITY PRIMARY KEY
-)
-CREATE TABLE tblMaintenancePerson ( 
-    [MaintencepersonID] INT IDENTITY PRIMARY KEY
 );
 CREATE TABLE tblDrone (
     [DroneID] INT IDENTITY PRIMARY KEY,
@@ -109,7 +91,27 @@ CREATE TABLE tblStaff (
     [NextOfKin] VARCHAR(64) NOT NULL,
     [BeganEmployment] DATE NOT NULL,
     [EndedEmployment] DATE
-)
+);
+CREATE TABLE tblDirector (
+    [DirectorID] INT IDENTITY PRIMARY KEY,
+    [AccountID] INT NOT NULL,
+    FOREIGN KEY (AccountID) REFERENCES tblStaff (AccountID) 
+);
+CREATE TABLE tblAdministrationExecutive (
+    [AdminExecID] INT IDENTITY PRIMARY KEY,
+    [AccountID] INT NOT NULL,
+    FOREIGN KEY (AccountID) REFERENCES tblStaff (AccountID) 
+);
+CREATE TABLE tblSalesperson (
+    [SalespersonID] INT IDENTITY PRIMARY KEY,
+    [AccountID] INT NOT NULL,
+    FOREIGN KEY (AccountID) REFERENCES tblStaff (AccountID) 
+);
+CREATE TABLE tblMaintenancePerson ( 
+    [MaintencepersonID] INT IDENTITY PRIMARY KEY,
+    [AccountID] INT NOT NULL,
+    FOREIGN KEY (AccountID) REFERENCES tblStaff (AccountID) 
+);
 CREATE TABLE tblScientificData (
     [ScientificDataID] INT IDENTITY PRIMARY KEY,
     [Longitude] Decimal(10, 7) NOT NULL,
@@ -118,32 +120,32 @@ CREATE TABLE tblScientificData (
     [Temperature] Decimal(5, 2) NOT NULL,
     [AmbientLightStrength] Decimal(11, 4) NOT NULL,
     [RecordingTime] DATETIME NOT NULL
-)
+);
 CREATE TABLE tblBTDatabox ( 
     [BTDataboxID] INT IDENTITY PRIMARY KEY,
     [FirstOperated] DATE,
     [NextScheduledMaintanence] DATE,
     [IPRating] VARCHAR(2) NOT NULL
-)
+);
 CREATE TABLE tblPart (
     [PartID] INT IDENTITY PRIMARY KEY,
     [Partname] VARCHAR(64) NOT NULL,
     [Description] VARCHAR(64) NOT NULL,
     [Cost] MONEY NOT NULL
-)
+);
 CREATE TABLE tblVideoStream (
     [StreamID] INT IDENTITY PRIMARY KEY
     [StartTime] DATETIME NOT NULL,
     [EndTime] DATETIME,
     [Length] INT
-)
+);
 CREATE TABLE tblPostCode (
     [PostCodeID] INT IDENTITY PRIMARY KEY,
     [PostCode] VARCHAR(16) NOT NULL,
     [City] VARCHAR(64) NOT NULL,
-    [Country] VARCHAR(64) NOT NULL,
-    FOREIGN KEY (Country) REFERENCES tblCountry (Country)
-)
+    [CountryID] Int NOT NULL,
+    FOREIGN KEY (CountryID) REFERENCES tblCountry (CountryID)
+);
 CREATE TABLE tblAddress (
     [AddressID] INT IDENTITY PRIMARY KEY,
     [Prefix] VARCHAR(16),
@@ -151,8 +153,7 @@ CREATE TABLE tblAddress (
     [StreetName] VARCHAR(64) NOT NULL,
     [PostCodeID] INT NOT NULL,
     FOREIGN KEY (PostCodeID) REFERENCES tblPostCode (PostCodeID)
-
-)
+);
 CREATE TABLE tblSupplier (
     [SupplierID] INT IDENTITY PRIMARY KEY,
     [SupplierName] VARCHAR(64) NOT NULL,
@@ -161,7 +162,7 @@ CREATE TABLE tblSupplier (
     [Address] INT NOT NULL,
     [PhoneNumber] VARCHAR(64) NOT NULL,
     FOREIGN KEY (Address) REFERENCES tblAddress (AddressID) -- needs to be moved
-)
+);
 CREATE TABLE tblAccount ( 
     [AccountID] INT IDENTITY PRIMARY KEY,
     [Name] VARCHAR(255) NOT NULL,
@@ -169,58 +170,59 @@ CREATE TABLE tblAccount (
     [AddressID] INT NOT NULL,
     [PhoneNumber] VARCHAR(64),
     FOREIGN KEY (AddressID) REFERENCES tblAddress (AddressID)
-)
+);
 CREATE TABLE tblCustomer ( 
     [AccountID] INT IDENTITY PRIMARY KEY,
     FOREIGN KEY (AccountID) REFERENCES tblAccount (AccountID)
-)
+);
 CREATE TABLE tblPayment (
     [PaymentID] INT IDENTITY PRIMARY KEY,
     [Type] VARCHAR(16) NOT NULL,
     [PaymentDate] DATE NOT NULL,
     [Amount] MONEY NOT NULL,
-    [CustomerID] INT NOT NULL,
-    FOREIGN KEY (CustomerID) REFERENCES tblCustomer(CustomerID)
-)
+    [AccountID] INT NOT NULL,
+    FOREIGN KEY (AccountID) REFERENCES tblCustomer(AccountID)
+);
 CREATE TABLE tblDroneOwner ( 
     [AccountID] INT,
     [DroneID] INT,
     PRIMARY KEY(AccountID, DroneID),
     FOREIGN KEY (AccountID) REFERENCES tblAccount(AccountID),
     FOREIGN KEY (DroneID) REFERENCES tblDrone(DroneID)
-)
+);
 CREATE TABLE tblContractee (
     [AccountID] INT PRIMARY KEY,
     FOREIGN KEY (AccountID) REFERENCES tblAccount (AccountID)
-)
+);
 CREATE TABLE tblSubscriber ( 
     [AccountID] INT PRIMARY KEY,
     FOREIGN KEY (AccountID) REFERENCES tblAccount (AccountID)
-)
+);
 CREATE TABLE tblDiscount (
-    [DiscountAmount] REAL IDENTITY PRIMARY KEY
-)
+    [DiscountID] Int PRIMARY KEY IDENTITY,
+    [DiscountAmount] REAL
+);
 CREATE TABLE tblSubscription (
     [SubscriptionID] INT IDENTITY PRIMARY KEY,
     [AccountID] INT NOT NULL,
     [TotalPrice] MONEY,
     FOREIGN KEY (AccountID) REFERENCES tblAccount (AccountID)
-)
+);
 CREATE TABLE tblGold ( 
     [SubscriptionID] INT PRIMARY KEY,
     [GoldPrice] MONEY NOT NULL,
     FOREIGN KEY (SubscriptionID) REFERENCES tblSubscription (SubscriptionID)
-)
+);
 CREATE TABLE tblPlatinum (
     [SubscriptionID] INT PRIMARY KEY,
     [PlatinumPrice] MONEY NOT NULL,
     FOREIGN KEY (SubscriptionID) REFERENCES tblGold (SubscriptionID)
-)
+);
 CREATE TABLE tblSuperPlatinum (
     [SubscriptionID] INT PRIMARY KEY,
     [SuperPlatinumPrice] MONEY NOT NULL,
     FOREIGN KEY (SubscriptionID) REFERENCES tblPlatinum (SubscriptionID)
-)
+);
 CREATE TABLE tblPriceChange (
     [PriceChangeID] INT IDENTITY PRIMARY KEY,
     [DirectorID] INT NOT NULL,
@@ -230,64 +232,64 @@ CREATE TABLE tblPriceChange (
     [NewPrice] MONEY NOT NULL,
     FOREIGN KEY (DirectorID) REFERENCES tblDirector (DirectorID),
     FOREIGN KEY (SubscriptionID) REFERENCES tblPlatinum (SubscriptionID)
-)
+);
 CREATE TABLE tblBTDataboxStream ( 
     [BTDataboxID] INT NOT NULL,
     [StreamID] INT NOT NULL,
     PRIMARY KEY(BTDataboxID, StreamID),
     FOREIGN KEY (BTDataboxID) REFERENCES tblBTDatabox (BTDataboxID),
     FOREIGN KEY (StreamID) REFERENCES tblVideoStream (StreamID)
-)
+);
 CREATE TABLE tblBTDataboxData (
     [BTDataboxID] INT NOT NULL,
     [ScientificDataID] INT NOT NULL,
     PRIMARY KEY(BTDataboxID, ScientificDataID),
     FOREIGN KEY (BTDataboxID) REFERENCES tblBTDatabox (BTDataboxID),
     FOREIGN KEY (ScientificDataID) REFERENCES tblScientificData (ScientificDataID)
-)
+);
 CREATE TABLE tblBTDataboxPart (
     [BTDataboxID] INT NOT NULL,
     [PartID] INT NOT NULL,
     PRIMARY KEY(BTDataboxID, PartID),
     FOREIGN KEY (BTDataboxID) REFERENCES tblBTDatabox (BTDataboxID),
     FOREIGN KEY (PartID) REFERENCES tblPart (PartID)
-)
+);
 CREATE TABLE tblBTDataboxZone (
     [BTDataboxID] INT NOT NULL,
     [ZoneID] INT NOT NULL,
     PRIMARY KEY(BTDataboxID, ZoneID),
     FOREIGN KEY (BTDataboxID) REFERENCES tblBTDatabox (BTDataboxID),
     FOREIGN KEY (ZoneID) REFERENCES tblZone (ZoneID)
-)
+);
 CREATE TABLE tblStore (
     [StoreID] INT IDENTITY PRIMARY KEY,
     [Name] VARCHAR(64) NOT NULL,
     [AddressID] INT NOT NULL,
     [PhoneNumber] VARCHAR(32) NOT NULL,
-    FOREIGN KEY (BTDataboxID) REFERENCES tblBTDataboxData (BTDataboxID),
-    FOREIGN KEY (ZoneID) REFERENCES tblZone (ZoneID)
-)
+    FOREIGN KEY (AddressID) REFERENCES tblAddress (AddressID)
+);
 CREATE TABLE tblSalespersonStore ( 
     [StoreID] INT NOT NULL,
     [SalespersonID] INT NOT NULL,
     PRIMARY KEY(StoreID, SalespersonID),
     FOREIGN KEY (StoreID) REFERENCES tblStore (StoreID),
     FOREIGN KEY (SalespersonID) REFERENCES tblSalesperson (SalespersonID)
-)
+);
 CREATE TABLE tblSale (
     [SalesPersonID] INT NOT NULL,
     [SubscriptionID] INT NOT NULL,
-    [DiscountAmount] REAL,
+    [DiscountID] INT NOT NULL,
     PRIMARY KEY(SalesPersonID, SubscriptionID),
-    FOREIGN KEY (SalesPersonID) REFERENCES tblSalesperson (SalesPersonID)
-)
+    FOREIGN KEY (SalesPersonID) REFERENCES tblSalesperson (SalesPersonID),
+    FOREIGN KEY (DiscountID) REFERENCES tblDiscount (DiscountID)
+);
 CREATE TABLE tblVideoStreamViewer (
     [StreamID] INT NOT NULL,
     [SubscriptionID] INT NOT NULL,
     PRIMARY KEY(StreamID, SubscriptionID),
     FOREIGN KEY (StreamID) REFERENCES tblVideoStream (StreamID),
     FOREIGN KEY (SubscriptionID) REFERENCES tblSubscription (SubscriptionID)
-)
+);
 CREATE TABLE tblVideoStreamController (
     [StreamID] INT NOT NULL,
     [SubscriptionID] INT NOT NULL,
@@ -295,7 +297,7 @@ CREATE TABLE tblVideoStreamController (
     [Tilt] Decimal(6, 3) NOT NULL,
     [Zoom] Decimal(6, 3) NOT NULL,
     FOREIGN KEY (SubscriptionID) REFERENCES tblSubscription (SubscriptionID)
-)
+);
 CREATE TABLE tblMaintenance (
     [MaintenanceID] INT IDENTITY PRIMARY KEY,
     [MaintencepersonID] INT NOT NULL,
@@ -304,66 +306,63 @@ CREATE TABLE tblMaintenance (
     [Date] DATE NOT NULL,
     FOREIGN KEY (MaintencepersonID) REFERENCES tblMaintenancePerson (MaintencepersonID),
     FOREIGN KEY (BTdataboxID) REFERENCES tblBTDatabox (BTdataboxID)
-)
+);
 CREATE TABLE tblMaintenancePart ( 
     [MaintenanceID] INT NOT NULL,
     [PartID] INT NOT NULL,
     PRIMARY KEY(MaintenanceID, PartID),
     FOREIGN KEY (MaintenanceID) REFERENCES tblMaintenance (MaintenanceID),
     FOREIGN KEY (PartID) REFERENCES tblPart (PartID)
-)
+);
 CREATE TABLE tblPartSupplier ( 
     [PartID] INT NOT NULL,
     [SupplierID] INT NOT NULL,
     PRIMARY KEY(PartID, SupplierID),
     FOREIGN KEY (PartID) REFERENCES tblPart (PartID),
     FOREIGN KEY (SupplierID) REFERENCES tblSupplier (SupplierID)
-)
+);
 CREATE TABLE tblOrder ( 
     [OrderID] INT PRIMARY KEY IDENTITY,
     [MaintenancePersonID] INT NOT NULL,
-    FOREIGN KEY (MaintenancePersonID) REFERENCES tblMaintenancePerson(MaintenancePersonID)
-)
+    FOREIGN KEY (MaintenancePersonID) REFERENCES tblMaintenancePerson(MaintencepersonID)
+);
 CREATE TABLE tblOrderItem (
     [OrderID] INT NOT NULL,
     [PartID] INT NOT NULL,
     [SupplierID] INT NOT NULL,
     PRIMARY KEY(OrderID, PartID, SupplierID),
     FOREIGN KEY (OrderID) REFERENCES tblOrder (OrderID),
-    FOREIGN KEY (PartID) REFERENCES tbl(PartID),
+    FOREIGN KEY (PartID) REFERENCES tblPart(PartID),
     FOREIGN KEY (SupplierID) REFERENCES tblSupplier(SupplierID)
-)
+);
 CREATE TABLE tblZoneCountry ( 
     [ZoneID] INT NOT NULL,
     [CountryID] INT NOT NULL,
     PRIMARY KEY(ZoneID, CountryID),
     FOREIGN KEY (ZoneID) REFERENCES tblZone (ZoneID),
     FOREIGN KEY (CountryID) REFERENCES tblCountry(CountryID)
-)
-
+);
 CREATE TABLE tblZoneCondition (
     [ZoneID] INT NOT NULL,
     [ConditionID] INT NOT NULL,
     PRIMARY KEY(ZoneID, ConditionID),
     FOREIGN KEY (ZoneID) REFERENCES tblZone (ZoneID),
     FOREIGN KEY (ConditionID) REFERENCES tblCondition(ConditionID)
-)
+);
 CREATE TABLE tblSubscriptionZone (
     [SubscriptionID] INT NOT NULL,
     [ZoneID] INT NOT NULL,
     PRIMARY KEY(SubscriptionID, ZoneID),
     FOREIGN KEY (SubscriptionID) REFERENCES tblSubscription (SubscriptionID),
     FOREIGN KEY (ZoneID) REFERENCES tblZone(ZoneID)
-)
-
+);
 CREATE TABLE tblSubscriptionBTDatabox (
     [SubscriptionID] INT NOT NULL,
     [BTDataboxID] INT NOT NULL,
     PRIMARY KEY(SubscriptionID, BTDataboxID),
     FOREIGN KEY (SubscriptionID) REFERENCES tblSubscription (SubscriptionID),
     FOREIGN KEY (BTDataboxID) REFERENCES tblBTDatabox(BTDataboxID)
-) 
-
+);
 CREATE TABLE tblContract (
     [ContractID] INT IDENTITY PRIMARY KEY,
     [StartDate] DATE NOT NULL,
@@ -373,48 +372,42 @@ CREATE TABLE tblContract (
     [EnteredByAdmin] INT NOT NULL,
     FOREIGN KEY (Contractee) REFERENCES tblContractee (AccountID),
     FOREIGN KEY (EnteredByAdmin) REFERENCES tblAdministrationExecutive(AdminExecID)
-)
-
+);
 CREATE TABLE tblContractedBTDatabox (
     [ContractID] INT NOT NULL,
     [BTDataboxID] INT NOT NULL,
     PRIMARY KEY(ContractID, BTDataboxID),
     FOREIGN KEY (ContractID) REFERENCES tblContract (ContractID),
     FOREIGN KEY (BTDataboxID) REFERENCES tblBTDatabox(BTDataboxID)
-)
-
+);
 CREATE TABLE tblContractedZone (
     [ContractID] INT NOT NULL,
     [ZoneID] INT NOT NULL,
-    PRIMARY KEY(ContractID, BTDataboxID),
+    PRIMARY KEY(ContractID, ZoneID),
     FOREIGN KEY (ContractID) REFERENCES tblContract (ContractID),
     FOREIGN KEY (ZoneID) REFERENCES tblZone(ZoneID)
-)
-
+);
 CREATE TABLE tblContractScientificData (
     [ContractID] INT NOT NULL,
     [ScientificDataID] INT NOT NULL,
-    PRIMARY KEY(ContractID, BTDataboxID),
+    PRIMARY KEY(ContractID, ScientificDataID),
     FOREIGN KEY (ContractID) REFERENCES tblContract (ContractID),
     FOREIGN KEY (ScientificDataID) REFERENCES tblScientificData(ScientificDataID)
-)
-
+);
 CREATE TABLE tblOwnsDataRights (
     [ScientificDataID] INT NOT NULL,
     [SubscriptionID] INT NOT NULL,
     PRIMARY KEY(ScientificDataID, SubscriptionID),
     FOREIGN KEY (ScientificDataID) REFERENCES tblScientificData (ScientificDataID),
     FOREIGN KEY (SubscriptionID) REFERENCES tblPlatinum(SubscriptionID)
-)
-
+);
 CREATE TABLE tblOwnsVideoRights (
     [StreamID] INT NOT NULL,
     [SubscriptionID] INT NOT NULL,
     PRIMARY KEY(StreamID, SubscriptionID),
     FOREIGN KEY (StreamID) REFERENCES tblVideoStream (StreamID),
     FOREIGN KEY (SubscriptionID) REFERENCES tblSuperPlatinum(SubscriptionID)
-)
-
+);
 END;
 GO;
 
@@ -424,253 +417,254 @@ GO;
 CREATE PROCEDURE InsertPoinlessDataThatIsRidiclious
 AS
 BEGIN
+
 INSERT INTO tblCountry
 VALUES 
-("Andorra"),
-("United Arab Emirates"),
-("Afghanistan"),
-("Antigua and Barbuda"),
-("Anguilla"),
-("Albania"),
-("Armenia"),
-("Netherlands Antilles"),
-("Angola"),
-("Antarctica"),
-("Argentina"),
-("American Samoa"),
-("Austria"),
-("Australia"),
-("Aruba"),
-("Azerbaijan"),
-("Bosnia and Herzegovina"),
-("Barbados"),
-("Bangladesh"),
-("Belgium"),
-("Burkina Faso"),
-("Bulgaria"),
-("Bahrain"),
-("Burundi"),
-("Benin"),
-("Bermuda"),
-("Brunei"),
-("Bolivia"),
-("Brazil"),
-("Bahamas"),
-("Bhutan"),
-("Bouvet Island"),
-("Botswana"),
-("Belarus"),
-("Belize"),
-("Canada"),
-("Cocos [Keeling] Islands"),
-("Congo [DRC]"),
-("Central African Republic"),
-("Congo [Republic]"),
-("Switzerland"),
-("Côte d'Ivoire"),
-("Cook Islands"),
-("Chile"),
-("Cameroon"),
-("China"),
-("Colombia"),
-("Costa Rica"),
-("Cuba"),
-("Cape Verde"),
-("Christmas Island"),
-("Cyprus"),
-("Czech Republic"),
-("Germany"),
-("Djibouti"),
-("Denmark"),
-("Dominica"),
-("Dominican Republic"),
-("Algeria"),
-("Ecuador"),
-("Estonia"),
-("Egypt"),
-("Western Sahara"),
-("Eritrea"),
-("Spain"),
-("Ethiopia"),
-("Finland"),
-("Fiji)"),
-("Falkland Islands [Islas Malvinas]"),
-("Micronesia"),
-("Faroe Islands"),
-("France"),
-("Gabon"),
-("United Kingdom"),
-("Grenada"),
-("Georgia"),
-("French Guiana"),
-("Guernsey"),
-("Ghana"),
-("Gibraltar"),
-("Greenland"),
-("Gambia"),
-("Guinea"),
-("Guadeloupe"),
-("Equatorial Guinea"),
-("Greece"), 
-("South Georgia and the South Sandwich Islands"),
-("Guatemala"),
-("Guam"),
-("GuineaBissau"),
-("Guyana"),
-("Gaza Strip"),
-("Hong Kong"),
-("Heard Island and McDonald Islands"),
-("Honduras"),
-("Croatia"),
-("Haiti"),
-("Hungary"),
-("Indonesia"),
-("Ireland"),
-("Israel"),
-("Isle of Man"),
-("India"),
-("British Indian Ocean Territory"),
-("Iraq"),
-("Iran"),
-("Iceland"),
-("Italy"),
-("Jersey"),
-("Jamaica"),
-("Jordan"),
-("Japan"),
-("Kenya"),
-("Kyrgyzstan"),
-("Cambodia"),
-("Kiribati"),
-("Comoros"),
-("Saint Kitts and Nevis"),
-("North Korea"),
-("South Korea"),
-("Kuwait"),
-("Cayman Islands"),
-("Kazakhstan"),
-("Laos"),
-("Lebanon"),
-("Saint Lucia"),
-("Liechtenstein"),
-("Sri Lanka"),
-("Liberia"),
-("Lesotho"),
-("Lithuania"),
-("Luxembourg"),
-("Latvia"),
-("Libya"),
-("Morocco"),
-("Monaco"),
-("Moldova"),
-("Montenegro"),
-("Madagascar"),
-("Marshall Islands"),
-("Macedonia [FYROM]"),
-("Mali"),
-("Myanmar [Burma]"),
-("Mongolia"),
-("Macau"),
-("Northern Mariana Islands"),
-("Martinique"),
-("Mauritania"),
-("Montserrat"),
-("Malta"),
-("Mauritius"),
-("Maldives"),
-("Malawi"),
-("Mexico"),
-("Malaysia"),
-("Mozambique"),
-("Namibia"),
-("New Caledonia"),
-("Niger"),
-("Norfolk Island"),
-("Nigeria"),
-("Nicaragua"),
-("Netherlands"),
-("Norway"),
-("Nepal"),
-("Nauru"),
-("Niue"),
-("New Zealand"),
-("Oman"),
-("Panama"),
-("Peru"),
-("French Polynesia"),
-("Papua New Guinea"),
-("Philippines"),
-("Pakistan"),
-("Poland"),
-("Saint Pierre and Miquelon"),
-("Pitcairn Islands"),
-("Puerto Rico"),
-("Palestinian Territories"),
-("Portugal"),
-("Palau"),
-("Paraguay"),
-("Qatar"),
-("Réunion"),
-("Romania"),
-("Serbia"),
-("Russia"),
-("Rwanda"),
-("Saudi Arabia"),
-("Solomon Islands"),
-("Seychelles"),
-("Sudan"),
-("Sweden"),
-("Singapore"),
-("Saint Helena"),
-("Slovenia"),
-("Svalbard and Jan Mayen"),
-("Slovakia"),
-("Sierra Leone"),
-("San Marino"),
-("Senegal"),
-("Somalia"),
-("Suriname"),
-("São Tomé and Príncipe"),
-("El Salvador"),
-("Syria"),
-("Swaziland"),
-("Turks and Caicos Islands"),
-("Chad"),
-("French Southern Territories"),
-("Togo"),
-("Thailand"),
-("Tajikistan"),
-("Tokelau"),
-("TimorLeste"),
-("Turkmenistan"),
-("Tunisia"),
-("Tonga"),
-("Turkey"),
-("Trinidad and Tobago"),
-("Tuvalu"),
-("Taiwan"),
-("Tanzania"),
-("Ukraine"),
-("Uganda"),
-("U.S. Minor Outlying Islands"),
-("United States"),
-("Uruguay"),
-("Uzbekistan"),
-("Vatican City"),
-("Saint Vincent and the Grenadines"),
-("Venezuela"),
-("British Virgin Islands"),
-("U.S. Virgin Islands"),
-("Vietnam"),
-("Vanuatu"),
-("Wallis and Futuna"),
-("Samoa"),
-("Kosovo"),
-("Yemen"),
-("Mayotte"),
-("South Africa"),
-("Zambia"),
-("Zimbabwe");
+(1, 'Andorra'),
+(2, 'United Arab Emirates'),
+(3, 'Afghanistan'),
+(4, 'Antigua and Barbuda'),
+(5, 'Anguilla'),
+(6, 'Albania'),
+(7, 'Armenia'),
+(8, 'Netherlands Antilles'),
+(9, 'Angola'),
+(10, 'Antarctica'),
+(11, 'Argentina'),
+(12, 'American Samoa'),
+(13, 'Austria'),
+(14, 'Australia'),
+(15, 'Aruba'),
+(16, 'Azerbaijan'),
+(17, 'Bosnia and Herzegovina'),
+(18, 'Barbados'),
+(19, 'Bangladesh'),
+(20, 'Belgium'),
+(21, 'Burkina Faso'),
+(22, 'Bulgaria'),
+(23, 'Bahrain'),
+(24, 'Burundi'),
+(25, 'Benin'),
+(26, 'Bermuda'),
+(27, 'Brunei'),
+(28, 'Bolivia'),
+(29, 'Brazil'),
+(30, 'Bahamas'),
+(31, 'Bhutan'),
+(32, 'Bouvet Island'),
+(33, 'Botswana'),
+(34, 'Belarus'),
+(35, 'Belize'),
+(36, 'Canada'),
+(37, 'Cocos [Keeling] Islands'),
+(38, 'Congo [DRC]'),
+(39, 'Central African Republic'),
+(40, 'Congo [Republic]'),
+(41, 'Switzerland'),
+(42, 'Côte d Ivoire'),
+(43, 'Cook Islands'),
+(44, 'Chile'),
+(45, 'Cameroon'),
+(46, 'China'),
+(47, 'Colombia'),
+(48, 'Costa Rica'),
+(49, 'Cuba'),
+(50, 'Cape Verde'),
+(51, 'Christmas Island'),
+(52, 'Cyprus'),
+(53, 'Czech Republic'),
+(54, 'Germany'),
+(55, 'Djibouti'),
+(56, 'Denmark'),
+(57, 'Dominica'),
+(58, 'Dominican Republic'),
+(59, 'Algeria'),
+(60, 'Ecuador'),
+(61, 'Estonia'),
+(62, 'Egypt'),
+(63, 'Western Sahara'),
+(64, 'Eritrea'),
+(65, 'Spain'),
+(66, 'Ethiopia'),
+(67, 'Finland'),
+(68, 'Fiji)'),
+(69, 'Falkland Islands [Islas Malvinas]'),
+(70, 'Micronesia'),
+(71, 'Faroe Islands'),
+(72, 'France'),
+(73, 'Gabon'),
+(74, 'United Kingdom'),
+(75, 'Grenada'),
+(76, 'Georgia'),
+(77, 'French Guiana'),
+(78, 'Guernsey'),
+(79, 'Ghana'),
+(80, 'Gibraltar'),
+(81, 'Greenland'),
+(82, 'Gambia'),
+(83, 'Guinea'),
+(84, 'Guadeloupe'),
+(85, 'Equatorial Guinea'),
+(86, 'Greece'), 
+(87, 'South Georgia and the South Sandwich Islands'),
+(88, 'Guatemala'),
+(89, 'Guam'),
+(90, 'GuineaBissau'),
+(91, 'Guyana'),
+(92, 'Gaza Strip'),
+(93, 'Hong Kong'),
+(94, 'Heard Island and McDonald Islands'),
+(95, 'Honduras'),
+(96, 'Croatia'),
+(97, 'Haiti'),
+(98, 'Hungary'),
+(99, 'Indonesia'),
+(100, 'Ireland'),
+(101, 'Israel'),
+(102, 'Isle of Man'),
+(103, 'India'),
+(104, 'British Indian Ocean Territory'),
+(105, 'Iraq'),
+(106, 'Iran'),
+(107, 'Iceland'),
+(108, 'Italy'),
+(109, 'Jersey'),
+(110, 'Jamaica'),
+(111, 'Jordan'),
+(112, 'Japan'),
+(113, 'Kenya'),
+(114, 'Kyrgyzstan'),
+(115, 'Cambodia'),
+(116, 'Kiribati'),
+(117, 'Comoros'),
+(118, 'Saint Kitts and Nevis'),
+(119, 'North Korea'),
+(120, 'South Korea'),
+(121, 'Kuwait'),
+(122, 'Cayman Islands'),
+(123, 'Kazakhstan'),
+(124, 'Laos'),
+(125, 'Lebanon'),
+(126, 'Saint Lucia'),
+(127, 'Liechtenstein'),
+(128, 'Sri Lanka'),
+(129, 'Liberia'),
+(130, 'Lesotho'),
+(131, 'Lithuania'),
+(132, 'Luxembourg'),
+(133, 'Latvia'),
+(134, 'Libya'),
+(135, 'Morocco'),
+(136, 'Monaco'),
+(137, 'Moldova'),
+(138, 'Montenegro'),
+(139, 'Madagascar'),
+(140, 'Marshall Islands'),
+(141, 'Macedonia [FYROM]'),
+(142, 'Mali'),
+(143, 'Myanmar [Burma]'),
+(144, 'Mongolia'),
+(145, 'Macau'),
+(146, 'Northern Mariana Islands'),
+(147, 'Martinique'),
+(148, 'Mauritania'),
+(149, 'Montserrat'),
+(150, 'Malta'),
+(151, 'Mauritius'),
+(152, 'Maldives'),
+(153, 'Malawi'),
+(154, 'Mexico'),
+(155, 'Malaysia'),
+(156, 'Mozambique'),
+(157, 'Namibia'),
+(158, 'New Caledonia'),
+(159, 'Niger'),
+(160, 'Norfolk Island'),
+(161, 'Nigeria'),
+(162, 'Nicaragua'),
+(163, 'Netherlands'),
+(164, 'Norway'),
+(165, 'Nepal'),
+(166, 'Nauru'),
+(167, 'Niue'),
+(168, 'New Zealand'),
+(169, 'Oman'),
+(170, 'Panama'),
+(171, 'Peru'),
+(172, 'French Polynesia'),
+(173, 'Papua New Guinea'),
+(174, 'Philippines'),
+(175, 'Pakistan'),
+(176, 'Poland'),
+(177, 'Saint Pierre and Miquelon'),
+(178, 'Pitcairn Islands'),
+(179, 'Puerto Rico'),
+(180, 'Palestinian Territories'),
+(181, 'Portugal'),
+(182, 'Palau'),
+(183, 'Paraguay'),
+(184, 'Qatar'),
+(185, 'Réunion'),
+(186, 'Romania'),
+(187, 'Serbia'),
+(188, 'Russia'),
+(189, 'Rwanda'),
+(190, 'Saudi Arabia'),
+(191, 'Solomon Islands'),
+(192, 'Seychelles'),
+(193, 'Sudan'),
+(194, 'Sweden'),
+(195, 'Singapore'),
+(196, 'Saint Helena'),
+(197, 'Slovenia'),
+(198, 'Svalbard and Jan Mayen'),
+(199, 'Slovakia'),
+(200, 'Sierra Leone'),
+(201, 'San Marino'),
+(202, 'Senegal'),
+(203, 'Somalia'),
+(204, 'Suriname'),
+(205, 'São Tomé and Príncipe'),
+(206, 'El Salvador'),
+(207, 'Syria'),
+(208, 'Swaziland'),
+(209, 'Turks and Caicos Islands'),
+(210, 'Chad'),
+(211, 'French Southern Territories'),
+(212, 'Togo'),
+(213, 'Thailand'),
+(214, 'Tajikistan'),
+(215, 'Tokelau'),
+(216, 'TimorLeste'),
+(217, 'Turkmenistan'),
+(218, 'Tunisia'),
+(219, 'Tonga'),
+(220, 'Turkey'),
+(221, 'Trinidad and Tobago'),
+(222, 'Tuvalu'),
+(223, 'Taiwan'),
+(224, 'Tanzania'),
+(225, 'Ukraine'),
+(226, 'Uganda'),
+(227, 'U.S. Minor Outlying Islands'),
+(228, 'United States'),
+(229, 'Uruguay'),
+(230, 'Uzbekistan'),
+(231, 'Vatican City'),
+(232, 'Saint Vincent and the Grenadines'),
+(233, 'Venezuela'),
+(234, 'British Virgin Islands'),
+(235, 'U.S. Virgin Islands'),
+(236, 'Vietnam'),
+(237, 'Vanuatu'),
+(238, 'Wallis and Futuna'),
+(239, 'Samoa'),
+(240, 'Kosovo'),
+(241, 'Yemen'),
+(242, 'Mayotte'),
+(243, 'South Africa'),
+(244, 'Zambia'),
+(245, 'Zimbabwe');
 
 INSERT INTO tblZone
 VALUES
@@ -687,12 +681,12 @@ VALUES
 
 INSERT INTO tblCondition
 VALUES
-("Jungle", "A jungle is land covered with dense forest and tangled vegetation, usually in hot climates"),
-("Forest", "A forest is a large area dominated by trees"),
-("Savannah", "A savannah is a mixed woodlandgrassland ecosystem characterised by the trees being sufficiently widely spaced so that the canopy does not close. The open canopy allows sufficient light to reach the ground to support a herbaceous layer of grasses"),
-("Ice and Snow (extreme cold)"),
-("Deserts", "A desert is a barren area of landscape where little precipitation occurs and, consequently, living conditions are hostile for plant and animal life"),
-("Urban", "An urban area, or builtup area, is a human settlement with a high population density and infrastructure of built environment");
+('Jungle', 'A jungle is land covered with dense forest and tangled vegetation, usually in hot climates'),
+('Forest', 'A forest is a large area dominated by trees'),
+('Savannah', 'A savannah is a mixed woodlandgrassland ecosystem characterised by the trees being sufficiently widely spaced so that the canopy does not close. The open canopy allows sufficient light to reach the ground to support a herbaceous layer of grasses'),
+('Ice and Snow (extreme cold)', 'burr, cold'),
+('Deserts', 'A desert is a barren area of landscape where little precipitation occurs and, consequently, living conditions are hostile for plant and animal life'),
+('Urban', 'An urban area, or builtup area, is a human settlement with a high population density and infrastructure of built environment');
 
 INSERT INTO tblDirector
 VALUES
@@ -1204,18 +1198,16 @@ VALUES
 (98, null, 68, 'La Follette Circle', 98),
 (99, 1, 54, 'Rutledge Terrace', 99),
 (100, null, 33, 'American Place', 100),
-(101, 7, 7, 'Memorial', 'Trail', 1),
-(102, null, 22, 'Eliot', 'Junction', 2),
-(103, null, 24, 'Dexter', 'Park', 3),
-(104, null, 26, 'Mcguire', 'Alley', 4),
-(105, 9, 4, 'Forest', 'Parkway', 5),
-(106, null, 15, 'Transport', 'Plaza', 6),
-(107, null, 14, 'Butternut', 'Parkway', 7),
-(108, 5, 12, 'Sunnyside', 'Trail', 8),
-(109, null, 28, 'Caliangt', 'Alley', 9),
-(110, null, 8, 'Jackson', 'Terrace', 10);
-
-
+(101, 7, 7, 'Memorial Trail', 1),
+(102, null, 22, 'Eliot Junction', 2),
+(103, null, 24, 'Dexter Park', 3),
+(104, null, 26, 'Mcguire Alley', 4),
+(105, 9, 4, 'Forest Parkway', 5),
+(106, null, 15, 'Transport Plaza', 6),
+(107, null, 14, 'Butternut Parkway', 7),
+(108, 5, 12, 'Sunnyside Trail', 8),
+(109, null, 28, 'Caliangt Alley', 9),
+(110, null, 8, 'Jackson Terrace', 10);
 
 INSERT INTO tblSupplier 
 VALUES (1, 'Stokes and Sons', 'Caterina Merrett', 1, '8385082769'),
@@ -1324,66 +1316,66 @@ VALUES
 
 INSERT INTO tblCustomer 
 VALUES
-("1"), 
-("2"), 
-("3"), 
-("4"), 
-("5"), 
-("6"), 
-("7"), 
-("8"), 
-("9"), 
-("10"), 
-("11"), 
-("12"), 
-("13"), 
-("14"), 
-("15"), 
-("16"), 
-("17"), 
-("18"), 
-("19"), 
-("20"), 
-("21"), 
-("22"), 
-("23"), 
-("24"), 
-("25"), 
-("26"), 
-("27"), 
-("28"), 
-("29"), 
-("30"), 
-("31"), 
-("32"), 
-("33"), 
-("34"), 
-("35"), 
-("36"), 
-("37"), 
-("38"), 
-("39"), 
-("40"), 
-("41"), 
-("42"), 
-("43"), 
-("44"), 
-("45"), 
-("46"), 
-("47"), 
-("48"), 
-("49"), 
-("50"), 
-("51"), 
-("52"), 
-("53"), 
-("54"), 
-("55"), 
-("56"), 
-("57"), 
-("58"), 
-("59"), 
-("60");
+('1'), 
+('2'), 
+('3'), 
+('4'), 
+('5'), 
+('6'), 
+('7'), 
+('8'), 
+('9'), 
+('10'), 
+('11'), 
+('12'), 
+('13'), 
+('14'), 
+('15'), 
+('16'), 
+('17'), 
+('18'), 
+('19'), 
+('20'), 
+('21'), 
+('22'), 
+('23'), 
+('24'), 
+('25'), 
+('26'), 
+('27'), 
+('28'), 
+('29'), 
+('30'), 
+('31'), 
+('32'), 
+('33'), 
+('34'), 
+('35'), 
+('36'), 
+('37'), 
+('38'), 
+('39'), 
+('40'), 
+('41'), 
+('42'), 
+('43'), 
+('44'), 
+('45'), 
+('46'), 
+('47'), 
+('48'), 
+('49'), 
+('50'), 
+('51'), 
+('52'), 
+('53'), 
+('54'), 
+('55'), 
+('56'), 
+('57'), 
+('58'), 
+('59'), 
+('60');
 
 INSERT INTO tblPayment 
 VALUES
@@ -1488,94 +1480,93 @@ VALUES
 (99, 'laser', '20190725 02:25:21', '$476.98', 99),
 (100, 'jcb', '20190716 06:25:45', '$248.62', 100);
 
-
 INSERT INTO tblDroneOwner 
-VALUES ("101", "1"),
-("102", "2"),
-("103", "3"),
-("104", "4"),
-("105", "5"),
-("106", "6"),
-("107", "7"),
-("108", "8"),
-("109", "9"),
-("110", "10"),
-("111", "11"),
-("112", "12"),
-("113", "13"),
-("114", "14"),
-("115", "15"),
-("116", "16"),
-("117", "17"),
-("118", "18"),
-("119", "19"),
-("120", "20");
+VALUES ('101', '1'),
+('102', '2'),
+('103', '3'),
+('104', '4'),
+('105', '5'),
+('106', '6'),
+('107', '7'),
+('108', '8'),
+('109', '9'),
+('110', '10'),
+('111', '11'),
+('112', '12'),
+('113', '13'),
+('114', '14'),
+('115', '15'),
+('116', '16'),
+('117', '17'),
+('118', '18'),
+('119', '19'),
+('120', '20');
 
 INSERT INTO tblContractee 
 VALUES
-("41"),
-("42"),
-("43"),
-("44"),
-("45"),
-("46"),
-("47"),
-("48"),
-("49"),
-("50"),
-("51"),
-("52"),
-("53"),
-("54"),
-("55"),
-("56"),
-("57"),
-("58"),
-("59"),
-("60");
+('41'),
+('42'),
+('43'),
+('44'),
+('45'),
+('46'),
+('47'),
+('48'),
+('49'),
+('50'),
+('51'),
+('52'),
+('53'),
+('54'),
+('55'),
+('56'),
+('57'),
+('58'),
+('59'),
+('60');
 
 INSERT INTO tblSubscriber 
 VALUES
-("1"),
-("2"),
-("3"),
-("4"),
-("5"),
-("6"),
-("7"),
-("8"),
-("9"),
-("10"),
-("11"),
-("12"),
-("13"),
-("14"),
-("15"),
-("16"),
-("17"),
-("18"),
-("19"),
-("20"),
-("21"),
-("22"),
-("23"),
-("24"),
-("25"),
-("26"),
-("27"),
-("28"),
-("29"),
-("30"),
-("31"),
-("32"),
-("33"),
-("34"),
-("35"),
-("36"),
-("37"),
-("38"),
-("39"),
-("40");
+('1'),
+('2'),
+('3'),
+('4'),
+('5'),
+('6'),
+('7'),
+('8'),
+('9'),
+('10'),
+('11'),
+('12'),
+('13'),
+('14'),
+('15'),
+('16'),
+('17'),
+('18'),
+('19'),
+('20'),
+('21'),
+('22'),
+('23'),
+('24'),
+('25'),
+('26'),
+('27'),
+('28'),
+('29'),
+('30'),
+('31'),
+('32'),
+('33'),
+('34'),
+('35'),
+('36'),
+('37'),
+('38'),
+('39'),
+('40');
 
 INSERT INTO tblDiscount 
 VALUES (0.0),
@@ -1601,116 +1592,116 @@ VALUES (0.0),
 (2.0);
 
 INSERT INTO tblSubscription 
-VALUES ("1"),
-("2"),
-("3"),
-("4"),
-("5"),
-("6"),
-("7"),
-("8"),
-("9"),
-("10"),
-("11"),
-("12"),
-("13"),
-("14"),
-("15"),
-("16"),
-("17"),
-("18"),
-("19"),
-("20"),
-("21"),
-("22"),
-("23"),
-("24"),
-("25"),
-("26"),
-("27"),
-("28"),
-("29"),
-("30"),
-("31"),
-("32"),
-("33"),
-("34"),
-("35"),
-("36"),
-("37"),
-("38"),
-("39"),
-("40");
+VALUES ('1'),
+('2'),
+('3'),
+('4'),
+('5'),
+('6'),
+('7'),
+('8'),
+('9'),
+('10'),
+('11'),
+('12'),
+('13'),
+('14'),
+('15'),
+('16'),
+('17'),
+('18'),
+('19'),
+('20'),
+('21'),
+('22'),
+('23'),
+('24'),
+('25'),
+('26'),
+('27'),
+('28'),
+('29'),
+('30'),
+('31'),
+('32'),
+('33'),
+('34'),
+('35'),
+('36'),
+('37'),
+('38'),
+('39'),
+('40');
 
 INSERT INTO tblGold 
 VALUES
-("11"),
-("12"),
-("13"),
-("14"),
-("15"),
-("16"),
-("17"),
-("18"),
-("19"),
-("20"),
-("21"),
-("22"),
-("23"),
-("24"),
-("25"),
-("26"),
-("27"),
-("28"),
-("29"),
-("30"),
-("31"),
-("32"),
-("33"),
-("34"),
-("35"),
-("36"),
-("37"),
-("38"),
-("39"),
-("40");
+('11'),
+('12'),
+('13'),
+('14'),
+('15'),
+('16'),
+('17'),
+('18'),
+('19'),
+('20'),
+('21'),
+('22'),
+('23'),
+('24'),
+('25'),
+('26'),
+('27'),
+('28'),
+('29'),
+('30'),
+('31'),
+('32'),
+('33'),
+('34'),
+('35'),
+('36'),
+('37'),
+('38'),
+('39'),
+('40');
 
 INSERT INTO tblPlatinum 
 VALUES
-("20"),
-("21"),
-("22"),
-("23"),
-("24"),
-("25"),
-("26"),
-("27"),
-("28"),
-("29"),
-("30"),
-("31"),
-("32"),
-("33"),
-("34"),
-("35"),
-("36"),
-("37"),
-("38"),
-("39"),
-("40");
+('20'),
+('21'),
+('22'),
+('23'),
+('24'),
+('25'),
+('26'),
+('27'),
+('28'),
+('29'),
+('30'),
+('31'),
+('32'),
+('33'),
+('34'),
+('35'),
+('36'),
+('37'),
+('38'),
+('39'),
+('40');
 
 INSERT INTO tblSuperPlatinum 
-VALUES ("30"),
-("31"),
-("32"),
-("33"),
-("34"),
-("35"),
-("36"),
-("37"),
-("38"),
-("39"),
-("40");
+VALUES ('30'),
+('31'),
+('32'),
+('33'),
+('34'),
+('35'),
+('36'),
+('37'),
+('38'),
+('39'),
+('40');
 
 INSERT INTO tblPriceChange 
 VALUES
@@ -2314,16 +2305,16 @@ VALUES
 
 INSERT INTO tblZoneCondition 
 VALUES
-(1, "Jungle"),
-(2, "Forest"),
-(3, "Savannah"),
-(4, "Jungle"),
-(5, "Ice and Snow (extreme cold)"),
-(6, "Urban"),
-(7, "Jungle"),
-(8, "Deserts"),
-(9, "Urban"),
-(10, "Urban");
+(1, 'Jungle'),
+(2, 'Forest'),
+(3, 'Savannah'),
+(4, 'Jungle'),
+(5, 'Ice and Snow (extreme cold)'),
+(6, 'Urban'),
+(7, 'Jungle'),
+(8, 'Deserts'),
+(9, 'Urban'),
+(10, 'Urban');
 
 INSERT INTO tblSubscriptionZone 
 VALUES
