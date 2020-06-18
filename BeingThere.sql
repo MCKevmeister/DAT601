@@ -13,7 +13,6 @@ AS
 BEGIN
 DROP TABLE IF EXISTS tblOwnsVideoRights;
 DROP TABLE IF EXISTS tblOwnsDataRights;
-DROP TABLE IF EXISTS tblStaffRole;
 DROP TABLE IF EXISTS tblContractScientificData;
 DROP TABLE IF EXISTS tblContractedZone;
 DROP TABLE IF EXISTS tblContractedBTDatabox;
@@ -43,8 +42,8 @@ DROP TABLE IF EXISTS tblGold;
 DROP TABLE IF EXISTS tblSubscription;
 DROP TABLE IF EXISTS tblSubscriber;
 DROP TABLE IF EXISTS tblContractee;
-DROP TABLE IF EXISTS tblDrone;
 DROP TABLE IF EXISTS tblDroneOwner;
+DROP TABLE IF EXISTS tblDrone;
 DROP TABLE IF EXISTS tblPayment;
 DROP TABLE IF EXISTS tblCustomer;
 DROP TABLE IF EXISTS tblMaintenanceperson;
