@@ -181,8 +181,8 @@ CREATE TABLE tblPayment (
     [Type] VARCHAR(16) NOT NULL,
     [PaymentDate] DATE NOT NULL,
     [Amount] MONEY NOT NULL,
-    [AccountID] INT NOT NULL,
-    FOREIGN KEY (AccountID) REFERENCES tblCustomer(AccountID)
+    [CustomerID] INT NOT NULL,
+    FOREIGN KEY (CustomerID) REFERENCES tblCustomer(CustomerID)
 );
 CREATE TABLE tblDroneOwner ( 
     [AccountID] INT NOT NULL,
@@ -207,9 +207,9 @@ CREATE TABLE tblDiscount (
 );
 CREATE TABLE tblSubscription (
     [SubscriptionID] INT IDENTITY PRIMARY KEY,
-    [AccountID] INT NOT NULL,
+    [SubscriberID] INT NOT NULL,
     [TotalPrice] MONEY NOT NULL,
-    FOREIGN KEY (AccountID) REFERENCES tblAccount (AccountID)
+    FOREIGN KEY (SubscriberID) REFERENCES tblAccount (SubscriberID)
 );
 CREATE TABLE tblGold ( 
     [SubscriptionID] INT PRIMARY KEY,
