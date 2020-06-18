@@ -962,7 +962,7 @@ VALUES
 ('eu', 'Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum.', '$486.45'),
 ('diam', 'Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', '$518.03');
 
-INSERT INTO tblVideoStream
+INSERT INTO tblVideoStream (StartTime, EndTime)
 VALUES
 ('2020-04-01T08:16:59.000', '2019-12-08T17:03:15.000'),
 ('2019-08-21T07:18:49.000', '2020-04-24T18:13:53.000'),
