@@ -7,6 +7,7 @@ GO
 
 DROP PROCEDURE IF EXISTS createDBAbsloutlyBeingThere;
 GO
+
 CREATE PROCEDURE createDBAbsloutlyBeingThere
 AS
 BEGIN
@@ -40,12 +41,17 @@ DROP TABLE IF EXISTS tblSuperPlatinum;
 DROP TABLE IF EXISTS tblPlatinum;
 DROP TABLE IF EXISTS tblGold;
 DROP TABLE IF EXISTS tblSubscription;
-DROP TABLE IF EXISTS tblDiscount;
 DROP TABLE IF EXISTS tblSubscriber;
 DROP TABLE IF EXISTS tblContractee;
+DROP TABLE IF EXISTS tblDrone;
 DROP TABLE IF EXISTS tblDroneOwner;
 DROP TABLE IF EXISTS tblPayment;
 DROP TABLE IF EXISTS tblCustomer;
+DROP TABLE IF EXISTS tblMaintenanceperson;
+DROP TABLE IF EXISTS tblSalesperson;
+DROP TABLE IF EXISTS tblAdministrationExecutive;
+DROP TABLE IF EXISTS tblDirector;
+DROP TABLE IF EXISTS tblStaff;
 DROP TABLE IF EXISTS tblAccount;
 DROP TABLE IF EXISTS tblSupplier;
 DROP TABLE IF EXISTS tblAddress;
@@ -54,12 +60,6 @@ DROP TABLE IF EXISTS tblVideoStream;
 DROP TABLE IF EXISTS tblPart;
 DROP TABLE IF EXISTS tblBTDatabox;
 DROP TABLE IF EXISTS tblScientificData;
-DROP TABLE IF EXISTS tblMaintenanceperson;
-DROP TABLE IF EXISTS tblSalesperson;
-DROP TABLE IF EXISTS tblAdministrationExecutive;
-DROP TABLE IF EXISTS tblDirector;
-DROP TABLE IF EXISTS tblStaff;
-DROP TABLE IF EXISTS tblDrone;
 DROP TABLE IF EXISTS tblCondition;
 DROP TABLE IF EXISTS tblZone;
 DROP TABLE IF EXISTS tblCountry;
@@ -79,38 +79,6 @@ CREATE TABLE tblCondition (
     [ConditionID] INT IDENTITY PRIMARY KEY,
     [ConditionName] VARCHAR(32) NOT NULL,
     [ConditionDescription] VARCHAR(255) NOT NULL
-);
-CREATE TABLE tblDrone (
-    [DroneID] INT IDENTITY PRIMARY KEY,
-    [Description] VARCHAR(255) NOT NULL,
-    [OperationTime] INT NOT NULL
-);
-CREATE TABLE tblStaff (
-    [AccountID] INT IDENTITY PRIMARY KEY,
-    [Salary] MONEY NOT NULL,
-    [NextOfKin] VARCHAR(64) NOT NULL,
-    [BeganEmployment] DATE NOT NULL,
-    [EndedEmployment] DATE
-);
-CREATE TABLE tblDirector (
-    [DirectorID] INT IDENTITY PRIMARY KEY,
-    [AccountID] INT NOT NULL,
-    FOREIGN KEY (AccountID) REFERENCES tblStaff (AccountID) 
-);
-CREATE TABLE tblAdministrationExecutive (
-    [AdminExecID] INT IDENTITY PRIMARY KEY,
-    [AccountID] INT NOT NULL,
-    FOREIGN KEY (AccountID) REFERENCES tblStaff (AccountID) 
-);
-CREATE TABLE tblSalesperson (
-    [SalespersonID] INT IDENTITY PRIMARY KEY,
-    [AccountID] INT NOT NULL,
-    FOREIGN KEY (AccountID) REFERENCES tblStaff (AccountID) 
-);
-CREATE TABLE tblMaintenancePerson ( 
-    [MaintencepersonID] INT IDENTITY PRIMARY KEY,
-    [AccountID] INT NOT NULL,
-    FOREIGN KEY (AccountID) REFERENCES tblStaff (AccountID) 
 );
 CREATE TABLE tblScientificData (
     [ScientificDataID] INT IDENTITY PRIMARY KEY,
@@ -161,7 +129,7 @@ CREATE TABLE tblSupplier (
     [Email] VARCHAR(64) NOT NULL,
     [Address] INT NOT NULL,
     [PhoneNumber] VARCHAR(64) NOT NULL,
-    FOREIGN KEY (Address) REFERENCES tblAddress (AddressID) -- needs to be moved
+    FOREIGN KEY (Address) REFERENCES tblAddress (AddressID)
 );
 CREATE TABLE tblAccount ( 
     [AccountID] INT IDENTITY PRIMARY KEY,
@@ -170,6 +138,35 @@ CREATE TABLE tblAccount (
     [AddressID] INT NOT NULL,
     [PhoneNumber] VARCHAR(64),
     FOREIGN KEY (AddressID) REFERENCES tblAddress (AddressID)
+);
+CREATE TABLE tblStaff (
+    [StaffID] INT IDENTITY PRIMARY KEY,
+    [AccountID] INT NOT NULL,
+    [Salary] MONEY NOT NULL,
+    [NextOfKin] VARCHAR(64) NOT NULL,
+    [BeganEmployment] DATE NOT NULL,
+    [EndedEmployment] DATE,
+    FOREIGN KEY (AccountID) REFERENCES tblAccount(AccountID)
+);
+CREATE TABLE tblDirector (
+    [DirectorID] INT IDENTITY PRIMARY KEY,
+    [StaffID] INT NOT NULL,
+    FOREIGN KEY (StaffID) REFERENCES tblStaff (StaffID) 
+);
+CREATE TABLE tblAdministrationExecutive (
+    [AdminExecID] INT IDENTITY PRIMARY KEY,
+    [StaffID] INT NOT NULL,
+    FOREIGN KEY (StaffID) REFERENCES tblStaff (StaffID) 
+);
+CREATE TABLE tblSalesperson (
+    [SalespersonID] INT IDENTITY PRIMARY KEY,
+    [StaffID] INT NOT NULL,
+    FOREIGN KEY (StaffID) REFERENCES tblStaff (StaffID) 
+);
+CREATE TABLE tblMaintenancePerson ( 
+    [MaintencepersonID] INT IDENTITY PRIMARY KEY,
+    [StaffID] INT NOT NULL,
+    FOREIGN KEY (StaffID) REFERENCES tblStaff (StaffID) 
 );
 CREATE TABLE tblCustomer ( 
     [CustomerID] INT IDENTITY PRIMARY KEY,
@@ -184,12 +181,19 @@ CREATE TABLE tblPayment (
     [CustomerID] INT NOT NULL,
     FOREIGN KEY (CustomerID) REFERENCES tblCustomer(CustomerID)
 );
-CREATE TABLE tblDroneOwner ( 
+CREATE TABLE tblDroneOwner (
+    [DroneOwnerID] INT IDENTITY PRIMARY KEY,
     [AccountID] INT NOT NULL,
-    [DroneID] INT NOT NULL,
-    PRIMARY KEY(AccountID, DroneID),
     FOREIGN KEY (AccountID) REFERENCES tblAccount(AccountID),
-    FOREIGN KEY (DroneID) REFERENCES tblDrone(DroneID)
+);
+CREATE TABLE tblDrone (
+    [DroneID] INT IDENTITY PRIMARY KEY,
+    [DroneOwnerID] INT NOT NULL,
+    [BTDataboxID] INT NOT NULL,
+    [Description] VARCHAR(255) NOT NULL,
+    [OperationTime] INT NOT NULL,
+    FOREIGN KEY (DroneOwnerID) REFERENCES tblDroneOwner (DroneOwnerID),
+    FOREIGN KEY (BTDataboxID) REFERENCES tblBTDatabox (BTDataboxID)
 );
 CREATE TABLE tblContractee (
     [ContracteeID] INT IDENTITY PRIMARY KEY
@@ -199,11 +203,7 @@ CREATE TABLE tblContractee (
 CREATE TABLE tblSubscriber ( 
     [SubscriberID] INT IDENTITY PRIMARY KEY,
     [CustomerID] INT NOT NULL,
-    FOREIGN KEY (AccountID) REFERENCES tblAccount (AccountID)
-);
-CREATE TABLE tblDiscount (
-    [DiscountID] Int PRIMARY KEY IDENTITY,
-    [DiscountAmount] REAL NOT NULL
+    FOREIGN KEY (CustomerID) REFERENCES tblCustomer (CustomerID)
 );
 CREATE TABLE tblSubscription (
     [SubscriptionID] INT IDENTITY PRIMARY KEY,
@@ -212,29 +212,38 @@ CREATE TABLE tblSubscription (
     FOREIGN KEY (SubscriberID) REFERENCES tblAccount (SubscriberID)
 );
 CREATE TABLE tblGold ( 
-    [SubscriptionID] INT PRIMARY KEY,
+    [GoldID] INT IDENTITY PRIMARY KEY,
+    [SubscriptionID] INT NOT NULL,
     [GoldPrice] MONEY NOT NULL,
     FOREIGN KEY (SubscriptionID) REFERENCES tblSubscription (SubscriptionID)
 );
 CREATE TABLE tblPlatinum (
-    [SubscriptionID] INT PRIMARY KEY,
+    [PlatinumID] INT IDENTITY PRIMARY KEY,
+    [GoldID] INT NOT NULL,
     [PlatinumPrice] MONEY NOT NULL,
-    FOREIGN KEY (SubscriptionID) REFERENCES tblGold (SubscriptionID)
+    FOREIGN KEY (GoldID) REFERENCES tblGold (GoldID)
 );
 CREATE TABLE tblSuperPlatinum (
-    [SubscriptionID] INT PRIMARY KEY,
+    [SuperPlatinumID] INT IDENTITY PRIMARY KEY,
+    [PlatinumID] INT NOT NULL,
     [SuperPlatinumPrice] MONEY NOT NULL,
-    FOREIGN KEY (SubscriptionID) REFERENCES tblPlatinum (SubscriptionID)
+    FOREIGN KEY (PlatinumID) REFERENCES tblPlatinum (PlatinumID)
 );
 CREATE TABLE tblPriceChange (
     [PriceChangeID] INT IDENTITY PRIMARY KEY,
     [DirectorID] INT NOT NULL,
     [SubscriptionID] INT NOT NULL,
+    [GoldID] INT NOT NULL,
+    [PlatinumID] INT NOT NULL,
+    [SuperPlatinumID] INT NOT NULL,
     [Date] DATE NOT NULL,
     [PreviousPrice] MONEY NOT NULL,
     [NewPrice] MONEY NOT NULL,
     FOREIGN KEY (DirectorID) REFERENCES tblDirector (DirectorID),
-    FOREIGN KEY (SubscriptionID) REFERENCES tblPlatinum (SubscriptionID)
+    FOREIGN KEY (SubscriptionID) REFERENCES tblSubscription (SubscriptionID),
+    FOREIGN KEY (GoldID) REFERENCES tblGold (GoldID),
+    FOREIGN KEY (PlatinumID) REFERENCES tblPlatinum (PlatinumID),
+    FOREIGN KEY (SuperPlatinumID) REFERENCES tblSuperPlatinum (SuperPlatinumID)
 );
 CREATE TABLE tblBTDataboxStream ( 
     [BTDataboxID] INT NOT NULL,
@@ -271,7 +280,7 @@ CREATE TABLE tblStore (
     [PhoneNumber] VARCHAR(32) NOT NULL,
     FOREIGN KEY (AddressID) REFERENCES tblAddress (AddressID)
 );
-CREATE TABLE tblSalespersonStore ( 
+CREATE TABLE tblStoreSalesPerson ( 
     [StoreID] INT NOT NULL,
     [SalespersonID] INT NOT NULL,
     PRIMARY KEY(StoreID, SalespersonID),
@@ -281,10 +290,9 @@ CREATE TABLE tblSalespersonStore (
 CREATE TABLE tblSale (
     [SalesPersonID] INT NOT NULL,
     [SubscriptionID] INT NOT NULL,
-    [DiscountID] INT NOT NULL,
+    [DiscountID] REAL NOT NULL CHECK ( Discount >= 0.0 and Discount <= 2.00), --check max discount amount TODO
     PRIMARY KEY(SalesPersonID, SubscriptionID),
-    FOREIGN KEY (SalesPersonID) REFERENCES tblSalesperson (SalesPersonID),
-    FOREIGN KEY (DiscountID) REFERENCES tblDiscount (DiscountID)
+    FOREIGN KEY (SalesPersonID) REFERENCES tblSalesperson (SalesPersonID)
 );
 CREATE TABLE tblVideoStreamViewer (
     [StreamID] INT NOT NULL,
@@ -294,12 +302,14 @@ CREATE TABLE tblVideoStreamViewer (
     FOREIGN KEY (SubscriptionID) REFERENCES tblSubscription (SubscriptionID)
 );
 CREATE TABLE tblVideoStreamController (
+    [GoldID] INT NOT NULL,
     [StreamID] INT NOT NULL,
-    [SubscriptionID] INT NOT NULL,
     [Pan] Decimal(6, 3) NOT NULL,
     [Tilt] Decimal(6, 3) NOT NULL,
     [Zoom] Decimal(6, 3) NOT NULL,
-    FOREIGN KEY (SubscriptionID) REFERENCES tblSubscription (SubscriptionID)
+    FOREIGN KEY (GoldID) REFERENCES tblGold (GoldID),
+    FOREIGN KEY (StreamID) 
+
 );
 CREATE TABLE tblMaintenance (
     [MaintenanceID] INT IDENTITY PRIMARY KEY,
@@ -327,6 +337,7 @@ CREATE TABLE tblPartSupplier (
 CREATE TABLE tblOrder ( 
     [OrderID] INT PRIMARY KEY IDENTITY,
     [MaintenancePersonID] INT NOT NULL,
+    [Date] DATE NOT NULL,
     FOREIGN KEY (MaintenancePersonID) REFERENCES tblMaintenancePerson(MaintencepersonID)
 );
 CREATE TABLE tblOrderItem (
@@ -373,7 +384,7 @@ CREATE TABLE tblContract (
     [Value] INT NOT NULL,
     [Contractee] INT NOT NULL,
     [EnteredByAdmin] INT NOT NULL,
-    FOREIGN KEY (Contractee) REFERENCES tblContractee (AccountID),
+    FOREIGN KEY (Contractee) REFERENCES tblContractee (ContracteeID),
     FOREIGN KEY (EnteredByAdmin) REFERENCES tblAdministrationExecutive(AdminExecID)
 );
 CREATE TABLE tblContractedBTDatabox (
@@ -399,20 +410,21 @@ CREATE TABLE tblContractScientificData (
 );
 CREATE TABLE tblOwnsDataRights (
     [ScientificDataID] INT NOT NULL,
-    [SubscriptionID] INT NOT NULL,
-    PRIMARY KEY(ScientificDataID, SubscriptionID),
+    [PlatinumID] INT NOT NULL,
+    PRIMARY KEY(ScientificDataID, PlatinumID),
     FOREIGN KEY (ScientificDataID) REFERENCES tblScientificData (ScientificDataID),
-    FOREIGN KEY (SubscriptionID) REFERENCES tblPlatinum(SubscriptionID)
+    FOREIGN KEY (PlatinumID) REFERENCES tblPlatinum(PlatinumID)
 );
 CREATE TABLE tblOwnsVideoRights (
     [StreamID] INT NOT NULL,
-    [SubscriptionID] INT NOT NULL,
-    PRIMARY KEY(StreamID, SubscriptionID),
+    [SuperPlaintumID] INT NOT NULL,
+    PRIMARY KEY(StreamID, SuperPlaintumID),
     FOREIGN KEY (StreamID) REFERENCES tblVideoStream (StreamID),
-    FOREIGN KEY (SubscriptionID) REFERENCES tblSuperPlatinum(SubscriptionID)
+    FOREIGN KEY (SuperPlaintumID) REFERENCES tblSuperPlatinum(SuperPlaintumID)
 );
-END;
-GO
+
+end;
+go
 
 EXEC createDBAbsloutlyBeingThere;
 
@@ -743,29 +755,6 @@ VALUES
 (8),
 (9),
 (10);
-
-INSERT INTO tblDrone 
-VALUES 
-(1, 'Pellentesque at nulla.'),
-(2, 'Aenean sit amet justo.'),
-(3, 'Integer ac neque.'),
-(4, 'Etiam pretium iaculis justo.'),
-(5, 'Etiam vel augue.'),
-(6, 'Aenean lectus.'),
-(7, 'In hac habitasse platea dictumst.'),
-(8, 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc.'),
-(9, 'Donec quis orci eget orci vehicula condimentum.'),
-(10, 'Nullam porttitor lacus at turpis.'),
-(11, 'Donec semper sapien a libero.'),
-(12, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa.'),
-(13, 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi.'),
-(14, 'Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.'),
-(15, 'Morbi porttitor lorem id ligula.'),
-(16, 'Nulla tempus.'),
-(17, 'Sed ante.'),
-(18, 'Proin risus.'),
-(19, 'Vestibulum rutrum rutrum neque.'),
-(20, 'Quisque id justo sit amet sapien dignissim vestibulum.');
 
 INSERT INTO tblStaff 
 VALUES 
@@ -1507,6 +1496,29 @@ VALUES ('101', '1'),
 ('119', '19'),
 ('120', '20');
 
+INSERT INTO tblDrone 
+VALUES 
+(1, 'Pellentesque at nulla.'),
+(2, 'Aenean sit amet justo.'),
+(3, 'Integer ac neque.'),
+(4, 'Etiam pretium iaculis justo.'),
+(5, 'Etiam vel augue.'),
+(6, 'Aenean lectus.'),
+(7, 'In hac habitasse platea dictumst.'),
+(8, 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc.'),
+(9, 'Donec quis orci eget orci vehicula condimentum.'),
+(10, 'Nullam porttitor lacus at turpis.'),
+(11, 'Donec semper sapien a libero.'),
+(12, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa.'),
+(13, 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi.'),
+(14, 'Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.'),
+(15, 'Morbi porttitor lorem id ligula.'),
+(16, 'Nulla tempus.'),
+(17, 'Sed ante.'),
+(18, 'Proin risus.'),
+(19, 'Vestibulum rutrum rutrum neque.'),
+(20, 'Quisque id justo sit amet sapien dignissim vestibulum.');
+
 INSERT INTO tblContractee 
 VALUES
 ('41'),
@@ -1572,29 +1584,6 @@ VALUES
 ('38'),
 ('39'),
 ('40');
-
-INSERT INTO tblDiscount 
-VALUES (0.0),
-(0.1),
-(0.2),
-(0.3),
-(0.4),
-(0.5),
-(0.6),
-(0.7),
-(0.8),
-(0.9),
-(1.0),
-(1.1),
-(1.2),
-(1.3),
-(1.4),
-(1.5),
-(1.6),
-(1.7),
-(1.8),
-(1.9),
-(2.0);
 
 INSERT INTO tblSubscription 
 VALUES ('1'),
@@ -2769,8 +2758,8 @@ VALUES
 (98, 38),
 (99, 39),
 (100, 40);
-END;
-GO
+end;
+go
 
 DROP PROCEDURE IF EXISTS SubscribeToDatabox; 
 go
@@ -2916,21 +2905,17 @@ END;
 EXEC createDBBeingThere();
 EXEC InsertPoinlessDataThatIsRidiclious();
 
-
-
-
-
- discount REAL CHECK ( Discount >+ 0.0 and Discount <+ 100.00)
-
- procedure sales from tblsalespersonName
- @psalesname varchar(50)
- as begin select
- from sbufirstname, subsecondname, subscripber addresss, discount
- tblsalesperson as sp join
- tblsubscription as sub on sp.salesid = salesid = sbu.salesidwhere 
- where sp.name = @psalesname
-
- exec showsales Jane
+--  
+-- 
+--  procedure sales from tblsalespersonName
+--  @psalesname varchar(50)
+--  as begin select
+--  from sbufirstname, subsecondname, subscripber addresss, discount
+--  tblsalesperson as sp join
+--  tblsubscription as sub on sp.salesid = salesid = sbu.salesidwhere 
+--  where sp.name = @psalesname
+-- 
+--  exec showsales Jane
 
 
 
