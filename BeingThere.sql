@@ -308,9 +308,8 @@ CREATE TABLE tblVideoStreamController (
     [Tilt] Decimal(6, 3) NOT NULL,
     [Zoom] Decimal(6, 3) NOT NULL,
     FOREIGN KEY (GoldID) REFERENCES tblGold (GoldID),
-    FOREIGN KEY (StreamID) 
-
-);
+    FOREIGN KEY (StreamID) REFERENCES tblVideoStream(StreamID)
+    );
 CREATE TABLE tblMaintenance (
     [MaintenanceID] INT IDENTITY PRIMARY KEY,
     [MaintencepersonID] INT NOT NULL,
