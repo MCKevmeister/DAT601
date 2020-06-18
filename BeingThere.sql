@@ -255,7 +255,7 @@ CREATE TABLE tblBTDataboxZone (
     [BTDataboxID] INT NOT NULL,
     [ZoneID] INT NOT NULL,
     PRIMARY KEY(BTDataboxID, ZoneID),
-    FOREIGN KEY (BTDataboxID) REFERENCES tblBTDataboxData (BTDataboxID),
+    FOREIGN KEY (BTDataboxID) REFERENCES tblBTDatabox (BTDataboxID),
     FOREIGN KEY (ZoneID) REFERENCES tblZone (ZoneID)
 )
 CREATE TABLE tblStore (
@@ -278,8 +278,7 @@ CREATE TABLE tblSale (
     [SubscriptionID] INT NOT NULL,
     [DiscountAmount] REAL,
     PRIMARY KEY(SalesPersonID, SubscriptionID),
-    FOREIGN KEY (SalesPersonID) REFERENCES tblSalesperson (SalesPersonID),
-    FOREIGN KEY (ZoneID) REFERENCES tblZone (ZoneID)
+    FOREIGN KEY (SalesPersonID) REFERENCES tblSalesperson (SalesPersonID)
 )
 CREATE TABLE tblVideoStreamViewer (
     [StreamID] INT NOT NULL,
@@ -298,7 +297,7 @@ CREATE TABLE tblVideoStreamController (
 )
 CREATE TABLE tblMaintenance (
     [MaintenanceID] INT IDENTITY PRIMARY KEY,
-    [MaintenancepersonID] INT NOT NULL,
+    [MaintencepersonID] INT NOT NULL,
     [BTdataboxID] INT NOT NULL,
     [Report] VARCHAR(255) NOT NULL,
     [Date] DATE NOT NULL,
