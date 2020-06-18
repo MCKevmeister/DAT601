@@ -172,7 +172,8 @@ CREATE TABLE tblAccount (
     FOREIGN KEY (AddressID) REFERENCES tblAddress (AddressID)
 );
 CREATE TABLE tblCustomer ( 
-    [AccountID] INT IDENTITY PRIMARY KEY,
+    [CustomerID] INT IDENTITY PRIMARY KEY,
+    [AccountID] INT NOT NULL,
     FOREIGN KEY (AccountID) REFERENCES tblAccount (AccountID)
 );
 CREATE TABLE tblPayment (
@@ -184,28 +185,30 @@ CREATE TABLE tblPayment (
     FOREIGN KEY (AccountID) REFERENCES tblCustomer(AccountID)
 );
 CREATE TABLE tblDroneOwner ( 
-    [AccountID] INT,
-    [DroneID] INT,
+    [AccountID] INT NOT NULL,
+    [DroneID] INT NOT NULL,
     PRIMARY KEY(AccountID, DroneID),
     FOREIGN KEY (AccountID) REFERENCES tblAccount(AccountID),
     FOREIGN KEY (DroneID) REFERENCES tblDrone(DroneID)
 );
 CREATE TABLE tblContractee (
-    [AccountID] INT PRIMARY KEY,
-    FOREIGN KEY (AccountID) REFERENCES tblAccount (AccountID)
+    [ContracteeID] INT IDENTITY PRIMARY KEY
+    [CustomerID] INT NOT NULL,
+    FOREIGN KEY (CustomerID) REFERENCES tblAccount (CustomerID)
 );
 CREATE TABLE tblSubscriber ( 
-    [AccountID] INT PRIMARY KEY,
+    [SubscriberID] INT IDENTITY PRIMARY KEY,
+    [CustomerID] INT NOT NULL,
     FOREIGN KEY (AccountID) REFERENCES tblAccount (AccountID)
 );
 CREATE TABLE tblDiscount (
     [DiscountID] Int PRIMARY KEY IDENTITY,
-    [DiscountAmount] REAL
+    [DiscountAmount] REAL NOT NULL
 );
 CREATE TABLE tblSubscription (
     [SubscriptionID] INT IDENTITY PRIMARY KEY,
     [AccountID] INT NOT NULL,
-    [TotalPrice] MONEY,
+    [TotalPrice] MONEY NOT NULL,
     FOREIGN KEY (AccountID) REFERENCES tblAccount (AccountID)
 );
 CREATE TABLE tblGold ( 
@@ -413,10 +416,10 @@ GO
 
 EXEC createDBAbsloutlyBeingThere;
 
-DROP PROCEDURE IF EXISTS InsertPoinlessDataThatIsRidiclious;
+DROP PROCEDURE IF EXISTS InsertTestData;
 GO
 
-CREATE PROCEDURE InsertPoinlessDataThatIsRidiclious
+CREATE PROCEDURE InsertTestData
 AS
 BEGIN
 
@@ -680,7 +683,6 @@ VALUES
 (241, 300, 120, 150),
 (301, 360, 150, 180);
 
-
 INSERT INTO tblCondition
 VALUES
 ('Jungle', 'A jungle is land covered with dense forest and tangled vegetation, usually in hot climates'),
@@ -715,6 +717,7 @@ VALUES
 (8),
 (9),
 (10);
+
 INSERT INTO tblSalesperson 
 VALUES
 (1),
@@ -764,7 +767,6 @@ VALUES
 (19, 'Vestibulum rutrum rutrum neque.'),
 (20, 'Quisque id justo sit amet sapien dignissim vestibulum.');
 
-
 INSERT INTO tblStaff 
 VALUES 
 ('$2059.06', 'Libbey Karpe', '12/24/2019', null),
@@ -801,7 +803,6 @@ VALUES
 ('$3768.56', 'Sydelle Fantonetti', '9/14/2019', null),
 ('$3596.34', 'Dennie Langelay', '10/6/2019', null),
 ('$3537.10', 'Arda Hynard', '1/6/2020', null);
-
 
 INSERT INTO tblScientificData 
 VALUES 
@@ -938,7 +939,6 @@ VALUES
 ('20200430 06:54:57', '11/27/2020', '55'),
 ('20190726 19:47:33', '3/4/2021', '67');
 
-
 INSERT INTO tblPart
 VALUES 
 ('dolor', 'Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis. Duis consequat nec nisi volutpat eleifend.', '$241.74'),
@@ -962,7 +962,7 @@ VALUES
 ('eu', 'Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum.', '$486.45'),
 ('diam', 'Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', '$518.03');
 
-INSERT INTO tblVideoStream
+INSERT INTO tblVideoStream (StartTime, EndTime)
 VALUES
 ('2020-04-01T08:16:59.000', '2019-12-08T17:03:15.000'),
 ('2019-08-21T07:18:49.000', '2020-04-24T18:13:53.000'),
@@ -1100,7 +1100,6 @@ VALUES
 (80745, 'Aserrí', 42),
 (9789, 'Canguçu', 69);
 
-
 INSERT INTO tblAddress 
 VALUES
 (null, 13, 'Arizona Drive', 1),
@@ -1216,16 +1215,16 @@ VALUES
 
 INSERT INTO tblSupplier 
 VALUES 
-('Stokes and Sons', 'Caterina Merrett', 1, '8385082769'),
-('BoscoWelch', 'Harriott Nieass', 2, '9368465134'),
-('Monahan, Block and Kihn', 'Olivia Terrazzo', 3, '7362902226'),
-('Sipes LLC', 'Kiele Curtin', 4, '4091241507'),
-('Beatty Group', 'Gil Suddock', 5, '5936004927'),
-('Wilkinson, Hand and Williamson', 'Oran Withnall', 6, '1006990541'),
-('Carroll and Sons', 'Eric Stainson', 7, '2796153121'),
-('BlockVonRueden', 'Neill Miche', 8, '2605440050'),
-('Wisozk, Farrell and Ferry', 'Kerrill Kobiera', 9, '8958183778'),
-('Batz, Lynch and Ratke', 'Agnola Witcombe', 10, '9508250309');
+('Green Group', 'Aeriel Muccino', 'amuccino0@nature.com', 1, '277-683-3219'),
+('Marvin and Sons', 'Deonne Edinboro', 'dedinboro1@cam.ac.uk', 2, '675-387-2042'),
+('Bartell Inc', 'Felice Lukehurst', 'flukehurst2@unicef.org', 3, '696-953-8554'),
+('Shanahan-Gaylord', 'Gussie Purchon', 'gpurchon3@usda.gov', 4, '961-603-3930'),
+('Gibson Group', 'Valerye Macoun', 'vmacoun4@soundcloud.com', 5, '970-756-5194'),
+('Feil-Gibson', 'Skippie Braidley', 'sbraidley5@jiathis.com', 6, '390-239-6923'),
+('Marvin LLC', 'Umberto Spink', 'uspink6@ebay.co.uk', 7, '220-162-2016'),
+('Collier and Sons', 'Hewe Dametti', 'hdametti7@dot.gov', 8, '492-248-0624'),
+('Parisian, Price and Keeling', 'Tamarah Dagwell', 'tdagwell8@mayoclinic.com', 9, '146-874-8866'),
+('Becker, Lind and Keebler', 'Rog Stollwerk', 'rstollwerk9@dyndns.org', 10, '411-602-7021');
 
 INSERT INTO tblAccount 
 VALUES
