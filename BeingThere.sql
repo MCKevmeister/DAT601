@@ -413,10 +413,10 @@ GO
 
 EXEC createDBAbsloutlyBeingThere;
 
-DROP PROCEDURE IF EXISTS InsertPoinlessDataThatIsRidiclious;
+DROP PROCEDURE IF EXISTS InsertTestData;
 GO
 
-CREATE PROCEDURE InsertPoinlessDataThatIsRidiclious
+CREATE PROCEDURE InsertTestData
 AS
 BEGIN
 
