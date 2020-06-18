@@ -80,6 +80,7 @@ CREATE TABLE tblZone (
 
 CREATE TABLE tblCondition (
     [ConditionID] INT IDENTITY PRIMARY KEY,
+    [ConditionName] VARCHAR(32) NOT NULL,
     [ConditionDescription] VARCHAR(255) NOT NULL
 );
 
