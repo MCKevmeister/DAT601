@@ -66,7 +66,8 @@ DROP TABLE IF EXISTS tblZone;
 DROP TABLE IF EXISTS tblCountry;
 
 CREATE TABLE tblCountry ( 
-        [Country] VARCHAR(64) IDENTITY PRIMARY KEY 
+    [CountryID] INT IDENTITY PRIMARY KEY,
+    [Country] VARCHAR(64) NOT NULL
     );
 
 CREATE TABLE tblZone ( 
