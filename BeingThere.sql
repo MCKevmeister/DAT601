@@ -195,9 +195,9 @@ CREATE TABLE tblDrone (
     FOREIGN KEY (BTDataboxID) REFERENCES tblBTDatabox (BTDataboxID)
 );
 CREATE TABLE tblContractee (
-    [ContracteeID] INT IDENTITY PRIMARY KEY
+    [ContracteeID] INT IDENTITY PRIMARY KEY,
     [CustomerID] INT NOT NULL,
-    FOREIGN KEY (CustomerID) REFERENCES tblAccount (CustomerID)
+    FOREIGN KEY (CustomerID) REFERENCES tblCustomer (CustomerID)
 );
 CREATE TABLE tblSubscriber ( 
     [SubscriberID] INT IDENTITY PRIMARY KEY,
@@ -208,7 +208,7 @@ CREATE TABLE tblSubscription (
     [SubscriptionID] INT IDENTITY PRIMARY KEY,
     [SubscriberID] INT NOT NULL,
     [TotalPrice] MONEY NOT NULL,
-    FOREIGN KEY (SubscriberID) REFERENCES tblAccount (SubscriberID)
+    FOREIGN KEY (SubscriberID) REFERENCES tblSubscriber (SubscriberID)
 );
 CREATE TABLE tblGold ( 
     [GoldID] INT IDENTITY PRIMARY KEY,
@@ -289,7 +289,7 @@ CREATE TABLE tblStoreSalesPerson (
 CREATE TABLE tblSale (
     [SalesPersonID] INT NOT NULL,
     [SubscriptionID] INT NOT NULL,
-    [DiscountID] REAL NOT NULL CHECK ( Discount >= 0.0 and Discount <= 2.00), --check max discount amount TODO
+    [Discount] REAL NOT NULL CHECK ( Discount >= 0.0 and Discount <= 2.00), --check max discount amount TODO
     PRIMARY KEY(SalesPersonID, SubscriptionID),
     FOREIGN KEY (SalesPersonID) REFERENCES tblSalesperson (SalesPersonID)
 );
@@ -415,10 +415,10 @@ CREATE TABLE tblOwnsDataRights (
 );
 CREATE TABLE tblOwnsVideoRights (
     [StreamID] INT NOT NULL,
-    [SuperPlaintumID] INT NOT NULL,
-    PRIMARY KEY(StreamID, SuperPlaintumID),
+    [SuperPlatinumID] INT NOT NULL,
+    PRIMARY KEY(StreamID, SuperPlatinumID),
     FOREIGN KEY (StreamID) REFERENCES tblVideoStream (StreamID),
-    FOREIGN KEY (SuperPlaintumID) REFERENCES tblSuperPlatinum(SuperPlaintumID)
+    FOREIGN KEY (SuperPlatinumID) REFERENCES tblSuperPlatinum(SuperPlatinumID)
 );
 
 end;
