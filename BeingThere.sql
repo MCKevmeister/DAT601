@@ -2743,7 +2743,7 @@ CREATE PROCEDURE allContractData
 @pContractingOrg VARCHAR(255)
 AS
 BEGIN
-    SELECT A.Name AS "Contracting Organisation", Temperature, Humidity, A
+    SELECT A.Name AS "Contracting Organisation", Temperature, Humidity, AmbientLightStrength AS "Ambient Light Strenght"
     FROM tblAccount AS A
     JOIN tblContractee AS CE ON A.AccountID = C.AccountID
     JOIN tblContract AS C ON C.ContracteeID = CE.ContracteeID
@@ -2761,7 +2761,15 @@ GO
 CREATE PROCEDURE allVideoStreamViewers
 AS
 BEGIN
-
+    SELECT BT.BTDataboxID, CA.Name AS "Subscriber nAmE", VS.StreamID
+    FROM tblBTDatabox AS BT 
+    JOIN tblBTDataboxStream AS BTDVSDSFSDFSDFSFDSDFDFDKJFDSSDFLKJLKJFDSLKJFDSLKJFDSLKJDSFLKJLKJFDSLKJSFDLKJFLKJFDS ON BT.DataboxID = BTDVSDSFSDFSDFSFDSDFDFDKJFDSSDFLKJLKJFDSLKJFDSLKJFDSLKJDSFLKJLKJFDSLKJSFDLKJFLKJFDS.BTdataboxID
+    JOIN tblVideoStream AS VS ON BTDVSDSFSDFSDFSFDSDFDFDKJFDSSDFLKJLKJFDSLKJFDSLKJFDSLKJDSFLKJLKJFDSLKJSFDLKJFLKJFDS.StreamID = VS.StreamID
+    JOIN tblVideoStreamViewer AS VSV ON VS.StreamID = VSV.StreamID
+    JOIN tblSubscription SC ON VSV.SubscriptionID = SC.SubscriptionID
+    JOIN tblSubscriber SB ON SC.SubscriberID = SB.SubscriberID
+    JOIN tblCustomer C ON SB.CustomerID = C.CustomerID
+    JOIN tblAccount CA ON C.AccountID = CA.AccountID
 END;
 GO
 
@@ -2769,42 +2777,57 @@ GO
 -- The transaction receives the  BT Databox ID, and presents the Supplier Name and, Part Name.
 DROP PROCEDURE IF EXISTS getBTDataboxPartSuppliers;
 GO
-CREATE PROCEDURE allVideoStreamViewers
+CREATE PROCEDURE getBTDataboxPartSuppliers @pBTDBID INTEGER
 AS
 BEGIN
-
+    SELECT S.SupplierName AS "Supplier Name", PPPPPPPPPPPPPPPPPP.Partname AS "Part Name"
+    FROM tblBTDatabox as BTDB
+    JOIN tblBTDataboxPart AS BTDBP ON BTDB.BTDataboxID = BTDBP.BTDataboxID
+    JOIN tblPart AS PPPPPPPPPPPPPPPPPP ON BTDBP.PartID = PPPPPPPPPPPPPPPPPP.PartID
+    JOIN tblPartSuppplier AS PS ON PPPPPPPPPPPPPPPPPP.PartID = PS.PartID
+    JOIN tblSupplier AS S ON PS.SupplierID = S.SupplierID
 END;
 GO
 
--- 7. Update the location and Zone of a  BT Databox. The transaction receives the  BT Databox ID, a location and a Zone expressed as a list of coordinates 
+-- 7. Update the location and Zone of a BT Databox. The transaction receives the BT Databox ID, a location and a Zone expressed as a list of coordinates 
 --  in latitude, longitude pairs. It updates the location of the  BT Databox and its corresponding Zone. (This transaction may require more than one update query.)
 DROP PROCEDURE IF EXISTS updateBTDataboxLocation;
 GO
-CREATE PROCEDURE updateBTDataboxLocation
+CREATE PROCEDURE updateBTDataboxLocation @pBTDataboxID INTEGER, @pLat DECIMAL(10, 7), @pLOOONG DECIMAL(10, 7)
 AS
 BEGIN
-
+    
 END;
 GO
 
 --8.  Delete the data collected for a given Contract. 
 -- The transaction receives a Contract ID, the data collected for a Contract is deleted.
 DROP PROCEDURE IF EXISTS deleteContractData;
-CREATE PROCEDURE deleteContractData
+GO
+CREATE PROCEDURE deleteContractData @pContractID INTEGER
 AS
 BEGIN
-
+    -- DELETE FROM tblContractScientificData
+    -- WHERE ContractID = pContractID -- Can't "delete" the data from the database, as it might belong to another 
+    -- contract and remains the property of Being There as a condition of the Contractal Aggrement originally 
+    -- signed "Upon termination of this contract, all data gathererd remains the intelectual property of Being There" 
+    -- Some clause like that in the original contract. Or even better ...
+    UPDATE tblContractScientifcData
+    SET isDeleted = 1
+    WHERE ContractID = pContractID; -- Your Data is now "deleted" thanks for doing business with us
 END;
 GO
 
 -- 9. Write a query to be used to INSERT data from a BT Databox to 
--- its stored data on the Being There database. The transaction receives the  BT Databox ID.
-DROP PROCEDURE IF EXISTS INSERTBTDataboxData;
+-- its stored data on the Being There database. The transaction receives the  BTDataboxID.
+DROP PROCEDURE IF EXISTS insertBTDataboxData;
 GO
-CREATE PROCEDURE allVideoStreamViewers
+CREATE PROCEDURE insertBTDataboxData @pBTDataboxID INTEGER, @pLongitude Decimal(10, 7), @pLatitude Decimal(10, 7), @pAltitude Integer, @pHumidity Decimal(4, 2), @pTempearture Decimal(5, 2), @pAmbientLightStrenght Decimal(11, 4), @pRecordingTime DATETIME 
 AS
 BEGIN
-
+    DECLARE @tblID TABLE(ID Integer)
+    INSERT INTO tblScientificData OUTPUT INSERTED.ID INTO tblID.ID VALUES (pLongitude, pLatitude, pAltitude, pHumidity, pTempearture, pAmbientLightStrenght, pRecordingTime);
+    INSERT INTO tblBTDataboxData VALUES (pBTDataboxID, (SELECT ID FROM tblID));
 END;
 GO
 
