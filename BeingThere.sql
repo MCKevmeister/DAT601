@@ -84,6 +84,7 @@ CREATE TABLE tblScientificData (
     [Longitude] Decimal(10, 7) NOT NULL,
     [Latitude] Decimal(10, 7) NOT NULL,
     [Altitude] INT NOT NULL,
+    [Humidity] Decimal(4, 2) NOT NULL,
     [Temperature] Decimal(5, 2) NOT NULL,
     [AmbientLightStrength] Decimal(11, 4) NOT NULL,
     [RecordingTime] DATETIME NOT NULL
@@ -207,28 +208,24 @@ CREATE TABLE tblSubscriber (
 CREATE TABLE tblSubscription (
     [SubscriptionID] INT IDENTITY PRIMARY KEY,
     [SubscriberID] INT NOT NULL,
-    [TotalPrice] MONEY NOT NULL,
     FOREIGN KEY (SubscriberID) REFERENCES tblSubscriber (SubscriberID)
 );
 CREATE TABLE tblGold ( 
     [GoldID] INT IDENTITY PRIMARY KEY,
     [SubscriptionID] INT NOT NULL,
-    [GoldPrice] MONEY NOT NULL,
     FOREIGN KEY (SubscriptionID) REFERENCES tblSubscription (SubscriptionID)
 );
 CREATE TABLE tblPlatinum (
     [PlatinumID] INT IDENTITY PRIMARY KEY,
     [GoldID] INT NOT NULL,
-    [PlatinumPrice] MONEY NOT NULL,
     FOREIGN KEY (GoldID) REFERENCES tblGold (GoldID)
 );
 CREATE TABLE tblSuperPlatinum (
     [SuperPlatinumID] INT IDENTITY PRIMARY KEY,
     [PlatinumID] INT NOT NULL,
-    [SuperPlatinumPrice] MONEY NOT NULL,
     FOREIGN KEY (PlatinumID) REFERENCES tblPlatinum (PlatinumID)
 );
-CREATE TABLE tblPriceChange (
+CREATE TABLE tblSubscriptionPriceChange (
     [PriceChangeID] INT IDENTITY PRIMARY KEY,
     [DirectorID] INT NOT NULL,
     [SubscriptionID] INT,
@@ -239,10 +236,7 @@ CREATE TABLE tblPriceChange (
     [PreviousPrice] MONEY NOT NULL,
     [NewPrice] MONEY NOT NULL,
     FOREIGN KEY (DirectorID) REFERENCES tblDirector (DirectorID),
-    FOREIGN KEY (SubscriptionID) REFERENCES tblSubscription (SubscriptionID),
-    FOREIGN KEY (GoldID) REFERENCES tblGold (GoldID),
-    FOREIGN KEY (PlatinumID) REFERENCES tblPlatinum (PlatinumID),
-    FOREIGN KEY (SuperPlatinumID) REFERENCES tblSuperPlatinum (SuperPlatinumID)
+    FOREIGN KEY (SubscriptionID) REFERENCES tblSubscription (SubscriptionID)
 );
 CREATE TABLE tblBTDataboxStream ( 
     [BTDataboxID] INT NOT NULL,
@@ -704,106 +698,106 @@ VALUES
 
 INSERT INTO tblScientificData 
 VALUES 
-(61.344385, 15.38447, 613, 33.61, 33.8391, '20191106 11:41:47'),
-(40.6854309, 14.5656065, 1785, 35.0, 56.4677, '20191001 21:04:52'),
-(111.8749872, 33.3107008, 3836, 37.57, 65.1923, '20200406 15:19:02'),
-(121.0143656, 14.5788472, 3146, 37.95, 99.9618, '20190621 01:04:13'),
-(126.09611, 39.1425, 1891, 4.61, 36.111, '20190801 13:42:54'),
-(17.5860395, 52.8818616, 3897, 21.61, 47.1164, '20190928 11:56:18'),
-(103.5083998, 16.4311476, 3422, 15.35, 44.6682, '20190419 20:03:57'),
-(36.0199456, 52.2820161, 2548, 36.7, 80.1538, '20191024 01:16:09'),
-(43.2923971, 52.0379571, 2584, 43.79, 4.9143, '20200122 07:46:55'),
-(114.8864193, 8.2735418, 1500, 30.77, 47.8682, '20200425 02:25:10'),
-(87.0218192, 13.649619, 1421, 30.55, 20.2546, '20191010 19:21:38'),
-(6.6304104, 6.6687831, 3779, 44.37, 38.3524, '20200109 20:34:11'),
-(99.1788304, 1.6258482, 2142, 32.82, 11.4071, '20191217 08:06:41'),
-(111.7910758, 23.1421682, 673, 31.41, 5.6212, '20191226 05:29:09'),
-(117.223371, 39.109563, 69, 30.34, 29.6488, '20200103 14:05:59'),
-(138.9099913, 37.6533531, 93, 15.46, 59.0069, '20191124 06:07:36'),
-(8.9052753, 39.8647755, 2232, 43.72, 18.567, '20190918 14:58:46'),
-(2.8797149, 42.6962642, 40, 2.43, 13.5799, '20191112 21:27:20'),
-(77.4, 10.116667, 3256, 35.29, 23.4515, '20200327 22:04:52'),
-(109.0771185, 7.5109156, 2040, 17.61, 64.3759, '20200606 21:28:54'),
-(97.3580243, 57.4492483, 3704, 22.64, 60.5233, '20190419 13:40:49'),
-(4.6419648, 52.3811357, 2052, 44.57, 57.4696, '20200221 11:14:28'),
-(27.993441, 8.303998, 1076, 14.64, 21.0222, '20191103 14:34:38'),
-(87.271781, 26.6646381, 712, 43.44, 12.1456, '20200412 08:44:50'),
-(116.3397725, 39.9947462, 2764, 29.56, 72.3546, '20191016 03:00:36'),
-(117.1168644, 36.1899557, 415, 20.49, 19.0755, '20191012 00:26:32'),
-(121.637093, 16.9905258, 1692, 18.66, 83.5346, '20200411 22:15:23'),
-(20.4489216, 44.786568, 777, 20.05, 27.1383, '20190624 22:26:30'),
-(118.865506, 8.6965738, 1488, 2.77, 0.9739, '20200527 03:41:21'),
-(69.1447081, 35.4018071, 3342, 15.49, 76.9254, '20200429 15:21:04'),
-(42.1917995, 21.4138052, 3881, 7.57, 8.8044, '20191021 10:13:01'),
-(54.0068191, 46.9691061, 64, 41.36, 20.2835, '20191021 22:11:18'),
-(22.3956933, 39.7219085, 1349, 40.03, 41.6449, '20200410 07:18:13'),
-(66.8081979, 2.7005604, 2184, 20.14, 16.8153, '20190808 22:10:36'),
-(5.2057909, 7.2571325, 2180, 43.84, 88.0093, '20190724 09:58:57'),
-(106.5618306, 6.2434343, 3901, 20.74, 8.9846, '20200111 12:13:27'),
-(111.0654148, 6.6018462, 1115, 11.24, 70.8874, '20190710 06:45:52'),
-(113.12873, 29.356803, 3226, 38.28, 75.6498, '20191104 23:26:13'),
-(50.8076496, 59.3119146, 3448, 18.07, 40.9941, '20200320 17:59:01'),
-(84.3368699, 9.834321, 3657, 1.53, 1.111, '20190914 22:37:10'),
-(135.1145437, 44.2636981, 3327, 36.13, 71.7755, '20200201 00:34:05'),
-(133.9326833, 44.348809, 2595, 4.78, 63.9479, '20190430 21:07:12'),
-(106.0155278, 6.3855073, 1708, 19.13, 2.9182, '20190810 20:28:27'),
-(77.142764, 38.8822689, 2774, 41.12, 57.6838, '20200224 04:16:15'),
-(0.2075745, 48.0885087, 1127, 37.62, 97.554, '20200321 03:18:32'),
-(7.6589255, 37.6410379, 3589, 26.69, 42.0944, '20200505 03:45:49'),
-(7.5345759, 41.2218624, 441, 41.79, 13.7593, '20191225 15:31:27'),
-(57.1576821, 55.556613, 793, 25.21, 15.8915, '20190715 03:10:15'),
-(9.3964878, 38.9426594, 855, 41.13, 36.2168, '20190621 21:48:24'),
-(14.271615, 55.9858675, 1523, 9.98, 54.3289, '20190702 02:56:17'),
-(2.281825, 48.7276331, 3690, 14.54, 21.1736, '20190701 14:06:50'),
-(114.288097, 8.4425528, 2336, 24.04, 80.8521, '20190623 08:36:59'),
-(61.344385, 15.38447, 613, 33.61, 33.8391, '20191106 11:41:47'),
-(40.6854309, 14.5656065, 1785, 35.0, 56.4677, '20191001 21:04:52'),
-(111.8749872, 33.3107008, 3836, 37.57, 65.1923, '20200406 15:19:02'),
-(121.0143656, 14.5788472, 3146, 37.95, 99.9618, '20190621 01:04:13'),
-(126.09611, 39.1425, 1891, 4.61, 36.111, '20190801 13:42:54'),
-(17.5860395, 52.8818616, 3897, 21.61, 47.1164, '20190928 11:56:18'),
-(103.5083998, 16.4311476, 3422, 15.35, 44.6682, '20190419 20:03:57'),
-(36.0199456, 52.2820161, 2548, 36.7, 80.1538, '20191024 01:16:09'),
-(43.2923971, 52.0379571, 2584, 43.79, 4.9143, '20200122 07:46:55'),
-(114.8864193, 8.2735418, 1500, 30.77, 47.8682, '20200425 02:25:10'),
-(119.996847, 29.454189, 1918, 3.92, 72.5993, '20190910 09:08:56'),
-(13.2772423, 49.7030481, 1499, 6.35, 3.3953, '20190619 03:44:12'),
-(122.7924488, 7.8395214, 2395, 3.7, 20.9331, '20200123 19:17:28'),
-(120.3089541, 3.3472662, 561, 15.85, 64.6498, '20190711 13:29:08'),
-(70.5552362, 37.1017088, 2605, 8.43, 33.3975, '20190831 11:06:07'),
-(104.100502, 1.259553, 3209, 5.73, 26.7796, '20190724 09:22:37'),
-(56.7664844, 27.1435718, 448, 27.5, 33.5449, '20191106 20:11:00'),
-(49.3164138, 25.1860913, 1435, 23.07, 19.116, '20190928 08:06:15'),
-(15.4377229, 53.1675674, 1176, 36.79, 48.3454, '20190823 14:02:55'),
-(73.840258, 8.588397, 237, 20.23, 72.8114, '20200416 22:12:00'),
-(89.982425, 29.222417, 2105, 6.62, 97.1202, '20191122 17:26:15'),
-(113.366904, 22.948016, 874, 12.81, 34.4266, '20200428 15:48:54'),
-(18.1543922, 50.1327056, 3978, 27.34, 37.4493, '20190702 23:21:23'),
-(51.3238273, 30.1090924, 2240, 7.16, 57.9138, '20191112 13:38:13'),
-(5.8875346, 49.7663957, 3630, 22.66, 44.2508, '20191123 19:36:16'),
-(5.868937, 45.644535, 1004, 14.31, 3.5978, '20190924 14:05:05'),
-(43.6510502, 52.9918299, 3310, 22.02, 75.9979, '20190702 21:19:45'),
-(128.2579205, 35.474465, 797, 24.11, 55.1669, '20190605 10:46:10'),
-(116.3426552, 2.7540915, 2568, 17.57, 71.9358, '20200326 19:47:08'),
-(44.0519756, 40.106025, 290, 4.83, 53.9396, '20190530 15:55:10'),
-(37.29209, 53.7111077, 2569, 36.55, 38.0644, '20200316 09:02:31'),
-(16.018026, 45.1458598, 679, 18.84, 10.969, '20200207 07:30:21'),
-(73.3436918, 45.5257774, 3503, 37.77, 15.9893, '20190919 11:20:19'),
-(124.423984, 8.2600716, 3319, 18.72, 7.1388, '20200414 10:51:52'),
-(114.758301, 27.859517, 3012, 11.65, 67.6484, '20190910 04:06:07'),
-(38.4094028, 46.7604507, 3653, 27.85, 30.5747, '20200117 20:12:51'),
-(123.5983638, 13.1487371, 933, 14.11, 22.1995, '20200127 07:08:15'),
-(87.6075294, 14.6276215, 3004, 9.02, 83.071, '20200104 14:24:20'),
-(15.2359979, 46.1542793, 2810, 44.26, 29.0655, '20191221 03:44:10'),
-(73.6386612, 54.5859873, 2005, 15.7, 96.2824, '20191224 01:33:30'),
-(35.0843, 32.433378, 1193, 11.99, 68.1125, '20190826 09:24:32'),
-(25.5783873, 49.5290136, 107, 4.59, 74.0914, '20190531 22:19:46'),
-(11.3317605, 2.1514272, 834, 39.44, 17.7495, '20190923 17:11:35'),
-(60.6923382, 32.9285798, 1833, 42.69, 27.8569, '20191023 02:18:31'),
-(110.18122, 22.654032, 1462, 15.08, 76.5179, '20200106 03:15:47'),
-(85.693742, 46.089148, 2465, 32.34, 32.826, '20190925 01:15:24'),
-(8.6441655, 40.5740471, 35, 8.06, 66.2182, '20190916 08:48:33'),
-(99.397126, 23.538092, 1326, 12.07, 6.3024, '20191230 05:24:31');
+(61.344385, 15.388447, 0613, 95.86, 33.61, 33.8391, '20191106 11:41:47'),
+(40.685430, 14.556065, 1785, 24.78, 35.0, 56.4677, '20191001 21:04:52'),
+(111.87498, 33.307008, 3836, 4.09, 37.57, 65.1923, '20200406 15:19:02'),
+(121.01436, 14.587472, 3146, 63.44, 37.95, 99.9618, '20190621 01:04:13'),
+(126.09611, 39.149925, 1891, 95.12, 4.61, 36.111, '20190801 13:42:54'),
+(17.586039, 52.818616, 3897, 39.65, 21.61, 47.1164, '20190928 11:56:18'),
+(103.50839, 16.411476, 3422, 14.48, 15.35, 44.6682, '20190419 20:03:57'),
+(36.019945, 52.820161, 2548, 77.01, 36.7, 80.1538, '20191024 01:16:09'),
+(43.292397, 52.079571, 2584, 30.65, 43.79, 4.9143, '20200122 07:46:55'),
+(114.88641, 87.735418, 1500, 70.17, 30.77, 47.8682, '20200425 02:25:10'),
+(87.021819, 13.649619, 1421, 19.51, 30.55, 20.2546, '20191010 19:21:38'),
+(16.630410, 55.687831, 3779, 5.71, 44.37, 38.3524, '20200109 20:34:11'),
+(99.178830, 10.258482, 2142, 86.28, 32.82, 11.4071, '20191217 08:06:41'),
+(111.79107, 23.421682, 0673, 30.7, 31.41, 5.6212, '20191226 05:29:09'),
+(117.22337, 39.109563, 0609, 33.39, 30.34, 29.6488, '20200103 14:05:59'),
+(138.90999, 37.633531, 0093, 93.02, 15.46, 59.0069, '20191124 06:07:36'),
+(18.905275, 39.847755, 2232, 60.98, 43.72, 18.567, '20190918 14:58:46'),
+(12.879714, 42.692642, 0040, 91.92, 2.43, 13.5799, '20191112 21:27:20'),
+(77.499999, 10.916667, 3256, 20.9, 35.29, 23.4515, '20200327 22:04:52'),
+(109.07711, 70.509156, 2040, 26.25, 17.61, 64.3759, '20200606 21:28:54'),
+(97.358024, 57.442483, 3704, 10.0, 22.64, 60.5233, '20190419 13:40:49'),
+(34.641964, 52.381357, 2052, 29.44, 44.57, 57.4696, '20200221 11:14:28'),
+(27.993441, 80.303998, 1076, 65.49, 14.64, 21.0222, '20191103 14:34:38'),
+(87.271781, 26.666381, 0712, 85.89, 43.44, 12.1456, '20200412 08:44:50'),
+(116.33977, 39.947462, 2764, 65.42, 29.56, 72.3546, '20191016 03:00:36'),
+(117.11686, 36.189557, 0415, 85.83, 20.49, 19.0755, '20191012 00:26:32'),
+(121.63709, 16.990258, 1692, 37.78, 18.66, 83.5346, '20200411 22:15:23'),
+(20.448921, 44.786568, 0777, 50.26, 20.05, 27.1383, '20190624 22:26:30'),
+(118.86550, 80.609738, 1488, 62.25, 2.77, 0.9739, '20200527 03:41:21'),
+(69.144708, 35.401071, 3342, 21.15, 15.49, 76.9254, '20200429 15:21:04'),
+(42.191799, 21.418052, 3881, 42.08, 7.57, 8.8044, '20191021 10:13:01'),
+(54.006819, 46.991061, 0064, 14.98, 41.36, 20.2835, '20191021 22:11:18'),
+(22.395693, 39.729085, 1349, 20.87, 40.03, 41.6449, '20200410 07:18:13'),
+(66.808197, 20.700604, 2184, 46.04, 20.14, 16.8153, '20190808 22:10:36'),
+(35.205790, 70.257125, 2180, 89.35, 43.84, 88.0093, '20190724 09:58:57'),
+(106.56183, 60.244343, 3901, 35.76, 20.74, 8.9846, '20200111 12:13:27'),
+(111.06541, 65.618462, 1115, 91.65, 11.24, 70.8874, '20190710 06:45:52'),
+(113.12873, 29.356803, 3226, 99.17, 38.28, 75.6498, '20191104 23:26:13'),
+(50.807649, 59.319146, 3448, 91.29, 18.07, 40.9941, '20200320 17:59:01'),
+(84.336869, 99.834321, 3657, 62.0, 1.53, 1.111, '20190914 22:37:10'),
+(135.11454, 44.266981, 3327, 72.49, 36.13, 71.7755, '20200201 00:34:05'),
+(133.93268, 44.348809, 2595, 48.59, 4.78, 63.9479, '20190430 21:07:12'),
+(106.01552, 60.385073, 1708, 50.29, 19.13, 2.9182, '20190810 20:28:27'),
+(77.142764, 38.822689, 2774, 35.43, 41.12, 57.6838, '20200224 04:16:15'),
+(10.207574, 48.885087, 1127, 38.05, 37.62, 97.554, '20200321 03:18:32'),
+(71.658925, 37.641379, 3589, 62.08, 26.69, 42.0944, '20200505 03:45:49'),
+(71.534575, 41.228624, 0441, 60.2, 41.79, 13.7593, '20191225 15:31:27'),
+(57.157682, 55.556613, 0793, 11.17, 25.21, 15.8915, '20190715 03:10:15'),
+(90.090978, 38.926594, 0855, 88.03, 41.13, 36.2168, '20190621 21:48:24'),
+(14.271615, 55.858675, 1523, 36.79, 9.98, 54.3289, '20190702 02:56:17'),
+(20.281825, 48.726331, 3690, 73.28, 14.54, 21.1736, '20190701 14:06:50'),
+(114.28807, 80.405528, 2336, 82.36, 24.04, 80.8521, '20190623 08:36:59'),
+(61.344385, 15.380447, 0613, 64.48, 33.61, 33.8391, '20191106 11:41:47'),
+(40.685439, 14.556065, 1785, 44.72, 35.0, 56.4677, '20191001 21:04:52'),
+(111.87492, 33.310008, 3836, 47.74, 37.57, 65.1923, '20200406 15:19:02'),
+(121.01430, 14.578472, 3146, 31.41, 37.95, 99.9618, '20190621 01:04:13'),
+(126.09611, 39.140025, 1891, 4.86, 4.61, 36.111, '20190801 13:42:54'),
+(17.586039, 52.818616, 3897, 66.66, 21.61, 47.1164, '20190928 11:56:18'),
+(103.50839, 16.411476, 3422, 96.99, 15.35, 44.6682, '20190419 20:03:57'),
+(36.019945, 52.280161, 2548, 97.88, 36.7, 80.1538, '20191024 01:16:09'),
+(43.292397, 52.379571, 2584, 91.1, 43.79, 4.9143, '20200122 07:46:55'),
+(114.88641, 89.275418, 1500, 5.45, 30.77, 47.8682, '20200425 02:25:10'),
+(119.99684, 29.454189, 1918, 46.21, 3.92, 72.5993, '20190910 09:08:56'),
+(13.277242, 49.700481, 1499, 56.21, 6.35, 3.3953, '20190619 03:44:12'),
+(122.79244, 78.835214, 2395, 18.72, 3.7, 20.9331, '20200123 19:17:28'),
+(120.30895, 38.372662, 0561, 84.53, 15.85, 64.6498, '20190711 13:29:08'),
+(70.555236, 37.101088, 2605, 34.95, 8.43, 33.3975, '20190831 11:06:07'),
+(104.10050, 10.259553, 3209, 37.59, 5.73, 26.7796, '20190724 09:22:37'),
+(56.766484, 27.435718, 0448, 10.84, 27.5, 33.5449, '20191106 20:11:00'),
+(49.316413, 25.160913, 1435, 9.83, 23.07, 19.116, '20190928 08:06:15'),
+(15.437722, 53.165674, 1176, 20.87, 36.79, 48.3454, '20190823 14:02:55'),
+(73.840258, 80.588397, 0237, 51.63, 20.23, 72.8114, '20200416 22:12:00'),
+(89.982425, 29.222417, 2105, 48.82, 6.62, 97.1202, '20191122 17:26:15'),
+(113.36690, 22.948016, 0874, 73.49, 12.81, 34.4266, '20200428 15:48:54'),
+(18.154392, 50.137056, 3978, 32.02, 27.34, 37.4493, '20190702 23:21:23'),
+(51.323827, 30.090924, 2240, 66.8, 7.16, 57.9138, '20191112 13:38:13'),
+(50.887546, 49.663957, 3630, 62.89, 22.66, 44.2508, '20191123 19:36:16'),
+(50.868937, 45.644535, 1004, 51.3, 14.31, 3.5978, '20190924 14:05:05'),
+(43.651050, 52.918299, 3310, 66.49, 22.02, 75.9979, '20190702 21:19:45'),
+(128.25792, 35.474465, 0797, 59.61, 24.11, 55.1669, '20190605 10:46:10'),
+(116.34265, 26.540915, 2568, 80.79, 17.57, 71.9358, '20200326 19:47:08'),
+(44.051975, 40.106025, 0290, 58.21, 4.83, 53.9396, '20190530 15:55:10'),
+(37.292090, 53.111077, 2569, 58.99, 36.55, 38.0644, '20200316 09:02:31'),
+(16.018026, 45.458598, 0679, 16.95, 18.84, 10.969, '20200207 07:30:21'),
+(73.343691, 45.257774, 3503, 24.06, 37.77, 15.9893, '20190919 11:20:19'),
+(124.42398, 87.600716, 3319, 56.24, 18.72, 7.1388, '20200414 10:51:52'),
+(114.75830, 27.859517, 3012, 61.78, 11.65, 67.6484, '20190910 04:06:07'),
+(38.409402, 46.704507, 3653, 71.28, 27.85, 30.5747, '20200117 20:12:51'),
+(123.59836, 13.187371, 0933, 69.51, 14.11, 22.1995, '20200127 07:08:15'),
+(87.607529, 14.676215, 3004, 22.44, 9.02, 83.071, '20200104 14:24:20'),
+(15.235997, 46.542793, 2810, 31.56, 44.26, 29.0655, '20191221 03:44:10'),
+(73.638661, 54.559873, 2005, 76.2, 15.7, 96.2824, '20191224 01:33:30'),
+(35.084003, 32.433378, 1193, 34.6, 11.99, 68.1125, '20190826 09:24:32'),
+(25.578380, 49.520136, 0107, 29.25, 4.59, 74.0914, '20190531 22:19:46'),
+(11.331760, 24.514272, 0834, 79.3, 39.44, 17.7495, '20190923 17:11:35'),
+(60.692338, 32.925798, 1833, 41.91, 42.69, 27.8569, '20191023 02:18:31'),
+(110.18122, 22.654032, 1462, 14.22, 15.08, 76.5179, '20200106 03:15:47'),
+(85.693742, 46.089148, 2465, 68.15, 32.34, 32.826, '20190925 01:15:24'),
+(8.6441655, 40.540471, 0035, 4.05, 8.06, 66.2182, '20190916 08:48:33'),
+(99.397126, 23.538092, 1326, 17.57, 12.07, 6.3024, '20191230 05:24:31');
 
 INSERT INTO tblBTDatabox 
 VALUES 
@@ -2658,126 +2652,164 @@ go
 -- The transaction receives the sales person Id, a discount %, all subscriber details, and a BT Databox ID. 
 DROP PROCEDURE IF EXISTS newStandardSubscription;
 Go;
-CREATE PROCEDURE newStandardSubscription @pSalesPersonID AS INTEGER, @pDiscount AS REAL, 
-                                         @pName AS VARCHAR(255), @pPassword AS VARCHAR(64), 
-                                         @pPhoneNumber AS VARCHAR(64), @pAddressPrefix AS VARCHAR(16), 
-                                         @pStreetNumber AS VARCHAR(64), @pStreetName AS VARCHAR(64), 
-                                         @pPostCode AS VARCHAR(16), @pCity AS VARCHAR(64), @pCountry AS VARCHAR(64)
+CREATE PROCEDURE newStandardSubscription @pSalesPersonID AS INTEGER, 
+                                         @pDiscount AS REAL, 
+                                         @pName AS VARCHAR(255), 
+                                         @pPassword AS VARCHAR(64), 
+                                         @pPhoneNumber AS VARCHAR(64),
+                                         @pAddressPrefix AS VARCHAR(16), 
+                                         @pStreetNumber AS VARCHAR(64), 
+                                         @pStreetName AS VARCHAR(64), 
+                                         @pPostCode AS VARCHAR(16), 
+                                         @pCity AS VARCHAR(64), 
+                                         @pCountry AS VARCHAR(64)
 AS
 BEGIN
-    DECLARE @tblID TABLE ( SUBID INTEGER);
-     IF NOT EXISTS(SELECT * FROM tblAccount WHERE [Name] = pName AND (SELECT * FROM tblAddress WHERE [Prefix] = pAddressPrefix AND [StreetNumber] = pStreetNumber) AND [STREETNAME] = pStreetName AND (''))
-    IF NOT EXISTS(SELECT * FROM tblCountry WHERE [Country] = pCountry)
-    THEN
-        BEGIN
-            INSERT INTO tblCountry ([Country])
-            VALUES (pCountry);
-        END;
-    END IF; 
-    IF NOT EXISTS(SELECT * FROM tblPostCode WHERE [PostCode] = pPostCode)
-    THEN    
-        BEGIN
-            INSERT INTO tblPostCode ([PostCode], [City], [Country])
-            OUTPUT INSERTED.SubID INTO @tblID
-            VALUES (@pPostCode, @pCity, @pCountry);
-        END;
-    END IF;
-    INSERT INTO tblAddress([Prefix], [StreetNumber], [StreetName], [PostCodeID])
-    VALUES (pAddressPrefix, pStreetNumber, pStreetName, (SELECT LAST INSERT INDEX?????TODO))
+    DECLARE @tblID TABLE (SubscriptionID INTEGER, SubscriberID INTEGER, CustomerID INTEGER, AccountID INTEGER, AddressID INTEGER, PostCodeID INTEGER, SalesPersonID INTEGER);
+    INSERT INTO tblID (SalesPersonID) VALUES (pSalesPersonID);
+    SELECT SC.SubscriptionID, SB.SubscriberID, C.CustomerID, A.AccountID, AD.AddressID, P.PostCodeID 
+    INTO tblID 
+    FROM tblSubscription as SC 
+    JOIN tblSubscriber AS SB ON SC.SubscriberID = SB.SubcriberID
+    JOIN tblCustomer AS C ON SB.CustomerID = C.CustomerID
+    JOIN tblAccount AS A ON C.AccountID = A.AccountID
+    JOIN tblAddress AS AD ON A.AddressID = AD.AddressID
+    JOIN tblPostCode AS P ON AD.PostCodeID = P.PostCodeID
+    JOIN tblCountry AS CO ON P.CountryID = CO.CountryID
+    WHERE SalesPersonID = pSalesPerson;
 
-    INSERT INTO tblAccount([Name], [Password], [AddressID], [PhoneNumber])
-    VALUES (pName, pPassword, (Select last INSERT index???TODO), pPhoneNumber);
-
-    INSERT INTO tblCustomer
-    VALUES (SELECT LAST INSERT index);
-
-    INSERT INTO tblSubscriber
-    Values (SELECT LAST INSERT index);
-
-    INSERT INTO tblSubscription ([AccountID], )
+    IF tblID.PostCodeID IS NULL
+        INSERT INTO tblPostCode OUTPUT INSERTED.ID INTO tblID.PostCodeID VALUES (pPostCode, pCity, (SELECT [CountryID] FROM tblCountry WHERE [Country] = pCountry));
+    IF tblID.AddressID IS NULL
+        INSERT INTO tblAddress OUTPUT INSERTED.ID INTO tblID.AddressID VALUES (pAddressPrefix, pStreetNumber, pStreetName, (SELECT PostCodeID FROM tblID));
+    IF tblID.AccountID IS NULL
+        INSERT INTO tblAccount OUTPUT INSERTED.ID INTO tblID.AccountID VALUES (pName, pPassword, (Select AddressID FROM tblID), pPhoneNumber);
+    IF tblID.CustomerID IS NULL
+        INSERT INTO tblCustomer OUTPUT INSERTED.ID INTO tblID.CustomerID VALUES ((SELECT AccountID FROM tblID));
+    IF tblID.SubscriberID IS NULL
+        INSERT INTO tblSubscriber OUTPUT INSERTED.ID INTO tblID.SubscriberID VALUES ((SELECT CustomerID FROM tblID));
+    INSERT INTO tblSubscription OUTPUT INSERTED.ID INTO tblID.SubscriberID VALUES ((SELECT SubscriberID FROM tblID));
+    INSERT INTO tblSale VALUES (pSalesPersonID, tblID.SubscriptionID, pDiscount);
 END;
+GO
 
 -- 2. For each sales person list the subscribers they have sold a subscription to. The transaction receives the sales person's name as input, 
--- and presents each subscriber's name, address, and the % they were discounted.
+-- and presents each subscriber'sname, address, and the % they were discounted.
 DROP PROCEDURE IF EXISTS salesPersonCustomers;
 GO;
 CREATE PROCEDURE salesPersonCustomers
+@pSalesPersonName VARCHAR (255) 
 AS
 BEGIN
-    SELECT 
-    FROM tblAccount AS StaffAccount, tblAccount AS CustomerAccount, tblCustomer, 
+    SELECT CA.Name, AD.Prefix, AD.StreetNumber, AD.StreetName, D.DiscountAmount
+    FROM tblAccount AS SPA 
+    JOIN tblStaff AS ST ON SPA.AccountID = ST.AccountID
+    JOIN tblSalesPerson SP ON ST.StaffID = SP.StaffID
+    JOIN tblSale S ON SP.SalesPersonID = S.SalesPersonID
+    JOIN tblDiscount D ON SP.DiscountID = D.DiscountID
+    JOIN tblSubscription SC ON S.SubscriptionID = SC.SubscriptionID
+    JOIN tblSubscriber SB ON SC.SubscriberID = SB.SubscriberID
+    JOIN tblCustomer C ON SB.CustomerID = C.CustomerID
+    JOIN tblAccount CA ON C.AccountID = CA.AccountID
+    JOIN tblAddress AD ON CA.AddressID = AD.AddressID
+    JOIN tblPostCode P ON AD.PostCodeID = P.PostCodeID
+    JOIN tblCountry CY ON P.CountryID = CY.CountryID
+    WHERE SPA.Name = pSalesPersonName;
 END;
-
 
 -- 3. List the location in latitude, longitude coordinates, of each BT Databox that is currently in a contract. 
 -- The transaction presents the Contracting organisation's name, a BT DataboxID, a Latitude, and a Longitude.
-DROP PROCEDURE IF EXISTS allBTDataboxInContract;
+DROP PROCEDURE IF EXISTS lastLocationOfBTDataboxInContract;
 GO;
 CREATE PROCEDURE allBTDataboxInContract
 AS
 BEGIN
-
+    SELECT A.Name AS "Contracting Organisation", BTDB.BTDataboxID, BTDBD.Latitude, BTDBD.Longitude
+    FROM tblAccount AS A
+    JOIN tblContractee AS CE ON A.AccountID = C.AccountID
+    JOIN tblContract AS C ON C.ContracteeID = CE.ContracteeID
+    JOIN tblContractedBTDatabox AS CBTDB ON C.ContractID = CBTDB.ContractID
+    JOIN tblBTDatabox AS BTDB ON CBTDB.BTDataboxID = BTDB.BTDataboxID
+    JOIN tblBTDataboxData AS BTDBD ON BTDB.BTDataboxID = BTDBD.BTdataboxID
+    JOIN tblScientificData AS SD ON BTDBD.ScientificDataID = SD.ScientificDataID
+    WHERE A.Name IS NOT NULL;
 END;
-GO;
+GO
 -- 4. For a contract list all the data collected. The transaction receives the contracting organisation's name 
 -- and presents for each collected data record, the contracting organisation's name, a BT Databox ID, Temperature, Humidity and Ambient light strength.
 DROP PROCEDURE IF EXISTS allContractData;
 GO;
 CREATE PROCEDURE allContractData
+@pContractingOrg VARCHAR(255)
 AS
 BEGIN
-SELECT * FROM tblUser;
+    SELECT A.Name AS "Contracting Organisation", Temperature, Humidity, A
+    FROM tblAccount AS A
+    JOIN tblContractee AS CE ON A.AccountID = C.AccountID
+    JOIN tblContract AS C ON C.ContracteeID = CE.ContracteeID
+    JOIN tblContractedBTDatabox AS CBTDB ON C.ContractID = CBTDB.ContractID
+    JOIN tblBTDatabox AS BTDB ON CBTDB.BTDataboxID = BTDB.BTDataboxID
+    JOIN tblBTDataboxData AS BTDBD ON BTDB.BTDataboxID = BTDBD.BTdataboxID
+    JOIN tblScientificData AS SD ON BTDBD.ScientificDataID = SD.ScientificDataID
 END;
-GO;
+GO
 
 -- 5. For each BT Databox present the list of subscribers who are viewing a live 3D video stream. 
 -- The transaction lists BT Databox ID, Subscriber Name, Stream ID.
 DROP PROCEDURE IF EXISTS allVideoStreamViewers;
-CREATE PROCEDURE allVideoStreamViewers()
+GO
+CREATE PROCEDURE allVideoStreamViewers
 AS
 BEGIN
 
 END;
+GO
 
 -- 6. For a given BT Databox list all the suppliers of parts.
 -- The transaction receives the  BT Databox ID, and presents the Supplier Name and, Part Name.
 DROP PROCEDURE IF EXISTS getBTDataboxPartSuppliers;
-CREATE PROCEDURE allVideoStreamViewers()
+GO
+CREATE PROCEDURE allVideoStreamViewers
 AS
 BEGIN
 
 END;
+GO
 
- 	7. Update the location and Zone of a  BT Databox. The transaction receives the  BT Databox ID, a location and a Zone expressed as a list of coordinates 
- in latitude, longitude pairs. It updates the location of the  BT Databox and its corresponding Zone. (This transaction may require more than one update query.)
+-- 7. Update the location and Zone of a  BT Databox. The transaction receives the  BT Databox ID, a location and a Zone expressed as a list of coordinates 
+--  in latitude, longitude pairs. It updates the location of the  BT Databox and its corresponding Zone. (This transaction may require more than one update query.)
 DROP PROCEDURE IF EXISTS updateBTDataboxLocation;
-CREATE PROCEDURE updateBTDataboxLocation()
+GO
+CREATE PROCEDURE updateBTDataboxLocation
 AS
 BEGIN
 
 END;
+GO
 
- 8.  Delete the data collected for a given Contract. The transaction receives a Contract ID, the data collected for a Contract is deleted.
+--8.  Delete the data collected for a given Contract. 
+-- The transaction receives a Contract ID, the data collected for a Contract is deleted.
 DROP PROCEDURE IF EXISTS deleteContractData;
-CREATE PROCEDURE deleteContractData()
+CREATE PROCEDURE deleteContractData
 AS
 BEGIN
 
 END;
+GO
 
- 9. Write a query to be used to INSERT data from a  BT Databox to its stored data on the Being There database. The transaction receives the  BT Databox ID.
+-- 9. Write a query to be used to INSERT data from a BT Databox to 
+-- its stored data on the Being There database. The transaction receives the  BT Databox ID.
 DROP PROCEDURE IF EXISTS INSERTBTDataboxData;
-CREATE PROCEDURE allVideoStreamViewers()
+GO
+CREATE PROCEDURE allVideoStreamViewers
 AS
 BEGIN
 
 END;
+GO
 
 EXEC createDBBeingThere();
-EXEC InsertPoinlessDataThatIsRidiclious();
 
---  
--- 
 --  procedure sales from tblsalespersonName
 --  @psalesname varchar(50)
 --  as begin select
@@ -2795,29 +2827,10 @@ EXEC InsertPoinlessDataThatIsRidiclious();
 
 
 
+-- Transaction A 
+-- INCLUDE Text from brief about the transaction
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- Transaction A 
- INCLUDE Text from brief about the transaction
-
- TESTING A  Thomas Salesperson ID 1 sells a subscription to Jane Doe at a discount of 3% to DATABOX 1
+-- TESTING A  Thomas Salesperson ID 1 sells a subscription to Jane Doe at a discount of 3% to DATABOX 1
 exec SubscribeToDatabox 1,'Jane','Doe','t','t',3.0,1;
 select * from tblSubscription;
 select * from tblSubDatabox;
