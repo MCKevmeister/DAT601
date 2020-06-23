@@ -35,7 +35,10 @@ DROP TABLE IF EXISTS tblBTDataboxZone;
 DROP TABLE IF EXISTS tblBTDataboxPart;
 DROP TABLE IF EXISTS tblBTDataboxData;
 DROP TABLE IF EXISTS tblBTDataboxStream;
-DROP TABLE IF EXISTS tblPriceChange;
+DROP TABLE IF EXISTS tblSuperPlatinumPriceChange;
+DROP TABLE IF EXISTS tblPlatinumPriceChange;
+DROP TABLE IF EXISTS tblGoldPriceChange;
+DROP TABLE IF EXISTS tblSubscriptionPriceChange;
 DROP TABLE IF EXISTS tblSuperPlatinum;
 DROP TABLE IF EXISTS tblPlatinum;
 DROP TABLE IF EXISTS tblGold;
@@ -1882,50 +1885,6 @@ VALUES
 (8, 98),
 (9, 99),
 (10, 100);
-
-INSERT INTO tblBTDataboxData 
-VALUES
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
 
 INSERT INTO tblBTDataboxPart 
 VALUES
