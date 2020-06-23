@@ -425,7 +425,7 @@ CREATE TABLE tblContractedZone (
 CREATE TABLE tblContractScientificData (
     [ContractID] INT NOT NULL,
     [ScientificDataID] INT NOT NULL,
-    [isDeleted] BOOL NOT NULL DEFAULT false, -- Check this line TODO
+    [isDeleted] BIT NOT NULL DEFAULT 0, -- Check this line TODO
     PRIMARY KEY(ContractID, ScientificDataID),
     FOREIGN KEY (ContractID) REFERENCES tblContract (ContractID),
     FOREIGN KEY (ScientificDataID) REFERENCES tblScientificData(ScientificDataID)
@@ -2327,106 +2327,106 @@ VALUES
 
 INSERT INTO tblContractScientificData -- Check these inserts TODO
 VALUES 
-(1, 1, false),
-(2, 2, false),
-(3, 3, false),
-(4, 4, false),
-(5, 5, false),
-(6, 6, false),
-(7, 7, false),
-(8, 8, false),
-(9, 9, false),
-(10, 10, false),
-(11, 11, false),
-(12, 12, false),
-(13, 13, false),
-(14, 14, false),
-(15, 15, false),
-(16, 16, false),
-(17, 17, false),
-(18, 18, false),
-(19, 19, false),
-(20, 20, false),
-(1, 21, false),
-(2, 22, false),
-(3, 23, false),
-(4, 24, false),
-(5, 25, false),
-(6, 26, false),
-(7, 27, false),
-(8, 28, false),
-(9, 29, false),
-(10, 30, false),
-(11, 31, false),
-(12, 32, false),
-(13, 33, false),
-(14, 34, false),
-(15, 35, false),
-(16, 36, false),
-(17, 37, false),
-(18, 38, false),
-(19, 39, false),
-(20, 40, false),
-(1, 41, false),
-(2, 42, false),
-(3, 43, false),
-(4, 44, false),
-(5, 45, false),
-(6, 46, false),
-(7, 47, false),
-(8, 48, false),
-(9, 49, false),
-(10, 50, false),
-(11, 51, false),
-(12, 52, false),
-(13, 53, false),
-(14, 54, false),
-(15, 55, false),
-(16, 56, false),
-(17, 57, false),
-(18, 58, false),
-(19, 59, false),
-(20, 60, false),
-(1, 61, false),
-(2, 62, false),
-(3, 63, false),
-(4, 64, false),
-(5, 65, false),
-(6, 66, false),
-(7, 67, false),
-(8, 68, false),
-(9, 69, false),
-(10, 70, false),
-(11, 71, false),
-(12, 72, false),
-(13, 73, false),
-(14, 74, false),
-(15, 75, false),
-(16, 76, false),
-(17, 77, false),
-(18, 78, false),
-(19, 79, false),
-(20, 80, false),
-(1, 81, false),
-(2, 82, false),
-(3, 83, false),
-(4, 84, false),
-(5, 85, false),
-(6, 86, false),
-(7, 87, false),
-(8, 88, false),
-(9, 89, false),
-(10, 90, false),
-(11, 91, false),
-(12, 92, false),
-(13, 93, false),
-(14, 94, false),
-(15, 95, false),
-(16, 96, false),
-(17, 97, false),
-(18, 98, false),
-(19, 99, false),
-(20, 100, false);
+(1, 1, 0),
+(2, 2, 0),
+(3, 3, 0),
+(4, 4, 0),
+(5, 5, 0),
+(6, 6, 0),
+(7, 7, 0),
+(8, 8, 0),
+(9, 9, 0),
+(10, 10, 0),
+(11, 11, 0),
+(12, 12, 0),
+(13, 13, 0),
+(14, 14, 0),
+(15, 15, 0),
+(16, 16, 0),
+(17, 17, 0),
+(18, 18, 0),
+(19, 19, 0),
+(20, 20, 0),
+(1, 21, 0),
+(2, 22, 0),
+(3, 23, 0),
+(4, 24, 0),
+(5, 25, 0),
+(6, 26, 0),
+(7, 27, 0),
+(8, 28, 0),
+(9, 29, 0),
+(10, 30, 0),
+(11, 31, 0),
+(12, 32, 0),
+(13, 33, 0),
+(14, 34, 0),
+(15, 35, 0),
+(16, 36, 0),
+(17, 37, 0),
+(18, 38, 0),
+(19, 39, 0),
+(20, 40, 0),
+(1, 41, 0),
+(2, 42, 0),
+(3, 43, 0),
+(4, 44, 0),
+(5, 45, 0),
+(6, 46, 0),
+(7, 47, 0),
+(8, 48, 0),
+(9, 49, 0),
+(10, 50, 0),
+(11, 51, 0),
+(12, 52, 0),
+(13, 53, 0),
+(14, 54, 0),
+(15, 55, 0),
+(16, 56, 0),
+(17, 57, 0),
+(18, 58, 0),
+(19, 59, 0),
+(20, 60, 0),
+(1, 61, 0),
+(2, 62, 0),
+(3, 63, 0),
+(4, 64, 0),
+(5, 65, 0),
+(6, 66, 0),
+(7, 67, 0),
+(8, 68, 0),
+(9, 69, 0),
+(10, 70, 0),
+(11, 71, 0),
+(12, 72, 0),
+(13, 73, 0),
+(14, 74, 0),
+(15, 75, 0),
+(16, 76, 0),
+(17, 77, 0),
+(18, 78, 0),
+(19, 79, 0),
+(20, 80, 0),
+(1, 81, 0),
+(2, 82, 0),
+(3, 83, 0),
+(4, 84, 0),
+(5, 85, 0),
+(6, 86, 0),
+(7, 87, 0),
+(8, 88, 0),
+(9, 89, 0),
+(10, 90, 0),
+(11, 91, 0),
+(12, 92, 0),
+(13, 93, 0),
+(14, 94, 0),
+(15, 95, 0),
+(16, 96, 0),
+(17, 97, 0),
+(18, 98, 0),
+(19, 99, 0),
+(20, 100, 0);
 
 INSERT INTO tblOwnsDataRights 
 VALUES
@@ -2752,8 +2752,8 @@ AS
 BEGIN
     SELECT BT.BTDataboxID, CA.Name AS "Subscriber nAmE", VS.StreamID
     FROM tblBTDatabox AS BT 
-    JOIN tblBTDataboxStream AS BTDVSDSFSDFSDFSFDSDFDFDKJFDSSDFLKJLKJFDSLKJFDSLKJFDSLKJDSFLKJLKJFDSLKJSFDLKJFLKJFDS ON BT.DataboxID = BTDVSDSFSDFSDFSFDSDFDFDKJFDSSDFLKJLKJFDSLKJFDSLKJFDSLKJDSFLKJLKJFDSLKJSFDLKJFLKJFDS.BTdataboxID
-    JOIN tblVideoStream AS VS ON BTDVSDSFSDFSDFSFDSDFDFDKJFDSSDFLKJLKJFDSLKJFDSLKJFDSLKJDSFLKJLKJFDSLKJSFDLKJFLKJFDS.StreamID = VS.StreamID
+    JOIN tblBTDataboxStream AS BTDBS ON BT.DataboxID = BTDBS.BTdataboxID
+    JOIN tblVideoStream AS VS ON BTDBS.StreamID = VS.StreamID
     JOIN tblVideoStreamViewer AS VSV ON VS.StreamID = VSV.StreamID
     JOIN tblSubscription SC ON VSV.SubscriptionID = SC.SubscriptionID
     JOIN tblSubscriber SB ON SC.SubscriberID = SB.SubscriberID
@@ -2769,11 +2769,11 @@ GO
 CREATE PROCEDURE getBTDataboxPartSuppliers @pBTDBID INTEGER
 AS
 BEGIN
-    SELECT S.SupplierName AS "Supplier Name", PPPPPPPPPPPPPPPPPP.Partname AS "Part Name"
+    SELECT S.SupplierName AS "Supplier Name", P.Partname AS "Part Name"
     FROM tblBTDatabox as BTDB
     JOIN tblBTDataboxPart AS BTDBP ON BTDB.BTDataboxID = BTDBP.BTDataboxID
-    JOIN tblPart AS PPPPPPPPPPPPPPPPPP ON BTDBP.PartID = PPPPPPPPPPPPPPPPPP.PartID
-    JOIN tblPartSuppplier AS PS ON PPPPPPPPPPPPPPPPPP.PartID = PS.PartID
+    JOIN tblPart AS P ON BTDBP.PartID = P.PartID
+    JOIN tblPartSuppplier AS PS ON P.PartID = PS.PartID
     JOIN tblSupplier AS S ON PS.SupplierID = S.SupplierID
 END;
 GO
@@ -2796,14 +2796,9 @@ GO
 CREATE PROCEDURE deleteContractData @pContractID INTEGER
 AS
 BEGIN
-    -- DELETE FROM tblContractScientificData
-    -- WHERE ContractID = pContractID -- Can't "delete" the data from the database, as it might belong to another 
-    -- contract and remains the property of Being There as a condition of the Contractal Aggrement originally 
-    -- signed "Upon termination of this contract, all data gathererd remains the intelectual property of Being There" 
-    -- Some clause like that in the original contract. Or even better ...
     UPDATE tblContractedScientifcData
-    SET isDeleted = true -- check this line
-    WHERE ContractID = pContractID; -- Your Data is now "deleted" thanks for doing business with us
+    SET isDeleted = 1
+    WHERE ContractID = pContractID;
 END;
 GO
 
