@@ -108,9 +108,11 @@ CREATE TABLE tblPart (
 );
 CREATE TABLE tblVideoStream (
     [StreamID] INT IDENTITY PRIMARY KEY,
+    [BTDataboxID] INT NOT NULL,
     [StartTime] DATETIME NOT NULL,
     [EndTime] DATETIME,
     [Length] INT
+    FOREIGN KEY (BTDataboxID) REFERENCES tblBTDatabox (BTDataboxID)
 );
 CREATE TABLE tblPostCode (
     [PostCodeID] INT IDENTITY PRIMARY KEY,
@@ -270,14 +272,14 @@ CREATE TABLE tblSuperPlatinumPriceChange (
     FOREIGN KEY (DirectorID) REFERENCES tblDirector (DirectorID),
     FOREIGN KEY (SuperPlatinumID) REFERENCES tblSuperPlatinum (SuperPlatinumID)
 );
-CREATE TABLE tblBTDataboxStream ( 
-    [BTDataboxID] INT NOT NULL,
-    [StreamID] INT NOT NULL,
-    PRIMARY KEY(BTDataboxID, StreamID),
-    FOREIGN KEY (BTDataboxID) REFERENCES tblBTDatabox (BTDataboxID),
-    FOREIGN KEY (StreamID) REFERENCES tblVideoStream (StreamID)
-);
--- CREATE TABLE tblBTDataboxData (
+-- CREATE TABLE tblBTDataboxStream ( 
+--     [BTDataboxID] INT NOT NULL,
+--     [StreamID] INT NOT NULL,
+--     PRIMARY KEY(BTDataboxID, StreamID),
+--     FOREIGN KEY (BTDataboxID) REFERENCES tblBTDatabox (BTDataboxID),
+--     FOREIGN KEY (StreamID) REFERENCES tblVideoStream (StreamID)
+-- );
+-- -- CREATE TABLE tblBTDataboxData (
 --     [BTDataboxID] INT NOT NULL,
 --     [ScientificDataID] INT NOT NULL,
 --     PRIMARY KEY(BTDataboxID, ScientificDataID),
