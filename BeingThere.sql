@@ -2599,7 +2599,7 @@ go
 -- 1. A sales person subscribes to a new standard subscription to a BT Databox . 
 -- The transaction receives the sales person Id, a discount %, all subscriber details, and a BT Databox ID. 
 DROP PROCEDURE IF EXISTS newStandardSubscription;
-Go;
+Go
 CREATE PROCEDURE newStandardSubscription @pSalesPersonID AS INTEGER, 
                                          @pDiscount AS REAL, 
                                          @pName AS VARCHAR(255), 
@@ -2649,12 +2649,11 @@ CREATE PROCEDURE salesPersonCustomers
 @pSalesPersonName VARCHAR (255) 
 AS
 BEGIN
-    SELECT CA.Name, AD.Prefix, AD.StreetNumber, AD.StreetName, D.DiscountAmount
+    SELECT CA.Name, AD.Prefix, AD.StreetNumber, AD.StreetName, S.Discount
     FROM tblAccount AS SPA 
     JOIN tblStaff AS ST ON SPA.AccountID = ST.AccountID
     JOIN tblSalesPerson SP ON ST.StaffID = SP.StaffID
     JOIN tblSale S ON SP.SalesPersonID = S.SalesPersonID
-    JOIN tblDiscount D ON SP.DiscountID = D.DiscountID
     JOIN tblSubscription SC ON S.SubscriptionID = SC.SubscriptionID
     JOIN tblSubscriber SB ON SC.SubscriberID = SB.SubscriberID
     JOIN tblCustomer C ON SB.CustomerID = C.CustomerID
@@ -2662,7 +2661,7 @@ BEGIN
     JOIN tblAddress AD ON CA.AddressID = AD.AddressID
     JOIN tblPostCode P ON AD.PostCodeID = P.PostCodeID
     JOIN tblCountry CY ON P.CountryID = CY.CountryID
-    WHERE SPA.Name = pSalesPersonName;
+    -- WHERE SPA.Name = pSalesPersonName;
 END;
 
 -- 3. List the location in latitude, longitude coordinates, of each BT Databox that is currently in a contract. 
@@ -2674,12 +2673,12 @@ AS
 BEGIN
     SELECT A.Name AS "Contracting Organisation", BTDB.BTDataboxID, BTDBD.Latitude, BTDBD.Longitude
     FROM tblAccount AS A
-    JOIN tblContractee AS CE ON A.AccountID = C.AccountID
-    JOIN tblContract AS C ON C.ContracteeID = CE.ContracteeID
+    JOIN tblCustomer AS CM ON A.AccountID = CM.AccountID
+    JOIN tblContractee AS CE ON CM.CustomerID = CE.CustomerID
+    JOIN tblContract AS C ON C.Contractee = CE.ContracteeID
     JOIN tblContractedBTDatabox AS CBTDB ON C.ContractID = CBTDB.ContractID
     JOIN tblBTDatabox AS BTDB ON CBTDB.BTDataboxID = BTDB.BTDataboxID
-    JOIN tblBTDataboxData AS BTDBD ON BTDB.BTDataboxID = BTDBD.BTdataboxID
-    JOIN tblScientificData AS SD ON BTDBD.ScientificDataID = SD.ScientificDataID
+    JOIN tblScientificData AS SD ON BTDB.BTDataboxID = SD.BTDataboxID
     WHERE A.Name IS NOT NULL;
 END;
 GO
@@ -2693,12 +2692,12 @@ AS
 BEGIN
     SELECT A.Name AS "Contracting Organisation", Temperature, Humidity, AmbientLightStrength AS "Ambient Light Strenght"
     FROM tblAccount AS A
-    JOIN tblContractee AS CE ON A.AccountID = C.AccountID
-    JOIN tblContract AS C ON C.ContracteeID = CE.ContracteeID
+    JOIN tblCustomer AS CM ON A.AccountID = CM.AccountID
+    JOIN tblContractee AS CE ON CM.CustomerID = CE.CustomerID
+    JOIN tblContract AS C ON C.Contractee = CE.ContracteeID
     JOIN tblContractedBTDatabox AS CBTDB ON C.ContractID = CBTDB.ContractID
     JOIN tblBTDatabox AS BTDB ON CBTDB.BTDataboxID = BTDB.BTDataboxID
-    JOIN tblBTDataboxData AS BTDBD ON BTDB.BTDataboxID = BTDBD.BTdataboxID
-    JOIN tblScientificData AS SD ON BTDBD.ScientificDataID = SD.ScientificDataID
+    JOIN tblScientificData AS SD ON BTDB.BTDataboxID = SD.BTDataboxID
 END;
 GO
 
