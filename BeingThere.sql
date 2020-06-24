@@ -371,7 +371,7 @@ CREATE TABLE tblZoneCountry (
 );
 CREATE TABLE tblZoneCondition (
     [ZoneID] INT NOT NULL,
-    [ConditionID] INT NOT NULL,
+    [Condition] INT NOT NULL,
     PRIMARY KEY(ZoneID, ConditionID),
     FOREIGN KEY (ZoneID) REFERENCES tblZone (ZoneID),
     FOREIGN KEY (ConditionID) REFERENCES tblCondition(ConditionID)
@@ -1760,23 +1760,23 @@ VALUES
 (4, 4),
 (5, 5),
 (6, 6),
-(7, 7),
-(8, 8),
-(9, 9),
-(10, 10);
+(1, 7),
+(2, 8),
+(3, 9),
+(4, 10);
 
 INSERT INTO tblZoneCondition 
 VALUES
-(1, 'Jungle'),
-(2, 'Forest'),
-(3, 'Savannah'),
-(4, 'Jungle'),
-(5, 'Ice and Snow (extreme cold)'),
-(6, 'Urban'),
-(7, 'Jungle'),
-(8, 'Deserts'),
-(9, 'Urban'),
-(10, 'Urban');
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 1),
+(8, 2),
+(9, 3),
+(10, 4);
 
 INSERT INTO tblSubscriptionZone 
 VALUES
