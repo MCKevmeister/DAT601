@@ -105,7 +105,7 @@ CREATE TABLE tblScientificData (
 CREATE TABLE tblPart (
     [PartID] INT IDENTITY PRIMARY KEY,
     [Partname] VARCHAR(64) NOT NULL,
-    [Description] VARCHAR(64) NOT NULL,
+    [Description] VARCHAR(255) NOT NULL,
     [Cost] MONEY NOT NULL
 );
 CREATE TABLE tblVideoStream (
@@ -698,7 +698,7 @@ VALUES
 ('Zambia'),
 ('Zimbabwe');
 
-INSERT INTO tblZone
+INSERT INTO tblZone -- 2
 VALUES
 (180, 120, 90, 60),
 (119, 60, 60, 30),
@@ -710,7 +710,7 @@ VALUES
 (241, 300, 120, 150),
 (301, 360, 150, 180);
 
-INSERT INTO tblCondition
+INSERT INTO tblCondition -- 3
 VALUES
 ('Jungle', 'A jungle is land covered with dense forest and tangled vegetation, usually in hot climates'),
 ('Forest', 'A forest is a large area dominated by trees'),
@@ -719,7 +719,7 @@ VALUES
 ('Deserts', 'A desert is a barren area of landscape where little precipitation occurs and, consequently, living conditions are hostile for plant and animal life'),
 ('Urban', 'An urban area, or builtup area, is a human settlement with a high population density and infrastructure of built environment');
 
-INSERT INTO tblBTDatabox 
+INSERT INTO tblBTDatabox  -- 4
 VALUES 
 ('20191125', '20210526', '67', 61.344385, 15.388447),
 ('20190810', '20210730', '53', 40.685430, 14.556065),
@@ -752,7 +752,7 @@ VALUES
 ('20190726', '20210304', '67', 69.144708, 35.401071),
 ('20180202', '20220202', '11', -18.90527, -10.91666);
 
-INSERT INTO tblScientificData 
+INSERT INTO tblScientificData -- 5
 VALUES 
 (1, 61.344385, 15.388447, 0613, 95.86, 33.61, 33.8391, '20191106 11:41:47'),
 (2, 40.685430, 14.556065, 1785, 24.78, 35.0, 56.4677, '20191001 21:04:52'),
@@ -855,7 +855,7 @@ VALUES
 (9, 8.6441655, 40.540471, 0035, 4.05, 8.06, 66.2182, '20190916 08:48:33'),
 (10, 99.397126, 23.538092, 1326, 17.57, 12.07, 6.3024, '20191230 05:24:31');
 
-INSERT INTO tblPart
+INSERT INTO tblPart -- 6
 VALUES 
 ('dolor', 'Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis. Duis consequat nec nisi volutpat eleifend.', '$241.74'),
 ('lobortis', 'In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nec sem. Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit. Donec diam neque, vestibulum eget vulputate ut ultrices augue.', '$92.49'),
@@ -878,7 +878,7 @@ VALUES
 ('eu', 'Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum.', '$486.45'),
 ('diam', 'Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', '$518.03');
 
-INSERT INTO tblVideoStream (BTDataboxID, StartTime, EndTime)
+INSERT INTO tblVideoStream (BTDataboxID, StartTime, EndTime) -- 7
 VALUES
 (1, '2020-04-01T08:16:59.000', '2019-12-08T17:03:15.000'),
 (2, '2019-08-21T07:18:49.000', '2020-04-24T18:13:53.000'),
@@ -911,7 +911,7 @@ VALUES
 (29, '2019-08-20T22:44:49.000', '2019-11-03T17:36:26.000'),
 (30, '2019-10-05T21:03:03.000', '2019-07-06T17:55:27.000');
 
-INSERT INTO tblPostCode
+INSERT INTO tblPostCode -- 8
 VALUES 
 (67314, 'Karangpete', 11),
 (52180, 'San Isidro', 46),
@@ -1014,7 +1014,7 @@ VALUES
 (80745, 'Aserrí', 42),
 (9789, 'Canguçu', 69);
 
-INSERT INTO tblAddress 
+INSERT INTO tblAddress  -- 9
 VALUES
 (null, 13, 'Arizona Drive', 1),
 (null, 23, 'Granby Terrace', 2),
@@ -1127,7 +1127,7 @@ VALUES
 (null, 28, 'Caliangt Alley', 9),
 (null, 8, 'Jackson Terrace', 10);
 
-INSERT INTO tblSupplier 
+INSERT INTO tblSupplier -- 10
 VALUES 
 ('Green Group', 'Aeriel Muccino', 'amuccino0@nature.com', 1, '277-683-3219'),
 ('Marvin and Sons', 'Deonne Edinboro', 'dedinboro1@cam.ac.uk', 2, '675-387-2042'),
@@ -1140,7 +1140,7 @@ VALUES
 ('Parisian, Price and Keeling', 'Tamarah Dagwell', 'tdagwell8@mayoclinic.com', 9, '146-874-8866'),
 ('Becker, Lind and Keebler', 'Rog Stollwerk', 'rstollwerk9@dyndns.org', 10, '411-602-7021');
 
-INSERT INTO tblAccount 
+INSERT INTO tblAccount -- 11
 VALUES
 ('Idalina Innett', 'N4nZGS', 11, '6094099290'),
 ('Cherish Roches', 'rEhmEG7Q', 12, '1523343646'),
