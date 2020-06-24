@@ -394,7 +394,7 @@ CREATE TABLE tblContract (
     [ContractID] INT IDENTITY PRIMARY KEY,
     [StartDate] DATE NOT NULL,
     [EndDate] DATE,
-    [Value] INT NOT NULL,
+    [Value] MONEY NOT NULL,
     [Contractee] INT NOT NULL,
     [EnteredByAdmin] INT NOT NULL,
     FOREIGN KEY (Contractee) REFERENCES tblContractee (ContracteeID),
@@ -1776,14 +1776,14 @@ VALUES
 (7, 1),
 (8, 2),
 (9, 3),
-(10, 4);
+(1, 4);
 
 INSERT INTO tblSubscriptionZone 
 VALUES
 (1, 1),
 (2, 2),
 (3, 3),
-(4, 4),
+(4, 4),  
 (5, 5),
 (6, 6),
 (7, 1),
