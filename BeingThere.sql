@@ -417,7 +417,7 @@ CREATE TABLE tblContractedZone (
 CREATE TABLE tblContractScientificData (
     [ContractID] INT NOT NULL,
     [ScientificDataID] INT NOT NULL,
-    [isDeleted] BIT NOT NULL DEFAULT 0, -- Check this line TODO
+    [isDeleted] BIT NOT NULL DEFAULT 0,
     PRIMARY KEY(ContractID, ScientificDataID),
     FOREIGN KEY (ContractID) REFERENCES tblContract (ContractID),
     FOREIGN KEY (ScientificDataID) REFERENCES tblScientificData(ScientificDataID)
@@ -1786,10 +1786,10 @@ VALUES
 (4, 4),
 (5, 5),
 (6, 6),
-(7, 7),
-(8, 8),
-(9, 9),
-(10, 10);
+(7, 1),
+(8, 2),
+(9, 3),
+(10, 4);
 
 INSERT INTO tblSubscriptionBTDatabox 
 VALUES
@@ -1858,20 +1858,20 @@ VALUES
 (4, 4),
 (5, 5),
 (6, 6),
-(7, 7),
-(8, 8),
-(9, 9),
+(7, 1),
+(8, 2),
+(9, 3),
 (10, 1),
 (11, 2),
 (12, 3),
 (13, 4),
 (14, 5),
 (15, 6),
-(16, 7),
-(17, 8),
-(18, 9),
-(19, 1),
-(20, 2);
+(16, 1),
+(17, 2),
+(18, 3),
+(19, 4),
+(20, 5);
 
 INSERT INTO tblContractScientificData -- Check these inserts TODO
 VALUES 
