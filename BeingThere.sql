@@ -9,7 +9,6 @@ GO
 
 DROP PROCEDURE IF EXISTS createDBAbsloutlyBeingThere;
 GO
-
 CREATE PROCEDURE createDBAbsloutlyBeingThere
 AS
 BEGIN
@@ -440,12 +439,10 @@ CREATE TABLE tblOwnsVideoRights (
 
 end;
 go
-
 EXEC createDBAbsloutlyBeingThere;
 
 DROP PROCEDURE IF EXISTS InsertTestData;
 GO
-
 CREATE PROCEDURE InsertTestData
 AS
 BEGIN
@@ -2490,7 +2487,6 @@ VALUES
 (100, 40);
 end;
 go
-
 exec InsertTestData;
 go
 -- 1. A sales person subscribes to a new standard subscription to a BT Databox . 
