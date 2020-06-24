@@ -371,7 +371,7 @@ CREATE TABLE tblZoneCountry (
 );
 CREATE TABLE tblZoneCondition (
     [ZoneID] INT NOT NULL,
-    [Condition] INT NOT NULL,
+    [ConditionID] INT NOT NULL,
     PRIMARY KEY(ZoneID, ConditionID),
     FOREIGN KEY (ZoneID) REFERENCES tblZone (ZoneID),
     FOREIGN KEY (ConditionID) REFERENCES tblCondition(ConditionID)
