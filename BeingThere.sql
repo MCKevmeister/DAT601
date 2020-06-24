@@ -1,3 +1,5 @@
+use master
+go
 DROP DATABASE IF EXISTS AbsloutlyBeingThere;
 GO
 CREATE DATABASE AbsloutlyBeingThere;
@@ -875,7 +877,7 @@ VALUES
 ('eu', 'Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum.', '$486.45'),
 ('diam', 'Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', '$518.03');
 
-INSERT INTO tblVideoStream (StartTime, EndTime)
+INSERT INTO tblVideoStream (BTDataboxID, StartTime, EndTime)
 VALUES
 (1, '2020-04-01T08:16:59.000', '2019-12-08T17:03:15.000'),
 (2, '2019-08-21T07:18:49.000', '2020-04-24T18:13:53.000'),
@@ -2478,7 +2480,8 @@ VALUES
 end;
 go
 
-
+exec InsertTestData;
+go
 -- 1. A sales person subscribes to a new standard subscription to a BT Databox . 
 -- The transaction receives the sales person Id, a discount %, all subscriber details, and a BT Databox ID. 
 DROP PROCEDURE IF EXISTS newStandardSubscription;
