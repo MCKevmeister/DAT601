@@ -440,9 +440,10 @@ CREATE TABLE tblOwnsVideoRights (
 end;
 go
 EXEC createDBAbsloutlyBeingThere;
+GO
 
 DROP PROCEDURE IF EXISTS InsertTestData;
-GO
+go
 CREATE PROCEDURE InsertTestData
 AS
 BEGIN
