@@ -256,7 +256,7 @@ CREATE TABLE tblGoldPriceChange (
 CREATE TABLE tblPlatinumPriceChange (
     [PriceChangeID] INT IDENTITY PRIMARY KEY,
     [DirectorID] INT NOT NULL,
-    [PlatinumID] INT NOT NULL
+    [PlatinumID] INT NOT NULL,
     [Date] DATE NOT NULL,
     [PreviousPrice] MONEY NOT NULL,
     [NewPrice] MONEY NOT NULL,
@@ -1943,7 +1943,7 @@ GO
 -- 2. For each sales person list the subscribers they have sold a subscription to. The transaction receives the sales person's name as input, 
 -- and presents each subscriber'sname, address, and the % they were discounted.
 DROP PROCEDURE IF EXISTS salesPersonCustomers;
-GO;
+GO
 CREATE PROCEDURE salesPersonCustomers
 @pSalesPersonName VARCHAR (255) 
 AS
@@ -1966,7 +1966,8 @@ END;
 -- 3. List the location in latitude, longitude coordinates, of each BT Databox that is currently in a contract. 
 -- The transaction presents the Contracting organisation's name, a BT DataboxID, a Latitude, and a Longitude.
 DROP PROCEDURE IF EXISTS lastLocationOfBTDataboxInContract;
-GO;
+GO
+
 CREATE PROCEDURE allBTDataboxInContract
 AS
 BEGIN
@@ -1984,7 +1985,7 @@ GO
 -- 4. For a contract list all the data collected. The transaction receives the contracting organisation's name 
 -- and presents for each collected data record, the contracting organisation's name, a BT Databox ID, Temperature, Humidity and Ambient light strength.
 DROP PROCEDURE IF EXISTS allContractData;
-GO;
+GO
 CREATE PROCEDURE allContractData
 @pContractingOrg VARCHAR(255)
 AS
@@ -2055,7 +2056,7 @@ AS
 BEGIN
     UPDATE tblContractedScientifcData
     SET isDeleted = 1
-    WHERE ContractID = pContractID;
+    WHERE ContractID = @pContractID;
 END;
 GO
 
@@ -2066,18 +2067,6 @@ GO
 CREATE PROCEDURE insertBTDataboxData @pBTDataboxID INTEGER, @pLongitude Decimal(10, 7), @pLatitude Decimal(10, 7), @pAltitude Integer, @pHumidity Decimal(4, 2), @pTempearture Decimal(5, 2), @pAmbientLightStrenght Decimal(11, 4), @pRecordingTime DATETIME 
 AS
 BEGIN
-    INSERT INTO tblScientificData INTO tblID.ID VALUES (pBTDataboxID, pLongitude, pLatitude, pAltitude, pHumidity, pTempearture, pAmbientLightStrenght, pRecordingTime);
+    INSERT INTO tblScientificData VALUES (@pBTDataboxID, @pLongitude, @pLatitude, @pAltitude, @pHumidity, @pTempearture, @pAmbientLightStrenght, @pRecordingTime);
 END;
 GO
-
-EXEC createDBBeingThere();
-
---  procedure sales from tblsalespersonName
---  @psalesname varchar(50)
---  as begin select
---  from sbufirstname, subsecondname, subscripber addresss, discount
---  tblsalesperson as sp join
---  tblsubscription as sub on sp.salesid = salesid = sbu.salesidwhere 
---  where sp.name = @psalesname
--- 
---  exec showsales Jane
