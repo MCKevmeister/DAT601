@@ -1894,6 +1894,7 @@ end;
 go
 exec InsertTestData;
 go
+
 -- 1. A sales person subscribes to a new standard subscription to a BT Databox . 
 -- The transaction receives the sales person Id, a discount %, all subscriber details, and a BT Databox ID. 
 DROP PROCEDURE IF EXISTS newStandardSubscription;
@@ -1939,13 +1940,15 @@ BEGIN
     INSERT INTO tblSale VALUES (pSalesPersonID, tblID.SubscriptionID, pDiscount);
 END;
 GO
+EXEC newStandardSubscription(1, 1.0, 'Michael Ruldoph', 'MikesPassword', '01189998819991117253', 'c', '7', 'street street', '2323', 'nelson', 'New Zealand');
+GO
 
 -- 2. For each sales person list the subscribers they have sold a subscription to. The transaction receives the sales person's name as input, 
 -- and presents each subscriber'sname, address, and the % they were discounted.
 DROP PROCEDURE IF EXISTS salesPersonCustomers;
 GO
-CREATE PROCEDURE salesPersonCustomers
-@pSalesPersonName VARCHAR (255) 
+EXEC salesPersonCustomers()
+CREATE PROCEDURE salesPersonCustomers @pSalesPersonName VARCHAR (255) 
 AS
 BEGIN
     SELECT CA.Name, AD.Prefix, AD.StreetNumber, AD.StreetName, S.Discount
@@ -2070,3 +2073,7 @@ BEGIN
     INSERT INTO tblScientificData VALUES (@pBTDataboxID, @pLongitude, @pLatitude, @pAltitude, @pHumidity, @pTempearture, @pAmbientLightStrenght, @pRecordingTime);
 END;
 GO
+
+CREATE NONCLUSTERED INDEX IX_Name ON tblAccount ([Name]);
+CREATE NONCLUSTERED INDEX IX_Longitude ON tblScientificData([Longitude]);
+CREATE NONCLUSTERED INDEX IX_Latitude ON tblScientificData([Latitude]);
