@@ -65,11 +65,11 @@ DROP TABLE IF EXISTS tblCondition;
 DROP TABLE IF EXISTS tblZone;
 DROP TABLE IF EXISTS tblCountry;
 
-CREATE TABLE tblCountry ( 
+CREATE TABLE tblCountry (
     [CountryID] INT IDENTITY PRIMARY KEY,
     [Country] VARCHAR(64) NOT NULL
 );
-CREATE TABLE tblZone ( 
+CREATE TABLE tblZone (
     [ZoneID] INT IDENTITY PRIMARY KEY,
     [MinimumLatitude] Decimal(10, 7) NOT NULL,
     [MaximumLatitude] Decimal (10, 7) NOT NULL,
@@ -87,7 +87,7 @@ CREATE TABLE tblBTDatabox (
     [NextScheduledMaintanence] DATE,
     [IPRating] VARCHAR(2) NOT NULL,
     [Latitude] Decimal(10, 7) NOT NULL,
-    [Longitude] Decimal(10, 7) NOT NULL -- I am very very very unhappy about stroing latitude in 2 places but this is as per the requirements of the tranactions so.... whatever here is the stupid lat/long .... Marks unhappy and writing a long commen in anger of this. I mena why??? its in the data? The databox is seperate from the data it generates. Its not the same thing. 
+    [Longitude] Decimal(10, 7) NOT NULL -- not happy with having to have this in the 
 );
 CREATE TABLE tblScientificData (
     [ScientificDataID] INT IDENTITY PRIMARY KEY,
@@ -119,7 +119,7 @@ CREATE TABLE tblPostCode (
     [PostCodeID] INT IDENTITY PRIMARY KEY,
     [PostCode] VARCHAR(16) NOT NULL,
     [City] VARCHAR(64) NOT NULL,
-    [CountryID] Int NOT NULL,
+    [CountryID] INT NOT NULL,
     FOREIGN KEY (CountryID) REFERENCES tblCountry (CountryID)
 );
 CREATE TABLE tblAddress (
@@ -139,7 +139,7 @@ CREATE TABLE tblSupplier (
     [PhoneNumber] VARCHAR(64) NOT NULL,
     FOREIGN KEY (Address) REFERENCES tblAddress (AddressID)
 );
-CREATE TABLE tblAccount ( 
+CREATE TABLE tblAccount (
     [AccountID] INT IDENTITY PRIMARY KEY,
     [Name] VARCHAR(255) NOT NULL,
     [Password] VARCHAR(64) NOT NULL,
@@ -236,7 +236,7 @@ CREATE TABLE tblSuperPlatinum (
 CREATE TABLE tblSubscriptionPriceChange (
     [PriceChangeID] INT IDENTITY PRIMARY KEY,
     [DirectorID] INT NOT NULL,
-    [SubscriptionID] INT,
+    [SubscriptionID] INT NOT NULL,
     [Date] DATE NOT NULL,
     [PreviousPrice] MONEY NOT NULL,
     [NewPrice] MONEY NOT NULL,
@@ -246,7 +246,7 @@ CREATE TABLE tblSubscriptionPriceChange (
 CREATE TABLE tblGoldPriceChange (
     [PriceChangeID] INT IDENTITY PRIMARY KEY,
     [DirectorID] INT NOT NULL,
-    [GoldID] INT,
+    [GoldID] INT NOT NULL,
     [Date] DATE NOT NULL,
     [PreviousPrice] MONEY NOT NULL,
     [NewPrice] MONEY NOT NULL,
@@ -256,7 +256,7 @@ CREATE TABLE tblGoldPriceChange (
 CREATE TABLE tblPlatinumPriceChange (
     [PriceChangeID] INT IDENTITY PRIMARY KEY,
     [DirectorID] INT NOT NULL,
-    [PlatinumID] INT,
+    [PlatinumID] INT NOT NULL
     [Date] DATE NOT NULL,
     [PreviousPrice] MONEY NOT NULL,
     [NewPrice] MONEY NOT NULL,
@@ -266,7 +266,7 @@ CREATE TABLE tblPlatinumPriceChange (
 CREATE TABLE tblSuperPlatinumPriceChange (
     [PriceChangeID] INT IDENTITY PRIMARY KEY,
     [DirectorID] INT NOT NULL,
-    [SuperPlatinumID] INT,
+    [SuperPlatinumID] INT NOT NULL,
     [Date] DATE NOT NULL,
     [PreviousPrice] MONEY NOT NULL,
     [NewPrice] MONEY NOT NULL,
@@ -304,7 +304,7 @@ CREATE TABLE tblStoreSalesPerson (
 CREATE TABLE tblSale (
     [SalesPersonID] INT NOT NULL,
     [SubscriptionID] INT NOT NULL,
-    [Discount] REAL NOT NULL CHECK ( Discount >= 0.0 and Discount <= 2.00), --check max discount amount TODO
+    [Discount] REAL NOT NULL CHECK ( Discount >= 0.0 and Discount <= 3.00), --check max discount amount TODO
     PRIMARY KEY(SalesPersonID, SubscriptionID),
     FOREIGN KEY (SalesPersonID) REFERENCES tblSalesperson (SalesPersonID)
 );
@@ -318,9 +318,9 @@ CREATE TABLE tblVideoStreamViewer (
 CREATE TABLE tblVideoStreamController (
     [GoldID] INT NOT NULL,
     [StreamID] INT NOT NULL,
-    [Pan] Decimal(6, 3) NOT NULL,
-    [Tilt] Decimal(6, 3) NOT NULL,
-    [Zoom] Decimal(6, 3) NOT NULL,
+    [Pan] Decimal(6, 3) NOT NULL DEFAULT 0,
+    [Tilt] Decimal(6, 3) NOT NULL DEFAULT 0,
+    [Zoom] Decimal(6, 3) NOT NULL DEFAULT 1,
     FOREIGN KEY (GoldID) REFERENCES tblGold (GoldID),
     FOREIGN KEY (StreamID) REFERENCES tblVideoStream(StreamID)
     );
@@ -1911,6 +1911,7 @@ CREATE PROCEDURE newStandardSubscription @pSalesPersonID AS INTEGER,
                                          @pCountry AS VARCHAR(64)
 AS
 BEGIN
+-- 
     DECLARE @tblID TABLE (SubscriptionID INTEGER, SubscriberID INTEGER, CustomerID INTEGER, AccountID INTEGER, AddressID INTEGER, PostCodeID INTEGER, SalesPersonID INTEGER);
     INSERT INTO tblID (SalesPersonID) VALUES (pSalesPersonID);
     SELECT SC.SubscriptionID, SB.SubscriberID, C.CustomerID, A.AccountID, AD.AddressID, P.PostCodeID 
