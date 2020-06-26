@@ -137,7 +137,8 @@ CREATE TABLE tblSupplier (
     [Email] VARCHAR(64) NOT NULL,
     [Address] INT NOT NULL,
     [PhoneNumber] VARCHAR(64) NOT NULL,
-    FOREIGN KEY (Address) REFERENCES tblAddress (AddressID)
+    FOREIGN KEY (Address) REFERENCES tblAddress (AddressID),
+    CONSTRAINT Email Check (Email Like '_%@_%._%')
 );
 CREATE TABLE tblAccount (
     [AccountID] INT IDENTITY PRIMARY KEY,
