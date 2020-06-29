@@ -322,6 +322,7 @@ CREATE TABLE tblVideoStreamController (
     [Pan] Decimal(6, 3) NOT NULL DEFAULT 0,
     [Tilt] Decimal(6, 3) NOT NULL DEFAULT 0,
     [Zoom] Decimal(6, 3) NOT NULL DEFAULT 1,
+    PRIMARY KEY (GoldID, StreamID),
     FOREIGN KEY (GoldID) REFERENCES tblGold (GoldID),
     FOREIGN KEY (StreamID) REFERENCES tblVideoStream(StreamID)
     );
@@ -1985,7 +1986,7 @@ BEGIN
     JOIN tblScientificData AS SD ON BTDB.BTDataboxID = SD.BTDataboxID
     WHERE A.Name IS NOT NULL;
 END;
-GO
+GO  
 -- 4. For a contract list all the data collected. The transaction receives the contracting organisation's name 
 -- and presents for each collected data record, the contracting organisation's name, a BT Databox ID, Temperature, Humidity and Ambient light strength.
 DROP PROCEDURE IF EXISTS allContractData;
@@ -2044,7 +2045,7 @@ GO
 --  in latitude, longitude pairs. It updates the location of the  BT Databox and its corresponding Zone. (This transaction may require more than one update query.)
 DROP PROCEDURE IF EXISTS updateBTDataboxLocation;
 GO
-CREATE PROCEDURE updateBTDataboxLocation @pBTDataboxID INTEGER, @pLat DECIMAL(10, 7), @pLOOONG DECIMAL(10, 7)
+CREATE PROCEDURE updateBTDataboxLocation @pBTDataboxID INTEGER, @pLatatiude DECIMAL(10, 7), @pLong DECIMAL(10, 7)
 AS
 BEGIN
     
