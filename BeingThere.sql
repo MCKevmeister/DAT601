@@ -1942,14 +1942,13 @@ BEGIN
     INSERT INTO tblSale VALUES (pSalesPersonID, tblID.SubscriptionID, pDiscount);
 END;
 GO
-EXEC newStandardSubscription(1, 1.0, 'Michael Ruldoph', 'MikesPassword', '01189998819991117253', 'c', '7', 'street street', '2323', 'nelson', 'New Zealand');
+EXEC newStandardSubscription 1, 1.0, 'Michael Ruldoph', 'MikesPassword', '01189998819991117253', 'c', '7', 'street street', '2323', 'nelson', 'New Zealand';
 GO
 
 -- 2. For each sales person list the subscribers they have sold a subscription to. The transaction receives the sales person's name as input, 
 -- and presents each subscriber'sname, address, and the % they were discounted.
 DROP PROCEDURE IF EXISTS salesPersonCustomers;
 GO
-EXEC salesPersonCustomers()
 CREATE PROCEDURE salesPersonCustomers @pSalesPersonName VARCHAR (255) 
 AS
 BEGIN
@@ -1965,7 +1964,7 @@ BEGIN
     JOIN tblAddress AD ON CA.AddressID = AD.AddressID
     JOIN tblPostCode P ON AD.PostCodeID = P.PostCodeID
     JOIN tblCountry CY ON P.CountryID = CY.CountryID
-    -- WHERE SPA.Name = pSalesPersonName;
+    WHERE SPA.Name = pSalesPersonName;
 END;
 
 -- 3. List the location in latitude, longitude coordinates, of each BT Databox that is currently in a contract. 
