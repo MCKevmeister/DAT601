@@ -1928,7 +1928,7 @@ BEGIN
     JOIN tblCountry AS CO ON P.CountryID = CO.CountryID
     WHERE SalesPersonID = pSalesPerson;
 
-    IF tblID.PostCodeID IS NULL
+    IF tblID.PostCodeID IS NULL 
         INSERT INTO tblPostCode OUTPUT INSERTED.ID INTO tblID.PostCodeID VALUES (pPostCode, pCity, (SELECT [CountryID] FROM tblCountry WHERE [Country] = pCountry));
     IF tblID.AddressID IS NULL
         INSERT INTO tblAddress OUTPUT INSERTED.ID INTO tblID.AddressID VALUES (pAddressPrefix, pStreetNumber, pStreetName, (SELECT PostCodeID FROM tblID));
@@ -1941,8 +1941,6 @@ BEGIN
     INSERT INTO tblSubscription OUTPUT INSERTED.ID INTO tblID.SubscriberID VALUES ((SELECT SubscriberID FROM tblID));
     INSERT INTO tblSale VALUES (pSalesPersonID, tblID.SubscriptionID, pDiscount);
 END;
-GO
-EXEC newStandardSubscription 1, 1.0, 'Michael Ruldoph', 'MikesPassword', '01189998819991117253', 'c', '7', 'street street', '2323', 'nelson', 'New Zealand';
 GO
 
 -- 2. For each sales person list the subscribers they have sold a subscription to. The transaction receives the sales person's name as input, 
@@ -1982,7 +1980,6 @@ BEGIN
     JOIN tblContract AS C ON C.Contractee = CE.ContracteeID
     JOIN tblContractedBTDatabox AS CBTDB ON C.ContractID = CBTDB.ContractID
     JOIN tblBTDatabox AS BTDB ON CBTDB.BTDataboxID = BTDB.BTDataboxID
-    JOIN tblScientificData AS SD ON BTDB.BTDataboxID = SD.BTDataboxID
     WHERE A.Name IS NOT NULL;
 END;
 GO  
@@ -1990,11 +1987,10 @@ GO
 -- and presents for each collected data record, the contracting organisation's name, a BT Databox ID, Temperature, Humidity and Ambient light strength.
 DROP PROCEDURE IF EXISTS allContractData;
 GO
-CREATE PROCEDURE allContractData
-@pContractingOrg VARCHAR(255)
+CREATE PROCEDURE allContractData @pContractingOrg VARCHAR(255)
 AS
 BEGIN
-    SELECT A.Name AS "Contracting Organisation", Temperature, Humidity, AmbientLightStrength AS "Ambient Light Strenght"
+    SELECT A.Name AS "Contracting Organisation", C.ContractID, SD.ScientificDataID, Temperature, Humidity, AmbientLightStrength AS "Ambient Light Strenght"
     FROM tblAccount AS A
     JOIN tblCustomer AS CM ON A.AccountID = CM.AccountID
     JOIN tblContractee AS CE ON CM.CustomerID = CE.CustomerID
@@ -2012,7 +2008,7 @@ GO
 CREATE PROCEDURE allVideoStreamViewers
 AS
 BEGIN
-    SELECT BT.BTDataboxID, CA.Name AS "Subscriber nAmE", VS.StreamID
+    SELECT BT.BTDataboxID, CA.Name AS "Subscriber name", VS.StreamID
     FROM tblBTDatabox AS BT 
     JOIN tblBTDataboxStream AS BTDBS ON BT.DataboxID = BTDBS.BTdataboxID
     JOIN tblVideoStream AS VS ON BTDBS.StreamID = VS.StreamID
