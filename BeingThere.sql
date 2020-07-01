@@ -1897,7 +1897,7 @@ go
 exec InsertTestData;
 go
 
--- 1. A sales person subscribes to a new standard subscription to a BT Databox . 
+-- a. A sales person subscribes to a new standard subscription to a BT Databox . 
 -- The transaction receives the sales person Id, a discount %, all subscriber details, and a BT Databox ID. 
 DROP PROCEDURE IF EXISTS newStandardSubscription;
 Go
@@ -1943,7 +1943,7 @@ BEGIN
 END;
 GO
 
--- 2. For each sales person list the subscribers they have sold a subscription to. The transaction receives the sales person's name as input, 
+-- b. For each sales person list the subscribers they have sold a subscription to. The transaction receives the sales person's name as input, 
 -- and presents each subscriber'sname, address, and the % they were discounted.
 DROP PROCEDURE IF EXISTS salesPersonCustomers;
 GO
@@ -1965,7 +1965,7 @@ BEGIN
     WHERE SPA.Name = pSalesPersonName;
 END;
 
--- 3. List the location in latitude, longitude coordinates, of each BT Databox that is currently in a contract. 
+-- c. List the location in latitude, longitude coordinates, of each BT Databox that is currently in a contract. 
 -- The transaction presents the Contracting organisation's name, a BT DataboxID, a Latitude, and a Longitude.
 DROP PROCEDURE IF EXISTS lastLocationOfBTDataboxInContract;
 GO
@@ -1983,7 +1983,7 @@ BEGIN
     WHERE A.Name IS NOT NULL;
 END;
 GO  
--- 4. For a contract list all the data collected. The transaction receives the contracting organisation's name 
+-- d. For a contract list all the data collected. The transaction receives the contracting organisation's name 
 -- and presents for each collected data record, the contracting organisation's name, a BT Databox ID, Temperature, Humidity and Ambient light strength.
 DROP PROCEDURE IF EXISTS allContractData;
 GO
@@ -2001,7 +2001,7 @@ BEGIN
 END;
 GO
 
--- 5. For each BT Databox present the list of subscribers who are viewing a live 3D video stream. 
+-- e. For each BT Databox present the list of subscribers who are viewing a live 3D video stream. 
 -- The transaction lists BT Databox ID, Subscriber Name, Stream ID.
 DROP PROCEDURE IF EXISTS allVideoStreamViewers;
 GO
@@ -2020,7 +2020,7 @@ BEGIN
 END;
 GO
 
--- 6. For a given BT Databox list all the suppliers of parts.
+-- f. For a given BT Databox list all the suppliers of parts.
 -- The transaction receives the  BT Databox ID, and presents the Supplier Name and, Part Name.
 DROP PROCEDURE IF EXISTS getBTDataboxPartSuppliers;
 GO
@@ -2036,18 +2036,12 @@ BEGIN
 END;
 GO
 
--- 7. Update the location and Zone of a BT Databox. The transaction receives the BT Databox ID, a location and a Zone expressed as a list of coordinates 
---  in latitude, longitude pairs. It updates the location of the  BT Databox and its corresponding Zone. (This transaction may require more than one update query.)
-DROP PROCEDURE IF EXISTS updateBTDataboxLocation;
-GO
-CREATE PROCEDURE updateBTDataboxLocation @pBTDataboxID INTEGER, @pLatatiude DECIMAL(10, 7), @pLong DECIMAL(10, 7)
-AS
-BEGIN
+-- g. Update the location and Zone of a BT Databox. The transaction receives the BT Databox ID, a location and a Zone expressed as a list of coordinates 
+--  in latitude, longitude pairs. It updates the location of the BT Databox and its corresponding Zone. (This transaction may require more than one update query.)
+--WHAT???? This doesn't make sense todd. A databox zone is going to cascasde on update not manually. And the lat/long will automatically update anyway??? So....????? 
+-- This is not a transaction as this will be handled with logic in the database.
     
-END;
-GO
-
---8.  Delete the data collected for a given Contract. 
+--h.  Delete the data collected for a given Contract. 
 -- The transaction receives a Contract ID, the data collected for a Contract is deleted.
 DROP PROCEDURE IF EXISTS deleteContractData;
 GO
@@ -2057,11 +2051,12 @@ BEGIN
     UPDATE tblContractedScientifcData
     SET isDeleted = 1
     WHERE ContractID = @pContractID;
+    -- Data might belong to another contract, we cannot just delete it.
 END;
 GO
 
--- 9. Write a query to be used to INSERT data from a BT Databox to 
--- its stored data on the Being There database. The transaction receives the  BTDataboxID.
+-- i. Write a query to be used to INSERT data from a BT Databox to 
+-- its stored data on the Being There database. The transaction receives the BTDataboxID.
 DROP PROCEDURE IF EXISTS insertBTDataboxData;
 GO
 CREATE PROCEDURE insertBTDataboxData @pBTDataboxID INTEGER, @pLongitude Decimal(10, 7), @pLatitude Decimal(10, 7), @pAltitude Integer, @pHumidity Decimal(4, 2), @pTempearture Decimal(5, 2), @pAmbientLightStrenght Decimal(11, 4), @pRecordingTime DATETIME 
